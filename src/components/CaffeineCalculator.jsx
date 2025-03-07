@@ -27,6 +27,19 @@ import { SleepReadinessIndicator } from './SleepReadinessIndicator';
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
 
+// Add a floating action button that appears on all screens
+const FloatingActionButton = ({ onClick, darkMode }) => (
+  <button 
+    onClick={onClick} 
+    className={`fixed bottom-20 right-4 z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${
+      darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+    }`}
+    aria-label="Add caffeine intake"
+  >
+    <Plus size={24} color="white" />
+  </button>
+);
+
 const CaffeineCalculator = () => {
   // State management
   const [activeScreen, setActiveScreen] = useState('home');
@@ -299,16 +312,6 @@ const CaffeineCalculator = () => {
               targetLevel={settings.targetSleepCaffeine}
               darkMode={darkMode}
             />
-            
-            {/* Quick Add Button */}
-            <button 
-              onClick={() => openModal('add')} 
-              className={`fixed bottom-20 right-4 z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${
-                darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-              }`}
-            >
-              <Plus size={24} color="white" />
-            </button>
           </div>
         )}
         
@@ -358,6 +361,12 @@ const CaffeineCalculator = () => {
         )}
       </main>
       
+      {/* Floating Action Button on all screens */}
+      <FloatingActionButton 
+        onClick={() => openModal('add')} 
+        darkMode={darkMode}
+      />
+      
       {/* Bottom Navigation */}
       <nav className={`fixed bottom-0 left-0 right-0 flex justify-around py-2 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-top`}>
         <NavButton 
@@ -387,8 +396,8 @@ const CaffeineCalculator = () => {
       {showModal && (
         <>
           {modalType === 'add' && (
-            <AddIntakeModal onClose={() => setShowModal(false)}>
-              <AddIntakeForm onAdd={handleAddIntake} />
+            <AddIntakeModal onClose={() => setShowModal(false)} darkMode={darkMode}>
+              <AddIntakeForm onAdd={handleAddIntake} darkMode={darkMode} />
             </AddIntakeModal>
           )}
           

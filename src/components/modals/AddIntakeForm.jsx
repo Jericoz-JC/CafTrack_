@@ -221,38 +221,91 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
   
   // Custom time selector
   const renderTimeSelector = () => {
+    const now = new Date();
+    const nowMinus30 = new Date(now.getTime() - 30 * 60000); // 30 minutes ago
+    const nowMinus60 = new Date(now.getTime() - 60 * 60000); // 1 hour ago
+    
+    // Format time options
+    const formatTimeOption = (date) => {
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${hours}:${minutes}`;
+    };
+    
+    // Quick time selection options
+    const quickTimeOptions = [
+      { label: 'Now', value: getCurrentTime(), date: now },
+      { label: '30 minutes ago', value: formatTimeOption(nowMinus30), date: nowMinus30 },
+      { label: '1 hour ago', value: formatTimeOption(nowMinus60), date: nowMinus60 }
+    ];
+    
+    // Helper to format time for the time input
+    function formatTimeString(date) {
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+    
     return (
       <div className={`mb-4 p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
         <h3 className="font-medium mb-3 flex items-center">
           <Clock size={18} className="mr-2" />
-          Time of Consumption
+          When did you have this drink?
         </h3>
         
-        <div className="flex items-center mb-3">
+        {/* Quick time selection buttons */}
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          {quickTimeOptions.map((option, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => {
+                setCustomTime(option.value);
+                setUseCustomTime(option.label !== 'Now');
+              }}
+              className={`px-3 py-2 text-sm rounded-lg transition-colors ${
+                (!useCustomTime && option.label === 'Now') || 
+                (useCustomTime && customTime === option.value)
+                  ? darkMode 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-blue-500 text-white'
+                  : darkMode 
+                    ? 'bg-gray-600 text-gray-200 hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        
+        {/* Custom time selector */}
+        <div className="flex items-center">
           <input
-            type="checkbox"
             id="useCustomTime"
+            type="checkbox"
             checked={useCustomTime}
             onChange={() => setUseCustomTime(!useCustomTime)}
             className="mr-2 h-4 w-4"
           />
-          <label htmlFor="useCustomTime" className="text-sm">
-            {useCustomTime ? 'Custom time' : 'Current time'}
+          <label htmlFor="useCustomTime" className="text-sm mr-3">
+            Custom time
           </label>
-        </div>
-        
-        {useCustomTime && (
+          
           <input
             type="time"
             value={customTime}
-            onChange={(e) => setCustomTime(e.target.value)}
-            className={`w-full p-2 rounded-lg border ${
+            onChange={(e) => {
+              setCustomTime(e.target.value);
+              setUseCustomTime(true);
+            }}
+            className={`flex-1 p-2 rounded-lg border ${
               darkMode 
                 ? 'bg-gray-600 border-gray-600 text-white' 
                 : 'bg-white border-gray-300 text-gray-900'
             }`}
           />
-        )}
+        </div>
       </div>
     );
   };
