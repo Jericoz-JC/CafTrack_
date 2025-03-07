@@ -1,5 +1,5 @@
 import React from 'react';
-import { Moon, Clock, AlertCircle } from 'lucide-react';
+import { Moon, Clock, AlertCircle, Coffee } from 'lucide-react';
 
 export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, darkMode = false }) => {
   // Parse sleep time
