@@ -127,9 +127,13 @@ const CaffeineCalculator = () => {
   
   // Generate data for caffeine chart over time
   const generateChartData = () => {
-    const currentLevel = calculateCurrentCaffeineLevel();
     const now = new Date();
     const data = [];
+    
+    // Sort intakes by timestamp
+    const sortedIntakes = [...caffeineIntakes].sort((a, b) => 
+      new Date(a.timestamp) - new Date(b.timestamp)
+    );
     
     // Calculate base half-life in milliseconds
     let halfLifeHours = HALF_LIFE_MAPPINGS[settings.metabolismRate];
@@ -142,14 +146,38 @@ const CaffeineCalculator = () => {
     const halfLifeMs = halfLifeHours * 60 * 60 * 1000;
     const decayConstant = Math.log(2) / halfLifeMs;
     
-    // Generate chart points for next 24 hours
-    for (let hour = 0; hour <= 24; hour++) {
-      const pointTime = new Date(now.getTime() + hour * 60 * 60 * 1000);
-      const projectedLevel = currentLevel * Math.exp(-decayConstant * hour * 60 * 60 * 1000);
+    // Find earliest intake time or 12 hours ago, whichever is earlier
+    let startTime = new Date(now.getTime() - (12 * 60 * 60 * 1000)); // 12 hours ago
+    if (sortedIntakes.length > 0) {
+      const earliestIntake = new Date(sortedIntakes[0].timestamp);
+      if (earliestIntake < startTime) {
+        startTime = earliestIntake;
+      }
+    }
+    
+    // Create data points from start time to 24 hours in the future
+    const endTime = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+    
+    // Add data points for every hour from start to end
+    for (let time = new Date(startTime); time <= endTime; time = new Date(time.getTime() + 60 * 60 * 1000)) {
+      let caffeineLevel = 0;
+      
+      // Calculate contribution of each intake to this time point
+      sortedIntakes.forEach(intake => {
+        const intakeTime = new Date(intake.timestamp);
+        const elapsedMs = time - intakeTime;
+        
+        // Only count if intake was in the past relative to this time point
+        if (elapsedMs > 0) {
+          // Calculate remaining amount using exponential decay formula
+          const remainingAmount = intake.amount * Math.exp(-decayConstant * elapsedMs);
+          caffeineLevel += remainingAmount;
+        }
+      });
       
       data.push({
-        time: pointTime,
-        level: Math.round(projectedLevel)
+        time: time,
+        level: Math.round(caffeineLevel)
       });
     }
     
@@ -166,7 +194,7 @@ const CaffeineCalculator = () => {
   const handleAddIntake = (intakeData) => {
     const newIntake = {
       id: Date.now().toString(),
-      timestamp: new Date().toISOString(),
+      timestamp: intakeData.timestamp || new Date().toISOString(), // Use provided timestamp or current time
       ...intakeData
     };
     

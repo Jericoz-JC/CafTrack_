@@ -5,11 +5,29 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
   // Format the timestamp
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true 
-    });
+    const now = new Date();
+    const isToday = date.getDate() === now.getDate() && 
+                  date.getMonth() === now.getMonth() &&
+                  date.getFullYear() === now.getFullYear();
+    
+    // Format just time for today's entries
+    if (isToday) {
+      return date.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      });
+    } 
+    // Format date and time for older entries
+    else {
+      return date.toLocaleString([], {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
   };
   
   // Get icon based on category
