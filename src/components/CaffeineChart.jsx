@@ -9,12 +9,9 @@ import {
   ResponsiveContainer,
   ReferenceLine,
   Area,
-  AreaChart,
-  Dot,
-  Legend
+  AreaChart
 } from 'recharts';
-import { Coffee, TrendingUp, TrendingDown, Clock, Target, AlertTriangle, Eye, EyeOff, BarChart2 } from 'lucide-react';
-import { ChartControls, ChartAnalytics } from './ChartControls';
+import { Coffee, BarChart2, Grid3X3, Eye, EyeOff } from 'lucide-react';
 
 export const CaffeineChart = ({ 
   data, 
@@ -25,8 +22,7 @@ export const CaffeineChart = ({
 }) => {
   const [chartType, setChartType] = useState('line'); // 'line', 'area', or 'smooth'
   const [showGrid, setShowGrid] = useState(true);
-  const [showAnalytics, setShowAnalytics] = useState(false);
-  const [timeRange, setTimeRange] = useState('24h'); // '6h', '12h', '24h', 'all'
+  const [timeRange, setTimeRange] = useState('24hr'); // '12hr', '24hr', 'all'
 
   // Parse sleep time to create a reference line
   const [sleepHour, sleepMinute] = sleepTime.split(':').map(Number);
@@ -49,41 +45,39 @@ export const CaffeineChart = ({
     let cutoffTime;
     
     switch (timeRange) {
-      case '6h':
-        cutoffTime = new Date(now.getTime() - (6 * 60 * 60 * 1000));
-        break;
-      case '12h':
+      case '12hr':
         cutoffTime = new Date(now.getTime() - (12 * 60 * 60 * 1000));
         break;
-      case '24h':
+      case '24hr':
         cutoffTime = new Date(now.getTime() - (24 * 60 * 60 * 1000));
         break;
-      default:
+      default: // 'all'
         return data;
     }
     
     return data.filter(point => new Date(point.time) >= cutoffTime);
   }, [data, timeRange]);
 
-  // Calculate chart statistics
-  const chartStats = useMemo(() => {
-    if (!filteredData || filteredData.length === 0) return null;
+  // Calculate current caffeine level (fixed calculation)
+  const currentCaffeineLevel = useMemo(() => {
+    if (!filteredData || filteredData.length === 0) return 0;
     
-    const levels = filteredData.map(d => d.level);
-    const currentLevel = levels[levels.length - 1] || 0;
-    const maxLevel = Math.max(...levels);
-    const avgLevel = levels.reduce((sum, level) => sum + level, 0) / levels.length;
-    const trend = levels.length > 1 ? levels[levels.length - 1] - levels[levels.length - 2] : 0;
+    // Get the most recent data point
+    const sortedData = [...filteredData].sort((a, b) => new Date(a.time) - new Date(b.time));
+    const mostRecent = sortedData[sortedData.length - 1];
     
-    return {
-      current: Math.round(currentLevel),
-      max: Math.round(maxLevel),
-      average: Math.round(avgLevel),
-      trend: Math.round(trend * 10) / 10 // Round to 1 decimal
-    };
+    return Math.round(mostRecent?.level || 0);
   }, [filteredData]);
 
-  // Find peaks (caffeine intake moments)
+  // Calculate peak level for today
+  const peakLevel = useMemo(() => {
+    if (!filteredData || filteredData.length === 0) return 0;
+    
+    const levels = filteredData.map(d => d.level);
+    return Math.round(Math.max(...levels));
+  }, [filteredData]);
+
+  // Find peaks for hover highlighting only
   const peaks = useMemo(() => {
     if (!filteredData || filteredData.length < 3) return [];
     
@@ -105,7 +99,7 @@ export const CaffeineChart = ({
     return peakPoints;
   }, [filteredData]);
 
-  // Format time for x-axis with smarter formatting
+  // Format time for x-axis with mobile-friendly formatting
   const formatXAxis = (tickItem) => {
     const date = new Date(tickItem);
     const now = new Date();
@@ -114,13 +108,13 @@ export const CaffeineChart = ({
                   date.getFullYear() === now.getFullYear();
     
     if (isToday) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     } else {
       return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
     }
   };
 
-  // Enhanced tooltip with more information
+  // Enhanced tooltip with peak highlighting
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const date = new Date(label);
@@ -128,9 +122,14 @@ export const CaffeineChart = ({
       const formattedTime = date.toLocaleString([], { 
         month: 'short', 
         day: 'numeric',
-        hour: '2-digit', 
+        hour: 'numeric', 
         minute: '2-digit' 
       });
+      
+      // Check if this is a peak
+      const isPeak = peaks.some(peak => 
+        Math.abs(new Date(peak.time).getTime() - date.getTime()) < 60000 // Within 1 minute
+      );
       
       // Determine status
       const percentage = (level / caffeineLimit) * 100;
@@ -139,7 +138,7 @@ export const CaffeineChart = ({
       else if (percentage >= 50) status = { text: 'Moderate', color: 'text-yellow-500' };
 
       return (
-        <div className={`p-3 rounded-lg shadow-lg border ${
+        <div className={`p-3 rounded-lg shadow-lg border max-w-xs ${
           darkMode 
             ? 'bg-gray-800 text-white border-gray-600' 
             : 'bg-white text-gray-900 border-gray-200'
@@ -150,6 +149,11 @@ export const CaffeineChart = ({
             <span className="font-bold text-lg">{Math.round(level)} mg</span>
             <span className={`text-xs font-medium ${status.color}`}>({status.text})</span>
           </div>
+          {isPeak && (
+            <div className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+              ☕ Intake detected
+            </div>
+          )}
           <div className="text-xs opacity-75">
             {Math.round((level / caffeineLimit) * 100)}% of daily limit
           </div>
@@ -160,87 +164,123 @@ export const CaffeineChart = ({
     return null;
   };
 
-  // Custom dot for peaks
-  const CustomDot = (props) => {
-    const { cx, cy, payload } = props;
-    const isPeak = peaks.some(peak => 
-      new Date(peak.time).getTime() === new Date(payload.time).getTime()
-    );
-    
-    if (isPeak) {
-      return (
-        <Dot 
-          cx={cx} 
-          cy={cy} 
-          r={4} 
-          fill={darkMode ? '#fbbf24' : '#f59e0b'}
-          stroke={darkMode ? '#92400e' : '#d97706'}
-          strokeWidth={2}
-        />
-      );
-    }
-    return null;
-  };
-
   // Chart component selection
   const ChartComponent = chartType === 'area' ? AreaChart : LineChart;
   const lineType = chartType === 'smooth' ? 'monotone' : 'linear';
 
   return (
-    <div className={`p-6 rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-      {/* Header with stats */}
-      <div className="flex justify-between items-start mb-6">
+    <div className={`p-4 sm:p-6 rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      {/* Mobile-first header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
         <div className="flex-1">
-          <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
-            <BarChart2 size={24} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
+          <h2 className="text-lg sm:text-xl font-bold mb-3 flex items-center gap-2">
+            <BarChart2 size={20} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
             Caffeine Levels
           </h2>
           
-          {/* Quick Stats */}
-          {chartStats && (
-            <div className="flex flex-wrap gap-4 text-sm">
-              <div className="flex items-center gap-1">
-                <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Current:</span>
-                <span className="font-semibold">{chartStats.current} mg</span>
-                {chartStats.trend !== 0 && (
-                  <span className={`flex items-center gap-1 ${
-                    chartStats.trend > 0 ? 'text-red-500' : 'text-green-500'
-                  }`}>
-                    {chartStats.trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                    {Math.abs(chartStats.trend)}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-1">
-                <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Peak:</span>
-                <span className="font-semibold">{chartStats.max} mg</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Avg:</span>
-                <span className="font-semibold">{chartStats.average} mg</span>
-              </div>
+          {/* Current and Peak display */}
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="flex items-center gap-1">
+              <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Current:</span>
+              <span className="font-semibold text-lg">{currentCaffeineLevel} mg</span>
             </div>
-          )}
+            <div className="flex items-center gap-1">
+              <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Peak:</span>
+              <span className="font-semibold">{peakLevel} mg</span>
+            </div>
+          </div>
         </div>
         
-        {/* Controls */}
-        <div className="ml-4">
-          <ChartControls
-            chartType={chartType}
-            setChartType={setChartType}
-            showGrid={showGrid}
-            setShowGrid={setShowGrid}
-            timeRange={timeRange}
-            setTimeRange={setTimeRange}
-            showAnalytics={showAnalytics}
-            setShowAnalytics={setShowAnalytics}
-            darkMode={darkMode}
-          />
+        {/* Mobile-first controls */}
+        <div className="flex flex-col gap-3">
+          {/* Time Range Controls */}
+          <div className="flex flex-col gap-2">
+            <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Time Range
+            </span>
+            <div className="flex gap-1">
+              {['12hr', '24hr', 'all'].map((range) => (
+                <button
+                  key={range}
+                  onClick={() => setTimeRange(range)}
+                  className={`px-3 py-1.5 text-xs rounded-md transition-all ${
+                    timeRange === range
+                      ? darkMode ? 'bg-blue-600 text-white shadow-md' : 'bg-blue-500 text-white shadow-md'
+                      : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {range.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Chart Style Controls (including grid) */}
+          <div className="flex flex-col gap-2">
+            <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Chart Style
+            </span>
+            <div className="flex gap-1">
+              {/* Chart Type Buttons */}
+              <button
+                onClick={() => setChartType('line')}
+                className={`p-2 rounded-md transition-all ${
+                  chartType === 'line'
+                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                title="Line chart"
+              >
+                <BarChart2 size={14} />
+              </button>
+              
+              <button
+                onClick={() => setChartType('area')}
+                className={`p-2 rounded-md transition-all ${
+                  chartType === 'area'
+                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                title="Area chart"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 18h18v2H3v-2zm0-12l4 4 4-4 6 6v6H3V6z"/>
+                </svg>
+              </button>
+              
+              <button
+                onClick={() => setChartType('smooth')}
+                className={`p-2 rounded-md transition-all ${
+                  chartType === 'smooth'
+                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                title="Smooth chart"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 12s4-8 8-8 8 8 8 8"/>
+                </svg>
+              </button>
+
+              {/* Grid Toggle */}
+              <button
+                onClick={() => setShowGrid(!showGrid)}
+                className={`p-2 rounded-md transition-all ${
+                  showGrid
+                    ? darkMode ? 'bg-green-600 text-white' : 'bg-green-500 text-white'
+                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                title="Toggle grid"
+              >
+                {showGrid ? <Eye size={14} /> : <EyeOff size={14} />}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       
-      {/* Chart */}
-      <div className="h-80 mb-6">
+      {/* Chart - mobile responsive height */}
+      <div className="h-64 sm:h-80 mb-6">
         <ResponsiveContainer width="100%" height="100%">
           <ChartComponent
             data={filteredData}
@@ -258,61 +298,42 @@ export const CaffeineChart = ({
               dataKey="time" 
               tickFormatter={formatXAxis} 
               stroke={darkMode ? '#9ca3af' : '#6b7280'}
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
+              interval="preserveStartEnd"
             />
             
             <YAxis 
               stroke={darkMode ? '#9ca3af' : '#6b7280'} 
               domain={[0, Math.max(caffeineLimit * 1.2, 100)]}
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
+              width={40}
             />
             
             <Tooltip content={<CustomTooltip />} />
             
-            {/* Reference lines with enhanced styling */}
+            {/* Reference lines without labels */}
             <ReferenceLine 
               y={caffeineLimit} 
               stroke={darkMode ? '#ef4444' : '#dc2626'} 
               strokeDasharray="4 4" 
-              strokeWidth={2}
-              label={{ 
-                value: `Limit (${caffeineLimit}mg)`, 
-                position: 'topRight',
-                fill: darkMode ? '#ef4444' : '#dc2626',
-                fontSize: 12,
-                fontWeight: 'bold'
-              }} 
+              strokeWidth={1.5}
             />
             
             <ReferenceLine 
               x={sleepTimeDate} 
               stroke={darkMode ? '#8b5cf6' : '#7c3aed'} 
               strokeDasharray="4 4" 
-              strokeWidth={2}
-              label={{ 
-                value: 'Sleep Time', 
-                position: 'top',
-                fill: darkMode ? '#8b5cf6' : '#7c3aed',
-                fontSize: 12,
-                fontWeight: 'bold'
-              }} 
+              strokeWidth={1.5}
             />
             
             <ReferenceLine 
               y={targetSleepCaffeine} 
               stroke={darkMode ? '#10b981' : '#059669'} 
               strokeDasharray="4 4" 
-              strokeWidth={2}
-              label={{ 
-                value: `Sleep Target (${targetSleepCaffeine}mg)`, 
-                position: 'topLeft',
-                fill: darkMode ? '#10b981' : '#059669',
-                fontSize: 12,
-                fontWeight: 'bold'
-              }} 
+              strokeWidth={1.5}
             />
             
             {chartType === 'area' ? (
@@ -322,10 +343,10 @@ export const CaffeineChart = ({
                 stroke={darkMode ? '#3b82f6' : '#2563eb'}
                 fill={darkMode ? '#3b82f6' : '#2563eb'}
                 fillOpacity={0.2}
-                strokeWidth={3}
-                dot={<CustomDot />}
+                strokeWidth={2}
+                dot={false}
                 activeDot={{ 
-                  r: 6, 
+                  r: 4, 
                   fill: darkMode ? '#60a5fa' : '#3b82f6',
                   stroke: darkMode ? '#1e40af' : '#1d4ed8',
                   strokeWidth: 2
@@ -336,10 +357,10 @@ export const CaffeineChart = ({
                 type={lineType}
                 dataKey="level"
                 stroke={darkMode ? '#3b82f6' : '#2563eb'}
-                strokeWidth={3}
-                dot={<CustomDot />}
+                strokeWidth={2}
+                dot={false}
                 activeDot={{ 
-                  r: 6, 
+                  r: 4, 
                   fill: darkMode ? '#60a5fa' : '#3b82f6',
                   stroke: darkMode ? '#1e40af' : '#1d4ed8',
                   strokeWidth: 2
@@ -349,95 +370,24 @@ export const CaffeineChart = ({
           </ChartComponent>
         </ResponsiveContainer>
       </div>
-
-      {/* Analytics Panel */}
-      {showAnalytics && (
-        <div className="mb-6">
-          <ChartAnalytics
-            chartStats={chartStats}
-            peaks={peaks}
-            caffeineLimit={caffeineLimit}
-            targetSleepCaffeine={targetSleepCaffeine}
-            darkMode={darkMode}
-          />
-        </div>
-      )}
       
-      {/* Enhanced Legend */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <div className={`w-4 h-0.5 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
-            <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Caffeine Level</span>
-          </div>
-          
-          <div className="flex items-center gap-2 text-sm">
-            <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-red-500' : 'border-red-600'}`} />
-            <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Daily Limit</span>
-          </div>
-          
-          <div className="flex items-center gap-2 text-sm">
-            <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-green-500' : 'border-green-600'}`} />
-            <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Sleep Target</span>
-          </div>
+      {/* Mobile-friendly legend */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+        <div className="flex items-center gap-2">
+          <div className={`w-4 h-0.5 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
+          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Caffeine Level</span>
         </div>
         
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-purple-500' : 'border-purple-600'}`} />
-            <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Sleep Time</span>
-          </div>
-          
-          <div className="flex items-center gap-2 text-sm">
-            <div className={`w-3 h-3 rounded-full ${darkMode ? 'bg-yellow-500' : 'bg-yellow-600'}`} />
-            <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Intake Moments</span>
-          </div>
-          
-          {peaks.length > 0 && (
-            <div className="text-xs opacity-75">
-              {peaks.length} intake{peaks.length !== 1 ? 's' : ''} detected
-            </div>
-          )}
+        <div className="flex items-center gap-2">
+          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-red-500' : 'border-red-600'}`} />
+          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Daily Limit ({caffeineLimit}mg)</span>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-green-500' : 'border-green-600'}`} />
+          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Sleep Target ({targetSleepCaffeine}mg)</span>
         </div>
       </div>
-
-      {/* Quick Insights */}
-      {chartStats && !showAnalytics && (
-        <div className={`mt-4 p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
-          <div className="flex items-center gap-2 mb-2">
-            <Target size={16} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
-            <span className="text-sm font-medium">Quick Insights</span>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-2 text-xs">
-            {chartStats.current > caffeineLimit && (
-              <div className="flex items-center gap-2 text-red-500">
-                <AlertTriangle size={12} />
-                <span>Currently above daily limit</span>
-              </div>
-            )}
-            
-            {chartStats.trend > 0 && (
-              <div className="flex items-center gap-2 text-yellow-500">
-                <TrendingUp size={12} />
-                <span>Caffeine levels rising</span>
-              </div>
-            )}
-            
-            {chartStats.trend < 0 && (
-              <div className="flex items-center gap-2 text-green-500">
-                <TrendingDown size={12} />
-                <span>Caffeine levels declining</span>
-              </div>
-            )}
-            
-            <div className="flex items-center gap-2 text-blue-500">
-              <Clock size={12} />
-              <span>Sleep ready: {chartStats.current <= targetSleepCaffeine ? 'Yes' : 'No'}</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }; 
