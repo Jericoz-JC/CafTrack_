@@ -2,37 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { Coffee, Plus, Clock, Percent } from 'lucide-react';
 
 // Caffeine database - common drinks and their caffeine content
+// Values reference Mayo Clinic's 2024 "Caffeine content for coffee, tea, soda and more"
+// and the latest manufacturer nutrition labels for packaged energy drinks.
 const caffeineDatabase = {
   coffee: [
-    { name: 'Espresso (1 shot)', amount: 63 },
-    { name: 'Brewed Coffee (8 oz)', amount: 95 },
-    { name: 'Cold Brew (12 oz)', amount: 155 },
-    { name: 'Latte (12 oz)', amount: 63 },
-    { name: 'Cappuccino (12 oz)', amount: 63 },
-    { name: 'Americano (12 oz)', amount: 77 },
-    { name: 'Flat White (12 oz)', amount: 130 }
+    { name: 'Espresso (1 oz)', amount: 64 },
+    { name: 'Double Espresso (2 oz)', amount: 128 },
+    { name: 'Brewed Coffee (8 oz)', amount: 96 },
+    { name: 'Cold Brew (12 oz)', amount: 200 },
+    { name: 'Nitro Cold Brew (12 oz)', amount: 235 },
+    { name: 'Americano (12 oz)', amount: 154 },
+    { name: 'Latte (12 oz)', amount: 128 },
+    { name: 'Flat White (8 oz)', amount: 130 }
   ],
   tea: [
     { name: 'Black Tea (8 oz)', amount: 47 },
     { name: 'Green Tea (8 oz)', amount: 28 },
-    { name: 'Chai Latte (12 oz)', amount: 50 },
-    { name: 'Matcha Latte (12 oz)', amount: 55 },
+    { name: 'Chai Latte (12 oz)', amount: 70 },
+    { name: 'Matcha Latte (12 oz)', amount: 75 },
     { name: 'Earl Grey (8 oz)', amount: 40 },
-    { name: 'White Tea (8 oz)', amount: 15 }
+    { name: 'White Tea (8 oz)', amount: 20 }
   ],
   energyDrinks: [
     { name: 'Red Bull (8.4 oz)', amount: 80 },
-    { name: 'Monster (16 oz)', amount: 160 },
+    { name: 'Monster Energy (16 oz)', amount: 160 },
     { name: 'Rockstar (16 oz)', amount: 160 },
     { name: 'Bang (16 oz)', amount: 300 },
-    { name: '5-Hour Energy (2 oz)', amount: 200 }
+    { name: 'Celsius (12 oz)', amount: 200 },
+    { name: '5-hour Energy (2 oz)', amount: 200 }
   ],
   soda: [
     { name: 'Coca-Cola (12 oz)', amount: 34 },
     { name: 'Diet Coke (12 oz)', amount: 46 },
     { name: 'Pepsi (12 oz)', amount: 38 },
     { name: 'Dr Pepper (12 oz)', amount: 41 },
-    { name: 'Mountain Dew (12 oz)', amount: 55 }
+    { name: 'Mountain Dew (12 oz)', amount: 54 }
   ]
 };
 

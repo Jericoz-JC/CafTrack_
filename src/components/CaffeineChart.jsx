@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -11,7 +11,16 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { Coffee, BarChart2, Grid3X3, Eye, EyeOff } from 'lucide-react';
+import { Coffee, BarChart2, Eye, EyeOff } from 'lucide-react';
+
+const RANGE_OPTIONS = [
+  { value: 'day', label: 'Today', durationMs: 24 * 60 * 60 * 1000 },
+  { value: '3d', label: 'Last 3 Days', durationMs: 3 * 24 * 60 * 60 * 1000 },
+  { value: 'week', label: 'Last Week', durationMs: 7 * 24 * 60 * 60 * 1000 },
+  { value: 'all', label: 'All Drinks' }
+];
+
+const LIMIT_PRESETS = [200, 300, 400, 500];
 
 export const CaffeineChart = ({ 
   data, 
@@ -22,7 +31,12 @@ export const CaffeineChart = ({
 }) => {
   const [chartType, setChartType] = useState('line'); // 'line', 'area', or 'smooth'
   const [showGrid, setShowGrid] = useState(true);
-  const [timeRange, setTimeRange] = useState('24hr'); // '12hr', '24hr', 'all'
+  const [rangePreset, setRangePreset] = useState('day'); // today, 3d, week, all
+  const [limitField, setLimitField] = useState(String(caffeineLimit));
+
+  useEffect(() => {
+    setLimitField(String(caffeineLimit));
+  }, [caffeineLimit]);
 
   // Parse sleep time to create a reference line
   const [sleepHour, sleepMinute] = sleepTime.split(':').map(Number);
@@ -37,26 +51,32 @@ export const CaffeineChart = ({
     sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
   }
 
-  // Filter data based on time range
+  const resolvedLimit = useMemo(() => {
+    const parsed = parseInt(limitField, 10);
+    if (Number.isNaN(parsed) || parsed <= 0) {
+      return caffeineLimit;
+    }
+    return Math.min(Math.max(parsed, 50), 800);
+  }, [limitField, caffeineLimit]);
+
+  // Filter data based on date preset
   const filteredData = useMemo(() => {
     if (!data || data.length === 0) return [];
     
-    const now = new Date();
-    let cutoffTime;
-    
-    switch (timeRange) {
-      case '12hr':
-        cutoffTime = new Date(now.getTime() - (12 * 60 * 60 * 1000));
-        break;
-      case '24hr':
-        cutoffTime = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-        break;
-      default: // 'all'
-        return data;
+    if (rangePreset === 'all') {
+      return data;
+    }
+
+    const selectedRange = RANGE_OPTIONS.find(option => option.value === rangePreset);
+    if (!selectedRange || !selectedRange.durationMs) {
+      return data;
     }
     
+    const now = new Date();
+    const cutoffTime = new Date(now.getTime() - selectedRange.durationMs);
+    
     return data.filter(point => new Date(point.time) >= cutoffTime);
-  }, [data, timeRange]);
+  }, [data, rangePreset]);
 
   // Calculate current caffeine level (fixed calculation)
   const currentCaffeineLevel = useMemo(() => {
@@ -132,7 +152,7 @@ export const CaffeineChart = ({
       );
       
       // Determine status
-      const percentage = (level / caffeineLimit) * 100;
+      const percentage = (level / resolvedLimit) * 100;
       let status = { text: 'Low', color: 'text-green-500' };
       if (percentage >= 80) status = { text: 'High', color: 'text-red-500' };
       else if (percentage >= 50) status = { text: 'Moderate', color: 'text-yellow-500' };
@@ -155,7 +175,7 @@ export const CaffeineChart = ({
             </div>
           )}
           <div className="text-xs opacity-75">
-            {Math.round((level / caffeineLimit) * 100)}% of daily limit
+            {Math.round((level / resolvedLimit) * 100)}% of daily limit
           </div>
         </div>
       );
@@ -168,118 +188,207 @@ export const CaffeineChart = ({
   const ChartComponent = chartType === 'area' ? AreaChart : LineChart;
   const lineType = chartType === 'smooth' ? 'monotone' : 'linear';
 
+  const yAxisMax = useMemo(() => {
+    const limitCandidate = resolvedLimit || caffeineLimit;
+    const dataPeak = peakLevel || 0;
+    const target = Math.max(limitCandidate * 1.1, dataPeak * 1.1, 120);
+    return Math.ceil(target / 25) * 25;
+  }, [resolvedLimit, caffeineLimit, peakLevel]);
+
+  const remainingLimit = Math.max(resolvedLimit - currentCaffeineLevel, 0);
+
+  const handleLimitBlur = () => {
+    const parsed = parseInt(limitField, 10);
+    if (Number.isNaN(parsed)) {
+      setLimitField(String(caffeineLimit));
+      return;
+    }
+    const normalized = Math.min(Math.max(parsed, 50), 800);
+    setLimitField(String(normalized));
+  };
+
   return (
-    <div className={`p-4 sm:p-6 rounded-xl ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-      {/* Mobile-first header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
-        <div className="flex-1">
-          <h2 className="text-lg sm:text-xl font-bold mb-3 flex items-center gap-2">
-            <BarChart2 size={20} className={darkMode ? 'text-blue-400' : 'text-blue-600'} />
-            Caffeine Levels
-          </h2>
-          
-          {/* Current and Peak display */}
-          <div className="flex flex-wrap gap-4 text-sm">
-            <div className="flex items-center gap-1">
-              <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Current:</span>
-              <span className="font-semibold text-lg">{currentCaffeineLevel} mg</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Peak:</span>
-              <span className="font-semibold">{peakLevel} mg</span>
-            </div>
+    <div
+      className={`p-4 sm:p-6 rounded-2xl shadow-lg border space-y-6 ${
+        darkMode
+          ? 'bg-slate-900 border-slate-800'
+          : 'bg-white border-slate-100'
+      }`}
+    >
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+            <BarChart2 size={18} className={darkMode ? 'text-blue-300' : 'text-blue-600'} />
+            Trending Intake
           </div>
+          <h2 className="text-2xl font-bold mt-1">Caffeine Levels</h2>
         </div>
-        
-        {/* Mobile-first controls */}
-        <div className="flex flex-col gap-3">
-          {/* Time Range Controls */}
-          <div className="flex flex-col gap-2">
-            <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Time Range
-            </span>
-            <div className="flex gap-1">
-              {['12hr', '24hr', 'all'].map((range) => (
-                <button
-                  key={range}
-                  onClick={() => setTimeRange(range)}
-                  className={`px-3 py-1.5 text-xs rounded-md transition-all ${
-                    timeRange === range
-                      ? darkMode ? 'bg-blue-600 text-white shadow-md' : 'bg-blue-500 text-white shadow-md'
-                      : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {range.toUpperCase()}
-                </button>
-              ))}
-            </div>
+        <div className="grid grid-cols-2 gap-3 text-sm sm:text-base">
+          <div className={`rounded-xl p-3 border ${
+            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+          }`}>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Current</p>
+            <p className="text-lg font-semibold">{currentCaffeineLevel} mg</p>
           </div>
-
-          {/* Chart Style Controls (including grid) */}
-          <div className="flex flex-col gap-2">
-            <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Chart Style
-            </span>
-            <div className="flex gap-1">
-              {/* Chart Type Buttons */}
-              <button
-                onClick={() => setChartType('line')}
-                className={`p-2 rounded-md transition-all ${
-                  chartType === 'line'
-                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
-                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-                title="Line chart"
-              >
-                <BarChart2 size={14} />
-              </button>
-              
-              <button
-                onClick={() => setChartType('area')}
-                className={`p-2 rounded-md transition-all ${
-                  chartType === 'area'
-                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
-                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-                title="Area chart"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3 18h18v2H3v-2zm0-12l4 4 4-4 6 6v6H3V6z"/>
-                </svg>
-              </button>
-              
-              <button
-                onClick={() => setChartType('smooth')}
-                className={`p-2 rounded-md transition-all ${
-                  chartType === 'smooth'
-                    ? darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
-                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-                title="Smooth chart"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 12s4-8 8-8 8 8 8 8"/>
-                </svg>
-              </button>
-
-              {/* Grid Toggle */}
-              <button
-                onClick={() => setShowGrid(!showGrid)}
-                className={`p-2 rounded-md transition-all ${
-                  showGrid
-                    ? darkMode ? 'bg-green-600 text-white' : 'bg-green-500 text-white'
-                    : darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-                title="Toggle grid"
-              >
-                {showGrid ? <Eye size={14} /> : <EyeOff size={14} />}
-              </button>
-            </div>
+          <div className={`rounded-xl p-3 border ${
+            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+          }`}>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Peak</p>
+            <p className="text-lg font-semibold">{peakLevel} mg</p>
+          </div>
+          <div className={`rounded-xl p-3 border col-span-2 ${
+            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+          }`}>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Remaining (limit)</p>
+            <p className="text-lg font-semibold">{remainingLimit} mg</p>
           </div>
         </div>
       </div>
+
+      {/* Controls */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+            Date window
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {RANGE_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => setRangePreset(option.value)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  rangePreset === option.value
+                    ? darkMode
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-blue-600 text-white'
+                    : darkMode
+                      ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+            Upper limit (mg)
+          </span>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              min="50"
+              max="800"
+              value={limitField}
+              onChange={(e) => setLimitField(e.target.value)}
+              onBlur={handleLimitBlur}
+              className={`flex-1 rounded-xl px-3 py-2 border font-semibold ${
+                darkMode
+                  ? 'bg-slate-900 border-slate-700 text-white'
+                  : 'bg-white border-slate-200 text-slate-900'
+              }`}
+            />
+            <span className={darkMode ? 'text-slate-300' : 'text-slate-600'}>mg</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {LIMIT_PRESETS.map((preset) => (
+              <button
+                key={preset}
+                onClick={() => setLimitField(String(preset))}
+                className={`px-3 py-1 rounded-full text-sm transition-all ${
+                  Number(limitField) === preset
+                    ? darkMode
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-blue-600 text-white'
+                    : darkMode
+                      ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        {/* Chart Style Controls */}
+        <div className="flex flex-wrap gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 w-full">
+            Chart style
+          </span>
+          <button
+            onClick={() => setChartType('line')}
+            className={`p-2 rounded-lg transition-colors ${
+              chartType === 'line'
+                ? darkMode
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-blue-600 text-white'
+                : darkMode
+                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+            title="Line chart"
+          >
+            <BarChart2 size={14} />
+          </button>
+          <button
+            onClick={() => setChartType('area')}
+            className={`p-2 rounded-lg transition-colors ${
+              chartType === 'area'
+                ? darkMode
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-blue-600 text-white'
+                : darkMode
+                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+            title="Area chart"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 18h18v2H3v-2zm0-12l4 4 4-4 6 6v6H3V6z" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setChartType('smooth')}
+            className={`p-2 rounded-lg transition-colors ${
+              chartType === 'smooth'
+                ? darkMode
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-blue-600 text-white'
+                : darkMode
+                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+            title="Smooth chart"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 12s4-8 8-8 8 8 8 8" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setShowGrid(!showGrid)}
+            className={`p-2 rounded-lg transition-colors ${
+              showGrid
+                ? darkMode
+                  ? 'bg-green-600 text-white'
+                  : 'bg-green-500 text-white'
+                : darkMode
+                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+            title="Toggle grid"
+          >
+            {showGrid ? <Eye size={14} /> : <EyeOff size={14} />}
+          </button>
+        </div>
+      </div>
       
-      {/* Chart - mobile responsive height */}
+      {/* Chart */}
       <div className="h-64 sm:h-80 mb-6">
         <ResponsiveContainer width="100%" height="100%">
           <ChartComponent
@@ -305,7 +414,7 @@ export const CaffeineChart = ({
             
             <YAxis 
               stroke={darkMode ? '#9ca3af' : '#6b7280'} 
-              domain={[0, Math.max(caffeineLimit * 1.2, 100)]}
+              domain={[0, yAxisMax]}
               fontSize={11}
               tickLine={false}
               axisLine={false}
@@ -316,7 +425,7 @@ export const CaffeineChart = ({
             
             {/* Reference lines without labels */}
             <ReferenceLine 
-              y={caffeineLimit} 
+              y={resolvedLimit} 
               stroke={darkMode ? '#ef4444' : '#dc2626'} 
               strokeDasharray="4 4" 
               strokeWidth={1.5}
@@ -371,21 +480,25 @@ export const CaffeineChart = ({
         </ResponsiveContainer>
       </div>
       
-      {/* Mobile-friendly legend */}
+      {/* Legend */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
         <div className="flex items-center gap-2">
           <div className={`w-4 h-0.5 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
-          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Caffeine Level</span>
+          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>Caffeine Level</span>
         </div>
         
         <div className="flex items-center gap-2">
           <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-red-500' : 'border-red-600'}`} />
-          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Daily Limit ({caffeineLimit}mg)</span>
+          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
+            Daily Limit ({resolvedLimit}mg)
+          </span>
         </div>
         
         <div className="flex items-center gap-2">
           <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-green-500' : 'border-green-600'}`} />
-          <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Sleep Target ({targetSleepCaffeine}mg)</span>
+          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
+            Sleep Target ({targetSleepCaffeine}mg)
+          </span>
         </div>
       </div>
     </div>

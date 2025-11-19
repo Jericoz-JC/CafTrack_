@@ -31,8 +31,8 @@ import { IntakeItem } from './IntakeItem';
 const FloatingActionButton = ({ onClick, darkMode }) => (
   <button 
     onClick={onClick} 
-    className={`fixed bottom-20 right-4 z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-lg ${
-      darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+    className={`fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-200 hover:scale-105 ${
+      darkMode ? 'bg-blue-600 hover:bg-blue-500 ring-1 ring-slate-800' : 'bg-blue-500 hover:bg-blue-600 ring-1 ring-blue-200'
     }`}
     aria-label="Add caffeine intake"
   >
@@ -261,32 +261,48 @@ const CaffeineCalculator = () => {
   
   return (
     <div 
-      className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}
+      className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       {/* Header */}
-      <header className={`px-4 py-3 flex justify-between items-center ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow`}>
-        <div className="flex items-center">
-          <Coffee className="mr-2" />
-          <h1 className="text-xl font-bold">CafTrack</h1>
+      <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b ${
+        darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'
+      }`}>
+        <div>
+          <div className="flex items-center">
+            <Coffee className={`mr-2 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`} />
+            <h1 className="text-2xl font-bold tracking-tight">CafTrack</h1>
+          </div>
+          <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+            Daily caffeine companion
+          </p>
         </div>
         <div className="flex">
           <button 
             onClick={() => setDarkMode(!darkMode)} 
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+            className={`p-2 rounded-full border transition-colors ${
+              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            }`}
+            aria-label="Toggle theme"
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
             onClick={() => openModal('info')} 
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+            className={`p-2 rounded-full border ml-2 transition-colors ${
+              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            }`}
+            aria-label="Learn more"
           >
             <Info size={20} />
           </button>
           <button 
             onClick={() => openModal('settings')} 
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+            className={`p-2 rounded-full border ml-2 transition-colors ${
+              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            }`}
+            aria-label="Open settings"
           >
             <Settings size={20} />
           </button>
@@ -294,7 +310,7 @@ const CaffeineCalculator = () => {
       </header>
       
       {/* Main content */}
-      <main className="max-w-xl mx-auto p-4">
+      <main className="max-w-xl mx-auto px-4 pb-28 pt-6 space-y-6">
         {/* Home Screen */}
         {activeScreen === 'home' && (
           <div className="space-y-6">
@@ -368,7 +384,9 @@ const CaffeineCalculator = () => {
       />
       
       {/* Bottom Navigation */}
-      <nav className={`fixed bottom-0 left-0 right-0 flex justify-around py-2 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-top`}>
+      <nav className={`fixed bottom-0 left-0 right-0 flex justify-around py-3 border-t shadow-2xl ${
+        darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'
+      }`}>
         <NavButton 
           icon={<Coffee size={20} />} 
           label="Home" 
