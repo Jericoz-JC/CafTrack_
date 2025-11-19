@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,7 +9,7 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { Coffee, BarChart2, Eye, EyeOff } from 'lucide-react';
+import { Coffee, BarChart2 } from 'lucide-react';
 
 const RANGE_OPTIONS = [
   { value: 'day', label: 'Today', durationMs: 24 * 60 * 60 * 1000 },
@@ -19,8 +17,6 @@ const RANGE_OPTIONS = [
   { value: 'week', label: 'Last Week', durationMs: 7 * 24 * 60 * 60 * 1000 },
   { value: 'all', label: 'All Drinks' }
 ];
-
-const LIMIT_PRESETS = [200, 300, 400, 500];
 
 export const CaffeineChart = ({ 
   data, 
@@ -193,8 +189,6 @@ export const CaffeineChart = ({
     return Math.ceil(target / 25) * 25;
   }, [resolvedLimit, caffeineLimit, peakLevel]);
 
-  const remainingLimit = Math.max(resolvedLimit - currentCaffeineLevel, 0);
-
   const handleLimitBlur = () => {
     const parsed = parseInt(limitField, 10);
     if (Number.isNaN(parsed)) {
@@ -348,37 +342,20 @@ export const CaffeineChart = ({
               strokeWidth={1.5}
             />
             
-            {chartType === 'area' ? (
-              <Area
-                type={lineType}
-                dataKey="level"
-                stroke={darkMode ? '#3b82f6' : '#2563eb'}
-                fill={darkMode ? '#3b82f6' : '#2563eb'}
-                fillOpacity={0.2}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ 
-                  r: 4, 
-                  fill: darkMode ? '#60a5fa' : '#3b82f6',
-                  stroke: darkMode ? '#1e40af' : '#1d4ed8',
-                  strokeWidth: 2
-                }}
-              />
-            ) : (
-              <Line
-                type={lineType}
-                dataKey="level"
-                stroke={darkMode ? '#3b82f6' : '#2563eb'}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ 
-                  r: 4, 
-                  fill: darkMode ? '#60a5fa' : '#3b82f6',
-                  stroke: darkMode ? '#1e40af' : '#1d4ed8',
-                  strokeWidth: 2
-                }}
-              />
-            )}
+            <Area
+              type={lineType}
+              dataKey="level"
+              stroke={darkMode ? '#3b82f6' : '#2563eb'}
+              fill="url(#colorLevel)"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ 
+                r: 4, 
+                fill: darkMode ? '#60a5fa' : '#3b82f6',
+                stroke: darkMode ? '#1e40af' : '#1d4ed8',
+                strokeWidth: 2
+              }}
+            />
           </ChartComponent>
         </ResponsiveContainer>
       </div>
