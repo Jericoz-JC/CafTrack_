@@ -51,7 +51,7 @@ const CaffeineCalculator = () => {
     metabolismRate: 'average', // fast, average, slow
     caffeineLimit: 400, // in mg
     sleepTime: '22:00', // 24-hour format
-    targetSleepCaffeine: 50, // in mg
+    targetSleepCaffeine: 30, // in mg
     pregnancyAdjustment: false,
     smokerAdjustment: false,
     oralContraceptivesAdjustment: false
@@ -168,6 +168,9 @@ const CaffeineCalculator = () => {
       }
     }
     
+    // Round start time down to the nearest hour for cleaner X-axis
+    startTime.setMinutes(0, 0, 0);
+    
     // Create data points from start time to 24 hours in the future
     const endTime = new Date(now.getTime() + (24 * 60 * 60 * 1000));
     
@@ -269,14 +272,9 @@ const CaffeineCalculator = () => {
       <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b ${
         darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'
       }`}>
-        <div>
-          <div className="flex items-center">
-            <Coffee className={`mr-2 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`} />
-            <h1 className="text-2xl font-bold tracking-tight">CafTrack</h1>
-          </div>
-          <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-            Daily caffeine companion
-          </p>
+        <div className="flex items-center">
+          <Coffee className={`mr-2 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`} />
+          <h1 className="text-xl font-bold">CafTrack</h1>
         </div>
         <div className="flex">
           <button 

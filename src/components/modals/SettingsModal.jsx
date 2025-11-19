@@ -126,7 +126,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             }`}
           />
           <p className={`mt-1 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Recommended: 50mg or less for quality sleep
+            Recommended: 30mg or less for quality sleep
           </p>
         </div>
         

@@ -29,8 +29,6 @@ export const CaffeineChart = ({
   targetSleepCaffeine,
   darkMode = false 
 }) => {
-  const [chartType, setChartType] = useState('line'); // 'line', 'area', or 'smooth'
-  const [showGrid, setShowGrid] = useState(true);
   const [rangePreset, setRangePreset] = useState('day'); // today, 3d, week, all
   const [limitField, setLimitField] = useState(String(caffeineLimit));
 
@@ -184,9 +182,9 @@ export const CaffeineChart = ({
     return null;
   };
 
-  // Chart component selection
-  const ChartComponent = chartType === 'area' ? AreaChart : LineChart;
-  const lineType = chartType === 'smooth' ? 'monotone' : 'linear';
+  // Chart component selection (fixed to AreaChart for consistent look)
+  const ChartComponent = AreaChart;
+  const lineType = 'monotone';
 
   const yAxisMax = useMemo(() => {
     const limitCandidate = resolvedLimit || caffeineLimit;
@@ -225,23 +223,17 @@ export const CaffeineChart = ({
           <h2 className="text-2xl font-bold mt-1">Caffeine Levels</h2>
         </div>
         <div className="grid grid-cols-2 gap-3 text-sm sm:text-base">
-          <div className={`rounded-xl p-3 border ${
+          <div className={`rounded-xl p-3 border col-span-2 ${
             darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
           }`}>
-            <p className="text-xs uppercase tracking-wide text-slate-400">Current</p>
-            <p className="text-lg font-semibold">{currentCaffeineLevel} mg</p>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Approx. Caffeine</p>
+            <p className="text-2xl font-bold">{currentCaffeineLevel} mg</p>
           </div>
           <div className={`rounded-xl p-3 border ${
             darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
           }`}>
             <p className="text-xs uppercase tracking-wide text-slate-400">Peak</p>
             <p className="text-lg font-semibold">{peakLevel} mg</p>
-          </div>
-          <div className={`rounded-xl p-3 border col-span-2 ${
-            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
-          }`}>
-            <p className="text-xs uppercase tracking-wide text-slate-400">Remaining (limit)</p>
-            <p className="text-lg font-semibold">{remainingLimit} mg</p>
           </div>
         </div>
       </div>
@@ -252,25 +244,21 @@ export const CaffeineChart = ({
           <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
             Date window
           </span>
-          <div className="flex flex-wrap gap-2">
+          <select
+            value={rangePreset}
+            onChange={(e) => setRangePreset(e.target.value)}
+            className={`w-full p-2.5 rounded-xl border font-medium appearance-none ${
+              darkMode 
+                ? 'bg-slate-800 border-slate-700 text-white' 
+                : 'bg-slate-50 border-slate-200 text-slate-900'
+            }`}
+          >
             {RANGE_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setRangePreset(option.value)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  rangePreset === option.value
-                    ? darkMode
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-blue-600 text-white'
-                    : darkMode
-                      ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
+              <option key={option.value} value={option.value}>
                 {option.label}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -293,98 +281,6 @@ export const CaffeineChart = ({
             />
             <span className={darkMode ? 'text-slate-300' : 'text-slate-600'}>mg</span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {LIMIT_PRESETS.map((preset) => (
-              <button
-                key={preset}
-                onClick={() => setLimitField(String(preset))}
-                className={`px-3 py-1 rounded-full text-sm transition-all ${
-                  Number(limitField) === preset
-                    ? darkMode
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-blue-600 text-white'
-                    : darkMode
-                      ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {preset}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        {/* Chart Style Controls */}
-        <div className="flex flex-wrap gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 w-full">
-            Chart style
-          </span>
-          <button
-            onClick={() => setChartType('line')}
-            className={`p-2 rounded-lg transition-colors ${
-              chartType === 'line'
-                ? darkMode
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-blue-600 text-white'
-                : darkMode
-                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-            }`}
-            title="Line chart"
-          >
-            <BarChart2 size={14} />
-          </button>
-          <button
-            onClick={() => setChartType('area')}
-            className={`p-2 rounded-lg transition-colors ${
-              chartType === 'area'
-                ? darkMode
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-blue-600 text-white'
-                : darkMode
-                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-            }`}
-            title="Area chart"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 18h18v2H3v-2zm0-12l4 4 4-4 6 6v6H3V6z" />
-            </svg>
-          </button>
-          <button
-            onClick={() => setChartType('smooth')}
-            className={`p-2 rounded-lg transition-colors ${
-              chartType === 'smooth'
-                ? darkMode
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-blue-600 text-white'
-                : darkMode
-                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-            }`}
-            title="Smooth chart"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M3 12s4-8 8-8 8 8 8 8" />
-            </svg>
-          </button>
-          <button
-            onClick={() => setShowGrid(!showGrid)}
-            className={`p-2 rounded-lg transition-colors ${
-              showGrid
-                ? darkMode
-                  ? 'bg-green-600 text-white'
-                  : 'bg-green-500 text-white'
-                : darkMode
-                  ? 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-            }`}
-            title="Toggle grid"
-          >
-            {showGrid ? <Eye size={14} /> : <EyeOff size={14} />}
-          </button>
         </div>
       </div>
       
@@ -395,13 +291,18 @@ export const CaffeineChart = ({
             data={filteredData}
             margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
           >
-            {showGrid && (
-              <CartesianGrid 
-                strokeDasharray="2 2" 
-                stroke={darkMode ? '#374151' : '#e5e7eb'} 
-                opacity={0.5}
-              />
-            )}
+            <defs>
+              <linearGradient id="colorLevel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={darkMode ? '#3b82f6' : '#2563eb'} stopOpacity={0.3}/>
+                <stop offset="95%" stopColor={darkMode ? '#3b82f6' : '#2563eb'} stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              vertical={false}
+              stroke={darkMode ? '#374151' : '#e5e7eb'} 
+              opacity={0.5}
+            />
             
             <XAxis 
               dataKey="time" 
@@ -409,7 +310,9 @@ export const CaffeineChart = ({
               stroke={darkMode ? '#9ca3af' : '#6b7280'}
               fontSize={11}
               tickLine={false}
+              axisLine={false}
               interval="preserveStartEnd"
+              minTickGap={30}
             />
             
             <YAxis 
