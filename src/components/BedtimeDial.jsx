@@ -33,7 +33,7 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
     return snapped % 1440;
   };
 
-  const getAngleFromEvent = (event) => {
+  const getPointerState = (event) => {
     if (!svgRef.current) return 0;
     const rect = svgRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -42,27 +42,39 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
     const clientY = event.touches ? event.touches[0].clientY : event.clientY;
     const dx = clientX - centerX;
     const dy = clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
     
     let angleRad = Math.atan2(dy, dx);
     let angleDeg = angleRad * (180 / Math.PI);
     let clockDeg = angleDeg + 90;
     if (clockDeg < 0) clockDeg += 360;
-    return clockDeg;
+    return { angle: clockDeg, distance };
   };
 
-  const handleStart = (e) => {
-    setIsDragging(true);
-    handleMove(e);
-  };
-
-  const handleMove = (e) => {
-    if (!isDragging && e.type !== 'mousedown' && e.type !== 'touchstart') return;
-    if (e.type === 'touchmove') e.preventDefault();
-    const angle = getAngleFromEvent(e);
+  const updateTimeByAngle = (angle) => {
     const minutes = degreesToMinutes(angle);
     if (typeof onChange === 'function') {
       onChange(formatTime(minutes));
     }
+  };
+
+  const handleStart = (e) => {
+    const pointer = getPointerState(e);
+    if (!pointer) return;
+    const { angle, distance } = pointer;
+    if (distance < MIN_TOUCH_RADIUS || distance > MAX_TOUCH_RADIUS) {
+      return;
+    }
+    setIsDragging(true);
+    updateTimeByAngle(angle);
+  };
+
+  const handleMove = (e) => {
+    if (!isDragging) return;
+    if (e.type === 'touchmove') e.preventDefault();
+    const pointer = getPointerState(e);
+    if (!pointer) return;
+    updateTimeByAngle(pointer.angle);
   };
 
   const handleEnd = () => {
@@ -90,6 +102,9 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
   const TRACK_WIDTH = 12;
   const HANDLE_RADIUS = 18;
   const LABEL_RADIUS = RADIUS - 25;
+  const TOUCH_TOLERANCE = 18;
+  const MIN_TOUCH_RADIUS = RADIUS - TOUCH_TOLERANCE;
+  const MAX_TOUCH_RADIUS = RADIUS + TOUCH_TOLERANCE;
   const currentAngle = minutesToDegrees(currentMinutes);
   const rad = (currentAngle * Math.PI) / 180;
   const handleX = RADIUS * Math.sin(rad);

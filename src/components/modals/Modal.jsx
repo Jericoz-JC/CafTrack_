@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 
 export const Modal = ({ title, onClose, children, darkMode = false }) => {
   const modalRef = useRef(null);
+  const scrollPositionRef = useRef(0);
   
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -11,12 +12,20 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
       }
     };
     
+    scrollPositionRef.current = window.scrollY || window.pageYOffset || 0;
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${scrollPositionRef.current}px`;
     
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPositionRef.current);
     };
   }, [onClose]);
   
