@@ -26,6 +26,8 @@ import { CaffeineStatusIndicator } from './CaffeineStatusIndicator';
 import { SleepReadinessIndicator } from './SleepReadinessIndicator';
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
+import { RangeSelector } from './RangeSelector';
+import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 
 // Add a floating action button that appears on all screens
 const FloatingActionButton = ({ onClick, darkMode }) => (
@@ -56,6 +58,7 @@ const CaffeineCalculator = () => {
     smokerAdjustment: false,
     oralContraceptivesAdjustment: false
   });
+  const [rangePreset, setRangePreset] = useState(DEFAULT_RANGE_PRESET);
   
   // Touch handling for swipe navigation
   const touchStart = useRef({ x: 0, y: 0 });
@@ -205,6 +208,20 @@ const CaffeineCalculator = () => {
   
   // Current caffeine level
   const currentCaffeineLevel = useMemo(calculateCurrentCaffeineLevel, [caffeineIntakes, settings]);
+
+  const filteredIntakes = useMemo(() => {
+    if (!caffeineIntakes.length) {
+      return [];
+    }
+    const durationMs = getRangeDurationMs(rangePreset);
+    if (!durationMs) {
+      return caffeineIntakes;
+    }
+    const cutoff = Date.now() - durationMs;
+    return caffeineIntakes.filter(
+      (intake) => new Date(intake.timestamp).getTime() >= cutoff
+    );
+  }, [caffeineIntakes, rangePreset]);
   
   // Handle adding new caffeine intake
   const handleAddIntake = (intakeData) => {
@@ -332,43 +349,68 @@ const CaffeineCalculator = () => {
         {/* History Screen */}
         {activeScreen === 'history' && (
           <div className="space-y-4">
-            <h2 className="text-xl font-bold mb-4">Intake History</h2>
-            {caffeineIntakes.length > 0 ? (
-              <div className="space-y-2">
-                {caffeineIntakes.map(intake => (
-                  <IntakeItem 
-                    key={intake.id} 
-                    intake={intake} 
-                    onRemove={handleRemoveIntake}
-                    darkMode={darkMode}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                <p>No caffeine intake recorded yet.</p>
-                <button 
-                  onClick={() => openModal('add')} 
-                  className={`mt-2 px-4 py-2 rounded-lg ${
-                    darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-                  } text-white`}
-                >
-                  Add Your First Drink
-                </button>
-              </div>
-            )}
+            <RangeSelector
+              title="History Range"
+              value={rangePreset}
+              onChange={setRangePreset}
+              options={RANGE_PRESETS}
+              darkMode={darkMode}
+            />
+            <div>
+              <h2 className="text-xl font-bold mb-4">Intake History</h2>
+              {caffeineIntakes.length > 0 ? (
+                filteredIntakes.length > 0 ? (
+                  <div className="space-y-2">
+                    {filteredIntakes.map(intake => (
+                      <IntakeItem 
+                        key={intake.id} 
+                        intake={intake} 
+                        onRemove={handleRemoveIntake}
+                        darkMode={darkMode}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                    <p className="font-medium">No entries for this range.</p>
+                    <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Try selecting a broader window above to see older drinks.
+                    </p>
+                  </div>
+                )
+              ) : (
+                <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <p>No caffeine intake recorded yet.</p>
+                  <button 
+                    onClick={() => openModal('add')} 
+                    className={`mt-2 px-4 py-2 rounded-lg ${
+                      darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+                    } text-white`}
+                  >
+                    Add Your First Drink
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
         
         {/* Stats Screen */}
         {activeScreen === 'stats' && (
           <div className="space-y-4">
-            <h2 className="text-xl font-bold mb-4">Caffeine Levels</h2>
+            <RangeSelector
+              title="Metabolism Stats"
+              value={rangePreset}
+              onChange={setRangePreset}
+              options={RANGE_PRESETS}
+              darkMode={darkMode}
+            />
             <CaffeineChart 
               data={chartData} 
               caffeineLimit={settings.caffeineLimit}
               sleepTime={settings.sleepTime}
               targetSleepCaffeine={settings.targetSleepCaffeine}
+              rangePreset={rangePreset}
               darkMode={darkMode}
             />
           </div>

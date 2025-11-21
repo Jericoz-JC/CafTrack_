@@ -1,0 +1,6102 @@
+[
+  {
+    "id": "costa-coffee-257ml",
+    "name": "Costa Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 257,
+      "oz": 8.7
+    },
+    "caffeineMg": 277
+  },
+  {
+    "id": "coffee-friend-brewed-coffee-250ml",
+    "name": "Coffee Friend Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 145
+  },
+  {
+    "id": "hell-energy-coffee-250ml",
+    "name": "Hell Energy Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "killer-coffee-au-250ml",
+    "name": "Killer Coffee (AU)",
+    "category": "coffee",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 430
+  },
+  {
+    "id": "nescafe-gold-250ml",
+    "name": "Nescafe Gold",
+    "category": "coffee",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 66
+  },
+  {
+    "id": "espresso-monster-248ml",
+    "name": "Espresso Monster",
+    "category": "coffee",
+    "serving": {
+      "ml": 248,
+      "oz": 8.4
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "dunkin-donuts-shot-in-the-dark-240ml",
+    "name": "Dunkin Donuts Shot In The Dark",
+    "category": "coffee",
+    "serving": {
+      "ml": 240,
+      "oz": 8.1
+    },
+    "caffeineMg": 134
+  },
+  {
+    "id": "illy-issimo-cafe-201ml",
+    "name": "Illy Issimo Cafe",
+    "category": "coffee",
+    "serving": {
+      "ml": 201,
+      "oz": 6.8
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "starbucks-doubleshot-espresso-192ml",
+    "name": "Starbucks Doubleshot Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 192,
+      "oz": 6.5
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "truestart-performance-coffee-151ml",
+    "name": "TrueStart Performance Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 151,
+      "oz": 5.1
+    },
+    "caffeineMg": 95
+  },
+  {
+    "id": "bizzy-cold-brew-79ml",
+    "name": "Bizzy Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 79,
+      "oz": 2.7
+    },
+    "caffeineMg": 125
+  },
+  {
+    "id": "zola-coconut-water-espresso-518ml",
+    "name": "Zola Coconut Water Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 518,
+      "oz": 17.5
+    },
+    "caffeineMg": 125
+  },
+  {
+    "id": "barista-bros-iced-coffee-500ml",
+    "name": "Barista Bros Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "dare-iced-coffee-500ml",
+    "name": "Dare Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "v-iced-coffee-500ml",
+    "name": "V Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "bottled-iced-coffee-dunkin-donuts-405ml",
+    "name": "Bottled Iced Coffee Dunkin Donuts",
+    "category": "coffee",
+    "serving": {
+      "ml": 405,
+      "oz": 13.7
+    },
+    "caffeineMg": 171
+  },
+  {
+    "id": "starbucks-bottled-frappuccino-405ml",
+    "name": "Starbucks Bottled Frappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 405,
+      "oz": 13.7
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "stok-cold-brew-405ml",
+    "name": "Stok Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 405,
+      "oz": 13.7
+    },
+    "caffeineMg": 145
+  },
+  {
+    "id": "wide-awake-iced-coffee-drinks-405ml",
+    "name": "Wide Awake Iced Coffee Drinks",
+    "category": "coffee",
+    "serving": {
+      "ml": 405,
+      "oz": 13.7
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "caribou-canned-cold-brew-340ml",
+    "name": "Caribou Canned Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 177
+  },
+  {
+    "id": "mcdonalds-iced-coffee-340ml",
+    "name": "McDonalds Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 133
+  },
+  {
+    "id": "premier-protein-cafe-latte-340ml",
+    "name": "Premier Protein Cafe Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "stumptown-cold-brew-coffee-311ml",
+    "name": "Stumptown Cold Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 311,
+      "oz": 10.5
+    },
+    "caffeineMg": 279
+  },
+  {
+    "id": "espresso-shot-44ml",
+    "name": "Espresso Shot",
+    "category": "coffee",
+    "serving": {
+      "ml": 44,
+      "oz": 1.5
+    },
+    "caffeineMg": 77
+  },
+  {
+    "id": "peet-s-coffee-espresso-44ml",
+    "name": "Peet's Coffee Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 44,
+      "oz": 1.5
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "peet-s-decaf-espresso-44ml",
+    "name": "Peet's Decaf Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 44,
+      "oz": 1.5
+    },
+    "caffeineMg": 10
+  },
+  {
+    "id": "gourmesso-coffee-pods-40ml",
+    "name": "Gourmesso Coffee Pods",
+    "category": "coffee",
+    "serving": {
+      "ml": 40,
+      "oz": 1.4
+    },
+    "caffeineMg": 65
+  },
+  {
+    "id": "nespresso-coffee-capsules-40ml",
+    "name": "Nespresso Coffee Capsules",
+    "category": "coffee",
+    "serving": {
+      "ml": 40,
+      "oz": 1.4
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "stok-coffee-shots-13ml",
+    "name": "Stok Coffee Shots",
+    "category": "coffee",
+    "serving": {
+      "ml": 13,
+      "oz": 0.4
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "starbucks-bottled-iced-coffee-1420ml",
+    "name": "Starbucks Bottled Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 1420,
+      "oz": 48.0
+    },
+    "caffeineMg": 640
+  },
+  {
+    "id": "baskin-robbins-cappuccino-blast-710ml",
+    "name": "Baskin Robbins Cappuccino Blast",
+    "category": "coffee",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 234
+  },
+  {
+    "id": "dunkin-cold-brew-710ml",
+    "name": "Dunkin' Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 260
+  },
+  {
+    "id": "dunkin-donuts-iced-coffee-710ml",
+    "name": "Dunkin' Donuts Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 297
+  },
+  {
+    "id": "dunkin-donuts-iced-latte-710ml",
+    "name": "Dunkin' Donuts Iced Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 166
+  },
+  {
+    "id": "dutch-bros-coffee-classic-591ml",
+    "name": "Dutch Bros Coffee (Classic)",
+    "category": "coffee",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 187
+  },
+  {
+    "id": "tim-hortons-large-brewed-coffee-591ml",
+    "name": "Tim Hortons Large Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 270
+  },
+  {
+    "id": "7-eleven-brewed-coffee-473ml",
+    "name": "7 Eleven Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 280
+  },
+  {
+    "id": "arby-s-jamocha-shake-473ml",
+    "name": "Arby's Jamocha Shake",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 12
+  },
+  {
+    "id": "biggby-brewed-coffee-473ml",
+    "name": "Biggby Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "biggby-creamy-lattes-473ml",
+    "name": "Biggby Creamy Lattes",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "biggby-iced-coffee-473ml",
+    "name": "Biggby Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "caribou-brewed-coffee-473ml",
+    "name": "Caribou Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 305
+  },
+  {
+    "id": "coffee-bean-tea-leaf-coffee-473ml",
+    "name": "Coffee Bean & Tea leaf Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 333
+  },
+  {
+    "id": "einstein-bros-coffee-473ml",
+    "name": "Einstein Bros Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 206
+  },
+  {
+    "id": "latte-473ml",
+    "name": "Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 154
+  },
+  {
+    "id": "mcdonalds-mccafe-latte-473ml",
+    "name": "McDonalds (McCafe) Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 142
+  },
+  {
+    "id": "mcdonalds-mccafe-mocha-473ml",
+    "name": "McDonalds (McCafe) Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 167
+  },
+  {
+    "id": "mcdonalds-coffee-473ml",
+    "name": "McDonalds Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 145
+  },
+  {
+    "id": "panera-bread-coffee-473ml",
+    "name": "Panera Bread Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 189
+  },
+  {
+    "id": "peet-s-brewed-coffee-473ml",
+    "name": "Peet's Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 267
+  },
+  {
+    "id": "peet-s-caffe-americano-473ml",
+    "name": "Peet's Caffe Americano",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "peet-s-caffe-latte-473ml",
+    "name": "Peet's Caffe Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "peet-s-caffe-mocha-473ml",
+    "name": "Peet's Caffe Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 165
+  },
+  {
+    "id": "peet-s-cappuccino-473ml",
+    "name": "Peet's Cappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "peet-s-iced-coffee-473ml",
+    "name": "Peet's Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "peet-s-iced-latte-473ml",
+    "name": "Peet's Iced Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "peet-s-iced-mocha-473ml",
+    "name": "Peet's Iced Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 165
+  },
+  {
+    "id": "starbucks-caramel-macchiato-473ml",
+    "name": "Starbucks Caramel Macchiato",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "starbucks-cold-brew-coffee-473ml",
+    "name": "Starbucks Cold Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 205
+  },
+  {
+    "id": "starbucks-decaf-coffee-473ml",
+    "name": "Starbucks Decaf Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 25
+  },
+  {
+    "id": "starbucks-grande-caffe-americano-473ml",
+    "name": "Starbucks Grande Caffe Americano",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "starbucks-grande-caffe-latte-473ml",
+    "name": "Starbucks Grande Caffe Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "starbucks-grande-caffe-mocha-473ml",
+    "name": "Starbucks Grande Caffe Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 175
+  },
+  {
+    "id": "starbucks-grande-cappuccino-473ml",
+    "name": "Starbucks Grande Cappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "starbucks-grande-coffee-473ml",
+    "name": "Starbucks Grande Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 310
+  },
+  {
+    "id": "starbucks-iced-americano-473ml",
+    "name": "Starbucks Iced Americano",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "starbucks-nitro-cold-brew-coffee-473ml",
+    "name": "Starbucks Nitro Cold Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 280
+  },
+  {
+    "id": "starbucks-pink-drink-473ml",
+    "name": "Starbucks Pink Drink",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "starbucks-pumpkin-cream-cold-brew-473ml",
+    "name": "Starbucks Pumpkin Cream Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 185
+  },
+  {
+    "id": "starbucks-refreshers-473ml",
+    "name": "Starbucks Refreshers",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "wawa-coffee-473ml",
+    "name": "Wawa Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 290
+  },
+  {
+    "id": "private-selection-canned-espresso-444ml",
+    "name": "Private Selection Canned Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 145
+  },
+  {
+    "id": "starbucks-doubleshot-energy-444ml",
+    "name": "Starbucks Doubleshot Energy",
+    "category": "coffee",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 135
+  },
+  {
+    "id": "wide-awak-energy-coffee-444ml",
+    "name": "Wide Awak Energy Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "chick-fil-a-frosted-coffee-414ml",
+    "name": "Chick-fil-A Frosted Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 130
+  },
+  {
+    "id": "chick-fil-a-iced-coffee-414ml",
+    "name": "Chick-fil-A Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "dunkin-donuts-brewed-coffee-414ml",
+    "name": "Dunkin' Donuts Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 210
+  },
+  {
+    "id": "dunkin-donuts-dunkaccino-414ml",
+    "name": "Dunkin' Donuts Dunkaccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 83
+  },
+  {
+    "id": "dunkin-donuts-extra-charged-coffee-414ml",
+    "name": "Dunkin' Donuts Extra Charged Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 252
+  },
+  {
+    "id": "dunkin-donuts-latte-414ml",
+    "name": "Dunkin' Donuts Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 166
+  },
+  {
+    "id": "americano-coffee-355ml",
+    "name": "Americano Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 154
+  },
+  {
+    "id": "big-train-java-chip-ice-coffee-355ml",
+    "name": "Big Train Java Chip Ice Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 49
+  },
+  {
+    "id": "biohazard-coffee-355ml",
+    "name": "Biohazard Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 928
+  },
+  {
+    "id": "black-ink-coffee-355ml",
+    "name": "Black Ink Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 144
+  },
+  {
+    "id": "black-insomnia-coffee-355ml",
+    "name": "Black Insomnia Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1105
+  },
+  {
+    "id": "black-label-brewed-coffee-355ml",
+    "name": "Black Label Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1555
+  },
+  {
+    "id": "cafe-bustelo-355ml",
+    "name": "Cafe Bustelo",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "caffe-mocha-355ml",
+    "name": "Caffe Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 152
+  },
+  {
+    "id": "caffe-nero-coffee-355ml",
+    "name": "Caffe Nero Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "cannonball-coffee-maximum-charge-uk-355ml",
+    "name": "Cannonball Coffee Maximum Charge (UK)",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1101
+  },
+  {
+    "id": "cappuccino-355ml",
+    "name": "Cappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 154
+  },
+  {
+    "id": "death-wish-coffee-355ml",
+    "name": "Death Wish Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 728
+  },
+  {
+    "id": "devils-brew-extreme-caffeine-coffee-355ml",
+    "name": "Devils Brew Extreme Caffeine Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1325
+  },
+  {
+    "id": "flat-white-355ml",
+    "name": "Flat White",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 130
+  },
+  {
+    "id": "gymbrew-coffee-355ml",
+    "name": "GymBrew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 333
+  },
+  {
+    "id": "high-voltage-coffee-au-355ml",
+    "name": "High Voltage Coffee (AU)",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1150
+  },
+  {
+    "id": "international-delight-iced-coffee-355ml",
+    "name": "International Delight Iced Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 88
+  },
+  {
+    "id": "seattle-s-best-brewed-coffee-355ml",
+    "name": "Seattle's Best Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 260
+  },
+  {
+    "id": "starbucks-iced-espresso-classics-355ml",
+    "name": "Starbucks Iced Espresso Classics",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 125
+  },
+  {
+    "id": "stipe-miocic-extra-strength-coffee-355ml",
+    "name": "Stipe Miocic Extra Strength Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 500
+  },
+  {
+    "id": "sudden-instant-coffee-355ml",
+    "name": "Sudden Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 95
+  },
+  {
+    "id": "taft-coffee-eu-355ml",
+    "name": "Taft Coffee (EU)",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1182
+  },
+  {
+    "id": "very-strong-coffee-355ml",
+    "name": "Very Strong Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 1350
+  },
+  {
+    "id": "chameleon-cold-brew-with-milk-325ml",
+    "name": "Chameleon Cold Brew With Milk",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "muscle-milk-coffee-house-325ml",
+    "name": "Muscle Milk Coffee House",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "slimfast-shake-cappuccino-325ml",
+    "name": "SlimFast Shake - Cappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "starbucks-bottled-cold-brew-325ml",
+    "name": "Starbucks Bottled Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "starbucks-canned-nitro-cold-brew-325ml",
+    "name": "Starbucks Canned Nitro Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 235
+  },
+  {
+    "id": "starbucks-cold-crafted-325ml",
+    "name": "Starbucks Cold & Crafted",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 135
+  },
+  {
+    "id": "stumptown-nitro-cold-brew-325ml",
+    "name": "Stumptown Nitro Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 330
+  },
+  {
+    "id": "sunup-pure-green-coffee-325ml",
+    "name": "Sunup Pure Green Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "wide-awake-coffee-cold-brew-325ml",
+    "name": "Wide Awake Coffee Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 325,
+      "oz": 11.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "chameleon-cold-brew-rtd-296ml",
+    "name": "Chameleon Cold Brew RTD",
+    "category": "coffee",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 230
+  },
+  {
+    "id": "chick-fil-a-brewed-coffee-296ml",
+    "name": "Chick-fil-A Brewed Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 136
+  },
+  {
+    "id": "coolbrew-coffee-296ml",
+    "name": "CoolBrew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "tim-hortons-small-french-vanilla-coffee-296ml",
+    "name": "Tim Hortons Small French Vanilla Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "la-colombe-cold-brew-266ml",
+    "name": "La Colombe Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 266,
+      "oz": 9.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "la-colombe-draft-latte-266ml",
+    "name": "La Colombe Draft Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 266,
+      "oz": 9.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "alpine-start-instant-coffee-237ml",
+    "name": "Alpine Start Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "bulletproof-coffee-237ml",
+    "name": "Bulletproof Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 145
+  },
+  {
+    "id": "califia-farms-cold-brew-coffee-237ml",
+    "name": "Califia Farms Cold Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "cbd-coffee-237ml",
+    "name": "CBD Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "chameleon-cold-brew-coffee-237ml",
+    "name": "Chameleon Cold Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "coffee-237ml",
+    "name": "Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 163
+  },
+  {
+    "id": "coffee-decaf-instant-237ml",
+    "name": "Coffee (Decaf, Instant)",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 2
+  },
+  {
+    "id": "coffee-instant-237ml",
+    "name": "Coffee (Instant)",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 57
+  },
+  {
+    "id": "coffee-leaf-tea-237ml",
+    "name": "Coffee Leaf Tea",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 20
+  },
+  {
+    "id": "crio-bru-brewed-cacao-237ml",
+    "name": "Crio Bru Brewed Cacao",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 10
+  },
+  {
+    "id": "death-wish-canned-cold-brew-237ml",
+    "name": "Death Wish Canned Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "death-wish-latte-237ml",
+    "name": "Death Wish Latte",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "decaf-coffee-237ml",
+    "name": "Decaf Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 6
+  },
+  {
+    "id": "driftaway-coffee-237ml",
+    "name": "Driftaway Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "eight-o-clock-coffee-237ml",
+    "name": "Eight O'Clock Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 112
+  },
+  {
+    "id": "folgers-coffee-237ml",
+    "name": "Folgers Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 112
+  },
+  {
+    "id": "gold-peak-coffee-237ml",
+    "name": "Gold Peak Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 126
+  },
+  {
+    "id": "gothrider-gasoline-coffee-237ml",
+    "name": "Gothrider Gasoline Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "high-brew-coffee-237ml",
+    "name": "High Brew Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "indulgio-cappuccino-237ml",
+    "name": "Indulgio Cappuccino",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 20
+  },
+  {
+    "id": "k-cup-decaf-237ml",
+    "name": "K Cup Decaf",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 4
+  },
+  {
+    "id": "k-cup-coffee-237ml",
+    "name": "K-Cup Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "maxwell-house-coffee-237ml",
+    "name": "Maxwell House Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 112
+  },
+  {
+    "id": "maxwell-house-max-boost-coffee-237ml",
+    "name": "Maxwell House Max Boost Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 196
+  },
+  {
+    "id": "nescafe-dolce-gusto-237ml",
+    "name": "Nescafe Dolce Gusto",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 106
+  },
+  {
+    "id": "nescafe-ice-java-237ml",
+    "name": "Nescafe Ice Java",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "nescafe-ricoffy-237ml",
+    "name": "Nescafe Ricoffy",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 6
+  },
+  {
+    "id": "nestle-milo-237ml",
+    "name": "Nestle Milo",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 4
+  },
+  {
+    "id": "noocaf-smart-coffee-237ml",
+    "name": "Noocaf Smart Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "ocean-spray-brew-237ml",
+    "name": "Ocean Spray Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "purity-coffee-237ml",
+    "name": "Purity Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 163
+  },
+  {
+    "id": "revv-coffee-pods-237ml",
+    "name": "Revv Coffee Pods",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 127
+  },
+  {
+    "id": "robusta-coffee-237ml",
+    "name": "Robusta Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 265
+  },
+  {
+    "id": "starbucks-2x-coffee-pods-237ml",
+    "name": "Starbucks 2X Coffee Pods",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 260
+  },
+  {
+    "id": "starbucks-cordusio-mocha-237ml",
+    "name": "Starbucks Cordusio Mocha",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "starbucks-verismo-coffee-pods-237ml",
+    "name": "Starbucks Verismo Coffee Pods",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "starbucks-via-ready-brew-237ml",
+    "name": "Starbucks Via Ready Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 135
+  },
+  {
+    "id": "steep-18-cold-brew-237ml",
+    "name": "Steep 18 Cold Brew",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 90
+  },
+  {
+    "id": "taster-s-choice-instant-coffee-237ml",
+    "name": "Taster's Choice Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 98
+  },
+  {
+    "id": "voila-instant-coffee-237ml",
+    "name": "Voila Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "waka-decaf-instant-coffee-237ml",
+    "name": "Waka Decaf Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 4
+  },
+  {
+    "id": "waka-indian-instant-coffee-237ml",
+    "name": "Waka Indian Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "waka-instant-coffee-237ml",
+    "name": "Waka Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "whipped-dalgona-coffee-237ml",
+    "name": "Whipped (Dalgona) Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 105
+  },
+  {
+    "id": "mushroom-coffee-207ml",
+    "name": "Mushroom Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 207,
+      "oz": 7.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "cafe-con-leche-177ml",
+    "name": "Cafe Con Leche",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 154
+  },
+  {
+    "id": "choffy-roasted-cacao-177ml",
+    "name": "Choffy (roasted cacao)",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 23
+  },
+  {
+    "id": "cogo-caffeinated-hot-chocolate-177ml",
+    "name": "COGO Caffeinated Hot Chocolate",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 98
+  },
+  {
+    "id": "dripdash-kyoto-coffee-177ml",
+    "name": "Dripdash Kyoto Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "long-black-177ml",
+    "name": "Long Black",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 154
+  },
+  {
+    "id": "nescafe-3-in-1-instant-coffee-177ml",
+    "name": "Nescafe 3 in 1 Instant Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "gloria-jean-s-coffee-60ml",
+    "name": "Gloria Jean's Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 60,
+      "oz": 2.0
+    },
+    "caffeineMg": 67
+  },
+  {
+    "id": "biggby-espresso-59ml",
+    "name": "Biggby Espresso",
+    "category": "coffee",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "greek-coffee-metrios-59ml",
+    "name": "Greek Coffee (Metrios)",
+    "category": "coffee",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "turkish-coffee-59ml",
+    "name": "Turkish Coffee",
+    "category": "coffee",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "28-black-energy-drink-250ml",
+    "name": "28 Black Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "4-purpose-energy-drink-250ml",
+    "name": "4 Purpose Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "beebad-energy-drink-250ml",
+    "name": "BEEBAD Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "black-bruin-energy-drink-250ml",
+    "name": "Black Bruin Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "blu-frog-energy-drink-250ml",
+    "name": "Blu Frog Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "blue-bolt-uk-250ml",
+    "name": "Blue Bolt (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "blue-charge-uk-250ml",
+    "name": "Blue Charge (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "blue-spark-uk-250ml",
+    "name": "Blue Spark (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "bomb-energy-drink-250ml",
+    "name": "Bomb Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "boost-energy-uk-250ml",
+    "name": "Boost Energy (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "euro-shopper-energy-drink-eu-250ml",
+    "name": "Euro Shopper Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "hell-energy-drink-eu-250ml",
+    "name": "Hell Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "hype-energy-drink-eu-250ml",
+    "name": "Hype Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "m-150-energy-drink-250ml",
+    "name": "M-150 Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "pure-cofain-699-eu-250ml",
+    "name": "Pure Cofain 699 (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 175
+  },
+  {
+    "id": "red-bull-250ml",
+    "name": "Red Bull",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "red-bull-editions-250ml",
+    "name": "Red Bull Editions",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "red-bull-sugarfree-250ml",
+    "name": "Red Bull Sugarfree",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "red-bull-zero-250ml",
+    "name": "Red Bull Zero",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "scheckters-energy-drink-250ml",
+    "name": "Scheckters Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "slammers-energy-drink-eu-250ml",
+    "name": "Slammers Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "source-1899-uk-250ml",
+    "name": "Source 1899 (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "taurus-energy-drink-250ml",
+    "name": "Taurus Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "tenzing-natural-energy-250ml",
+    "name": "TENZING Natural Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "tiger-energy-drink-250ml",
+    "name": "Tiger Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "tweaker-energy-drink-250ml",
+    "name": "Tweaker Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "virtue-clean-energy-beverage-250ml",
+    "name": "Virtue Clean Energy Beverage",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "wildcat-energy-drink-uk-250ml",
+    "name": "Wildcat Energy Drink (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "x-ray-energy-drink-250ml",
+    "name": "X Ray Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 79
+  },
+  {
+    "id": "ok-energy-drink-250ml",
+    "name": "OK Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "power-horse-energy-drink-eu-250ml",
+    "name": "Power Horse Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "v-energy-drink-250ml",
+    "name": "V Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 78
+  },
+  {
+    "id": "xl-energy-drink-eu-250ml",
+    "name": "XL Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "crave-energy-drink-uk-249ml",
+    "name": "Crave Energy Drink (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 249,
+      "oz": 8.4
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "bomba-eu-248ml",
+    "name": "Bomba (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 248,
+      "oz": 8.4
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "cintron-energy-drink-248ml",
+    "name": "Cintron Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 248,
+      "oz": 8.4
+    },
+    "caffeineMg": 85
+  },
+  {
+    "id": "dutch-bros-blue-rebel-energy-drink-248ml",
+    "name": "Dutch Bros Blue Rebel Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 248,
+      "oz": 8.4
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "xs-energy-drink-248ml",
+    "name": "XS Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 248,
+      "oz": 8.4
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "wild-tiger-energy-drink-247ml",
+    "name": "Wild Tiger Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 247,
+      "oz": 8.4
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "liquid-ice-energy-drink-245ml",
+    "name": "Liquid Ice Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 245,
+      "oz": 8.3
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "rush-energy-drink-245ml",
+    "name": "Rush! Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 245,
+      "oz": 8.3
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "monster-hydro-751ml",
+    "name": "Monster Hydro",
+    "category": "energy",
+    "serving": {
+      "ml": 751,
+      "oz": 25.4
+    },
+    "caffeineMg": 188
+  },
+  {
+    "id": "monster-import-550ml",
+    "name": "Monster Import",
+    "category": "energy",
+    "serving": {
+      "ml": 550,
+      "oz": 18.6
+    },
+    "caffeineMg": 179
+  },
+  {
+    "id": "moose-juice-energy-drink-501ml",
+    "name": "Moose Juice Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 501,
+      "oz": 16.9
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "club-mate-eu-500ml",
+    "name": "Club Mate (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "demon-energy-drink-500ml",
+    "name": "Demon Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "levlup-gaming-booster-500ml",
+    "name": "LevlUp Gaming Booster",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 250
+  },
+  {
+    "id": "monster-ripper-energy-juice-uk-500ml",
+    "name": "Monster Ripper Energy Juice (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-the-doctor-vr46-uk-500ml",
+    "name": "Monster The Doctor VR46 (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "mother-energy-drink-500ml",
+    "name": "Mother Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "protein2o-energy-500ml",
+    "name": "Protein2O + Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 125
+  },
+  {
+    "id": "strike-force-energy-drink-mix-500ml",
+    "name": "Strike Force Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "4c-energy-drink-mix-500ml",
+    "name": "4C Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 170
+  },
+  {
+    "id": "arizona-arnold-palmer-half-and-half-500ml",
+    "name": "Arizona Arnold Palmer Half and Half",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 15
+  },
+  {
+    "id": "gatorade-bolt-24-energize-500ml",
+    "name": "Gatorade Bolt 24 Energize",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "live-energy-drink-500ml",
+    "name": "Live+ Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "pure-kick-energy-drink-mix-500ml",
+    "name": "Pure Kick Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "monster-dragon-tea-458ml",
+    "name": "Monster Dragon Tea",
+    "category": "energy",
+    "serving": {
+      "ml": 458,
+      "oz": 15.5
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "monster-rehab-458ml",
+    "name": "Monster Rehab",
+    "category": "energy",
+    "serving": {
+      "ml": 458,
+      "oz": 15.5
+    },
+    "caffeineMg": 170
+  },
+  {
+    "id": "neuro-sonic-429ml",
+    "name": "Neuro Sonic",
+    "category": "energy",
+    "serving": {
+      "ml": 429,
+      "oz": 14.5
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "lucozade-380ml",
+    "name": "Lucozade",
+    "category": "energy",
+    "serving": {
+      "ml": 380,
+      "oz": 12.8
+    },
+    "caffeineMg": 46
+  },
+  {
+    "id": "fakeer-energy-drink-eu-370ml",
+    "name": "Fakeer Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 370,
+      "oz": 12.5
+    },
+    "caffeineMg": 118
+  },
+  {
+    "id": "arizona-energy-drink-rx-340ml",
+    "name": "Arizona Energy Drink Rx",
+    "category": "energy",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 127
+  },
+  {
+    "id": "bai-boost-339ml",
+    "name": "Bai Boost",
+    "category": "energy",
+    "serving": {
+      "ml": 339,
+      "oz": 11.5
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "nocco-energy-drink-eu-330ml",
+    "name": "NOCCO Energy Drink (EU)",
+    "category": "energy",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "carabao-energy-drink-uk-330ml",
+    "name": "Carabao Energy Drink (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 106
+  },
+  {
+    "id": "irn-bru-uk-330ml",
+    "name": "Irn Bru (UK)",
+    "category": "energy",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "soylent-stacked-330ml",
+    "name": "Soylent Stacked",
+    "category": "energy",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "red-eye-energy-drink-328ml",
+    "name": "Red Eye Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 328,
+      "oz": 11.1
+    },
+    "caffeineMg": 106
+  },
+  {
+    "id": "mega-monster-energy-drink-710ml",
+    "name": "Mega Monster Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "amino-force-energy-drink-651ml",
+    "name": "Amino Force Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 651,
+      "oz": 22.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "bodyarmour-edge-591ml",
+    "name": "Bodyarmour Edge",
+    "category": "energy",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "sobe-energy-citrus-591ml",
+    "name": "SoBe Energy Citrus",
+    "category": "energy",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 81
+  },
+  {
+    "id": "abb-turbo-tea-zero-532ml",
+    "name": "ABB Turbo Tea Zero",
+    "category": "energy",
+    "serving": {
+      "ml": 532,
+      "oz": 18.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "bai-antioxidant-infusion-532ml",
+    "name": "Bai Antioxidant Infusion",
+    "category": "energy",
+    "serving": {
+      "ml": 532,
+      "oz": 18.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "viso-energy-drink-503ml",
+    "name": "Viso Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 503,
+      "oz": 17.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "3d-energy-drink-473ml",
+    "name": "3D Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "adrenaline-shoc-473ml",
+    "name": "Adrenaline Shoc",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "alsa-energy-drink-mix-473ml",
+    "name": "Alsa Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "bang-energy-473ml",
+    "name": "Bang Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "bang-keto-coffee-473ml",
+    "name": "Bang Keto Coffee",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "bang-natural-473ml",
+    "name": "Bang Natural",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 250
+  },
+  {
+    "id": "bang-sweet-tea-473ml",
+    "name": "Bang Sweet Tea",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "beaver-buzz-energy-drink-473ml",
+    "name": "Beaver Buzz Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 178
+  },
+  {
+    "id": "berzerk-energy-drink-mix-473ml",
+    "name": "Berzerk Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "c4-energy-drink-473ml",
+    "name": "C4 Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "c4-smart-energy-drink-473ml",
+    "name": "C4 Smart Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "c4-ultimate-energy-drink-473ml",
+    "name": "C4 Ultimate Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "celsius-heat-energy-drink-473ml",
+    "name": "Celsius Heat Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "crunk-energy-drink-473ml",
+    "name": "Crunk Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 192
+  },
+  {
+    "id": "crystal-light-energy-mix-473ml",
+    "name": "Crystal Light Energy Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "electric-monkey-wild-energy-drink-473ml",
+    "name": "Electric Monkey Wild Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "full-throttle-energy-drink-473ml",
+    "name": "Full Throttle Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "gfuel-cans-473ml",
+    "name": "GFuel Cans",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "gfuel-energy-drink-mix-473ml",
+    "name": "GFuel Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "go-fast-energy-drink-473ml",
+    "name": "Go Fast Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "go-fast-high-octane-energy-drink-473ml",
+    "name": "Go Fast High Octane Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "great-value-energy-drink-mix-473ml",
+    "name": "Great Value Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "gridlock-energy-drink-473ml",
+    "name": "Gridlock Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "hi-ball-energy-drink-473ml",
+    "name": "Hi Ball Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "joker-mad-energy-473ml",
+    "name": "Joker Mad Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "liquid-help-energy-drink-473ml",
+    "name": "Liquid Help Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "loud-energy-drink-473ml",
+    "name": "Loud Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 320
+  },
+  {
+    "id": "monster-assault-473ml",
+    "name": "Monster Assault",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-energy-473ml",
+    "name": "Monster Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-juice-473ml",
+    "name": "Monster Juice",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-lo-carb-473ml",
+    "name": "Monster Lo-Carb",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "monster-mango-loco-473ml",
+    "name": "Monster Mango Loco",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 152
+  },
+  {
+    "id": "monster-mule-473ml",
+    "name": "Monster Mule",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-pipeline-punch-473ml",
+    "name": "Monster Pipeline Punch",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "monster-ultra-473ml",
+    "name": "Monster Ultra",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "monster-zero-sugar-473ml",
+    "name": "Monster Zero Sugar",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "mountain-dew-amp-473ml",
+    "name": "Mountain Dew Amp",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 142
+  },
+  {
+    "id": "mountain-dew-game-fuel-473ml",
+    "name": "Mountain Dew Game Fuel",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 90
+  },
+  {
+    "id": "mountain-dew-rise-473ml",
+    "name": "Mountain Dew Rise",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "nos-energy-drink-473ml",
+    "name": "NOS Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "nuun-sport-473ml",
+    "name": "Nuun Sport",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "propel-zero-powder-473ml",
+    "name": "Propel Zero Powder",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "pure-boost-energy-drink-mix-473ml",
+    "name": "Pure Boost Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "quake-energy-berry-blast-slurpee-473ml",
+    "name": "Quake Energy Berry Blast Slurpee",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 92
+  },
+  {
+    "id": "quake-energy-drink-473ml",
+    "name": "Quake Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 250
+  },
+  {
+    "id": "raze-energy-drink-473ml",
+    "name": "Raze Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "reign-total-body-fuel-473ml",
+    "name": "Reign Total Body Fuel",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "rip-it-energy-drink-473ml",
+    "name": "Rip It Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "rockstar-boom-473ml",
+    "name": "Rockstar Boom",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "rockstar-energy-drink-original-473ml",
+    "name": "Rockstar Energy Drink (Original)",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "rockstar-halo-infinite-473ml",
+    "name": "Rockstar Halo Infinite",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "rockstar-juiced-473ml",
+    "name": "Rockstar Juiced",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 170
+  },
+  {
+    "id": "rockstar-punched-473ml",
+    "name": "Rockstar Punched",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "rockstar-pure-zero-473ml",
+    "name": "Rockstar Pure Zero",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "rockstar-recovery-473ml",
+    "name": "Rockstar Recovery",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "rockstar-sugar-free-473ml",
+    "name": "Rockstar Sugar Free",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "rockstar-thermo-473ml",
+    "name": "Rockstar Thermo",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "rockstar-xdurance-473ml",
+    "name": "Rockstar XDurance",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "rockstar-zero-carb-473ml",
+    "name": "Rockstar Zero Carb",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "rogue-energy-drink-mix-473ml",
+    "name": "Rogue Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 175
+  },
+  {
+    "id": "rowdy-energy-drink-473ml",
+    "name": "Rowdy Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "sneak-energy-drink-mix-473ml",
+    "name": "Sneak Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "solimo-energy-drink-473ml",
+    "name": "Solimo Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 152
+  },
+  {
+    "id": "speed-energy-fuel-473ml",
+    "name": "Speed Energy Fuel",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 186
+  },
+  {
+    "id": "spider-energy-drink-473ml",
+    "name": "Spider Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 240
+  },
+  {
+    "id": "spike-hardcore-energy-473ml",
+    "name": "Spike Hardcore Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 350
+  },
+  {
+    "id": "triton-energy-drink-473ml",
+    "name": "Triton Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "true-lemon-energy-mix-473ml",
+    "name": "True Lemon Energy Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "ugly-energy-water-473ml",
+    "name": "Ugly Energy Water",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "venom-death-adder-473ml",
+    "name": "Venom Death Adder",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "wired-x-3000-energy-drink-473ml",
+    "name": "Wired X 3000 Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 185
+  },
+  {
+    "id": "wired-x-berry-rush-473ml",
+    "name": "Wired X Berry Rush",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 95
+  },
+  {
+    "id": "wired-x344-energy-drink-473ml",
+    "name": "Wired X344 Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 344
+  },
+  {
+    "id": "xyience-energy-drink-473ml",
+    "name": "Xyience Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "zipfizz-energy-drink-mix-473ml",
+    "name": "ZipFizz Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "zoa-energy-drink-473ml",
+    "name": "Zoa Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "java-monster-444ml",
+    "name": "Java Monster",
+    "category": "energy",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "java-monster-300-444ml",
+    "name": "Java Monster 300",
+    "category": "energy",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "muscle-monster-444ml",
+    "name": "Muscle Monster",
+    "category": "energy",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 157
+  },
+  {
+    "id": "rockstar-organic-energy-drink-444ml",
+    "name": "Rockstar Organic Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "starbucks-triple-shot-energy-444ml",
+    "name": "Starbucks Triple Shot Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 444,
+      "oz": 15.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "alani-nu-energy-drink-355ml",
+    "name": "Alani Nu Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "all-in-energy-drink-355ml",
+    "name": "ALL IN Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "axio-energy-drink-mix-355ml",
+    "name": "AXIO Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "bing-energy-drink-355ml",
+    "name": "Bing Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "breinfuel-355ml",
+    "name": "BreinFuel",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 360
+  },
+  {
+    "id": "burn-energy-drink-355ml",
+    "name": "Burn Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 112
+  },
+  {
+    "id": "c4-on-the-go-355ml",
+    "name": "C4 On The Go",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "celsius-energy-drink-355ml",
+    "name": "Celsius Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "celsius-stevia-355ml",
+    "name": "Celsius Stevia",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "coca-cola-cherry-vanilla-355ml",
+    "name": "Coca-Cola Cherry Vanilla",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-energy-355ml",
+    "name": "Coca-Cola Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 114
+  },
+  {
+    "id": "cocaine-energy-drink-355ml",
+    "name": "Cocaine Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 280
+  },
+  {
+    "id": "dark-dog-organic-energy-355ml",
+    "name": "Dark Dog Organic Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 114
+  },
+  {
+    "id": "duff-energy-drink-355ml",
+    "name": "Duff Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "eboost-super-fuel-355ml",
+    "name": "EBOOST Super Fuel",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "enerbee-energy-drink-355ml",
+    "name": "EnerBee Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "go-girl-energy-drink-355ml",
+    "name": "Go Girl Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "guru-energy-drink-355ml",
+    "name": "GURU Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "hyde-xtreme-355ml",
+    "name": "Hyde Xtreme",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 400
+  },
+  {
+    "id": "java-kick-coffee-cola-355ml",
+    "name": "Java Kick Coffee Cola",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "kill-cliff-energy-x-recover-355ml",
+    "name": "Kill Cliff Energy X Recover",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 25
+  },
+  {
+    "id": "kill-cliff-ignite-355ml",
+    "name": "Kill Cliff Ignite",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "kona-gold-energy-drink-355ml",
+    "name": "Kona Gold Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 115
+  },
+  {
+    "id": "marquis-energy-drink-355ml",
+    "name": "Marquis Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "mati-energy-drink-355ml",
+    "name": "MATI Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "meltdown-ketone-drink-355ml",
+    "name": "Meltdown Ketone Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "monster-maxx-355ml",
+    "name": "Monster Maxx",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "nerd-focus-355ml",
+    "name": "Nerd Focus",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 128
+  },
+  {
+    "id": "octane-energy-drink-mix-355ml",
+    "name": "Octane Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "red-power-elixir-355ml",
+    "name": "Red Power Elixir",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 160
+  },
+  {
+    "id": "red-thunder-energy-drink-355ml",
+    "name": "Red Thunder Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "rootjack-caffeinated-pirate-root-beer-355ml",
+    "name": "RootJack Caffeinated Pirate Root Beer",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "runa-355ml",
+    "name": "Runa",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "sambazon-amazon-energy-drink-355ml",
+    "name": "Sambazon Amazon Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "spike-shooter-355ml",
+    "name": "Spike Shooter",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "steaz-energy-355ml",
+    "name": "Steaz Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "t-virus-antidote-355ml",
+    "name": "T-Virus Antidote",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "tru-energy-wakeup-355ml",
+    "name": "Tru Energy Wakeup",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "uptime-energy-drink-355ml",
+    "name": "UPTIME Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 142
+  },
+  {
+    "id": "usana-rev3-energy-drink-355ml",
+    "name": "USANA Rev3 Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "xtreme-shock-energy-drink-355ml",
+    "name": "Xtreme Shock Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "zest-sparkling-tea-355ml",
+    "name": "Zest Sparkling Tea",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 135
+  },
+  {
+    "id": "zevia-energy-drink-355ml",
+    "name": "Zevia Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "cran-energy-juice-296ml",
+    "name": "Cran Energy Juice",
+    "category": "energy",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "mamma-chia-energy-296ml",
+    "name": "Mamma Chia Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 90
+  },
+  {
+    "id": "oikos-pro-fuel-296ml",
+    "name": "Oikos Pro Fuel",
+    "category": "energy",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "advocare-slim-237ml",
+    "name": "Advocare Slim",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "arbonne-energy-fizz-stck-237ml",
+    "name": "Arbonne Energy Fizz Stck",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "berocca-237ml",
+    "name": "Berocca",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 90
+  },
+  {
+    "id": "best-choice-strawberry-energy-drink-mix-237ml",
+    "name": "Best Choice Strawberry Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "eboost-energy-drink-mix-237ml",
+    "name": "EBOOST Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "eboost-workout-crusher-mix-237ml",
+    "name": "EBOOST Workout Crusher Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 175
+  },
+  {
+    "id": "great-value-energy-drink-enhancers-237ml",
+    "name": "Great Value Energy Drink Enhancers",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "kin-spritz-237ml",
+    "name": "Kin Spritz",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "lyft-energy-mix-237ml",
+    "name": "LYFT Energy Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 125
+  },
+  {
+    "id": "performelite-pre-workout-237ml",
+    "name": "PerformElite Pre-Workout",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "perk-energy-beverage-237ml",
+    "name": "Perk Energy Beverage",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "redline-princess-237ml",
+    "name": "Redline Princess",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "redline-xtreme-energy-drink-237ml",
+    "name": "Redline Xtreme Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 316
+  },
+  {
+    "id": "roaring-lion-energy-drink-237ml",
+    "name": "Roaring Lion Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 77
+  },
+  {
+    "id": "spark-energy-drink-mix-237ml",
+    "name": "Spark Energy Drink Mix",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "v8-energy-drink-237ml",
+    "name": "V8 +Energy Drink",
+    "category": "energy",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "spike-energy-double-shot-126ml",
+    "name": "Spike Energy Double Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 126,
+      "oz": 4.3
+    },
+    "caffeineMg": 350
+  },
+  {
+    "id": "zombie-blood-energy-potion-101ml",
+    "name": "Zombie Blood Energy Potion",
+    "category": "energy",
+    "serving": {
+      "ml": 101,
+      "oz": 3.4
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "proper-wild-energy-shot-74ml",
+    "name": "Proper Wild Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 74,
+      "oz": 2.5
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "redline-max-300-74ml",
+    "name": "Redline Max 300",
+    "category": "energy",
+    "serving": {
+      "ml": 74,
+      "oz": 2.5
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "5-hour-energy-57ml",
+    "name": "5 Hour Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "5-hour-energy-extra-strength-57ml",
+    "name": "5 Hour Energy Extra Strength",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 230
+  },
+  {
+    "id": "e6-energy-shot-57ml",
+    "name": "E6 Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 235
+  },
+  {
+    "id": "eternal-energy-extra-strength-57ml",
+    "name": "Eternal Energy Extra Strength",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 280
+  },
+  {
+    "id": "eternal-energy-shot-57ml",
+    "name": "Eternal Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 230
+  },
+  {
+    "id": "woke-up-energy-shot-57ml",
+    "name": "Woke Up Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 57,
+      "oz": 1.9
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "equip-pure-energy-shot-53ml",
+    "name": "Equip Pure Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 53,
+      "oz": 1.8
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "mana-energy-potion-50ml",
+    "name": "Mana Energy Potion",
+    "category": "energy",
+    "serving": {
+      "ml": 50,
+      "oz": 1.7
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "clif-shot-energy-gel-35ml",
+    "name": "Clif Shot Energy Gel",
+    "category": "energy",
+    "serving": {
+      "ml": 35,
+      "oz": 1.2
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "screamin-energy-max-hit-18ml",
+    "name": "Screamin Energy Max Hit",
+    "category": "energy",
+    "serving": {
+      "ml": 18,
+      "oz": 0.6
+    },
+    "caffeineMg": 185
+  },
+  {
+    "id": "vital-4u-liquid-energy-15ml",
+    "name": "Vital 4U Liquid Energy",
+    "category": "energy",
+    "serving": {
+      "ml": 15,
+      "oz": 0.5
+    },
+    "caffeineMg": 155
+  },
+  {
+    "id": "kaffn8-liquified-caffeine-7ml",
+    "name": "Kaffn8 Liquified Caffeine",
+    "category": "energy",
+    "serving": {
+      "ml": 7,
+      "oz": 0.2
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "bang-shot-89ml",
+    "name": "Bang Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 89,
+      "oz": 3.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "redline-xtreme-shot-89ml",
+    "name": "Redline Xtreme Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 89,
+      "oz": 3.0
+    },
+    "caffeineMg": 300
+  },
+  {
+    "id": "7-eleven-energy-shot-59ml",
+    "name": "7-Eleven Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 260
+  },
+  {
+    "id": "advocare-slam-energy-shot-59ml",
+    "name": "Advocare Slam Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "balance-active-shot-59ml",
+    "name": "Balance Active Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "balance-energy-shot-59ml",
+    "name": "Balance Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "forto-organic-coffee-shot-59ml",
+    "name": "Forto Organic Coffee Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 225
+  },
+  {
+    "id": "kirkland-energy-shot-59ml",
+    "name": "Kirkland Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "neu-nootropic-shot-59ml",
+    "name": "Neu Nootropic Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 350
+  },
+  {
+    "id": "nutramint-smart-serum-59ml",
+    "name": "Nutramint Smart Serum",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 200
+  },
+  {
+    "id": "performance-caffeine-59ml",
+    "name": "Performance Caffeine",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 180
+  },
+  {
+    "id": "phoenix-energy-shot-59ml",
+    "name": "Phoenix Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 280
+  },
+  {
+    "id": "red-thunder-energy-shot-59ml",
+    "name": "Red Thunder Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 138
+  },
+  {
+    "id": "red-thunder-extra-strength-59ml",
+    "name": "Red Thunder Extra Strength",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 230
+  },
+  {
+    "id": "reed-s-ginger-energize-shot-59ml",
+    "name": "Reed's Ginger Energize Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "rip-it-energy-shot-59ml",
+    "name": "Rip It Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "stacker-extreme-energy-shot-59ml",
+    "name": "Stacker Extreme Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 205
+  },
+  {
+    "id": "tweaker-shot-59ml",
+    "name": "Tweaker Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 59,
+      "oz": 2.0
+    },
+    "caffeineMg": 275
+  },
+  {
+    "id": "trubrain-extra-30ml",
+    "name": "TruBrain Extra",
+    "category": "energy",
+    "serving": {
+      "ml": 30,
+      "oz": 1.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "x-mode-energy-shot-30ml",
+    "name": "X-Mode Energy Shot",
+    "category": "energy",
+    "serving": {
+      "ml": 30,
+      "oz": 1.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "red-bull-simply-cola-250ml",
+    "name": "Red Bull Simply Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 32
+  },
+  {
+    "id": "afri-cola-330ml",
+    "name": "Afri Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 83
+  },
+  {
+    "id": "fritz-kola-eu-330ml",
+    "name": "Fritz Kola (EU)",
+    "category": "soda",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 83
+  },
+  {
+    "id": "pepsi-max-uk-330ml",
+    "name": "Pepsi Max (UK)",
+    "category": "soda",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 43
+  },
+  {
+    "id": "premium-cola-eu-330ml",
+    "name": "Premium Cola (EU)",
+    "category": "soda",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 83
+  },
+  {
+    "id": "tropicana-twister-soda-591ml",
+    "name": "Tropicana Twister Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "bawls-473ml",
+    "name": "Bawls",
+    "category": "soda",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 102
+  },
+  {
+    "id": "mountain-dew-kickstart-473ml",
+    "name": "Mountain Dew Kickstart",
+    "category": "soda",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 90
+  },
+  {
+    "id": "sprecher-cherry-cola-473ml",
+    "name": "Sprecher Cherry Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "7-up-355ml",
+    "name": "7-Up",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "a-w-cream-soda-355ml",
+    "name": "A&W Cream Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "a-w-root-beer-355ml",
+    "name": "A&W Root Beer",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "a-w-zero-sugar-cream-soda-355ml",
+    "name": "A&W Zero Sugar Cream Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "ale-8-1-355ml",
+    "name": "Ale 8 1",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 37
+  },
+  {
+    "id": "barqs-red-creme-soda-355ml",
+    "name": "Barqs Red Creme Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "barqs-root-beer-355ml",
+    "name": "Barqs Root Beer",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 22
+  },
+  {
+    "id": "big-red-soda-355ml",
+    "name": "Big Red Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "canada-dry-green-tea-ginger-ale-355ml",
+    "name": "Canada Dry Green Tea Ginger Ale",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 9
+  },
+  {
+    "id": "cheerwine-355ml",
+    "name": "Cheerwine",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 47
+  },
+  {
+    "id": "coca-cola-caffeine-free-355ml",
+    "name": "Coca-Cola Caffeine Free",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "coca-cola-cherry-355ml",
+    "name": "Coca-Cola Cherry",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-cherry-zero-sugar-355ml",
+    "name": "Coca-Cola Cherry Zero Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-classic-355ml",
+    "name": "Coca-Cola Classic",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-orange-vanilla-355ml",
+    "name": "Coca-Cola Orange Vanilla",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-vanilla-355ml",
+    "name": "Coca-Cola Vanilla",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-vanilla-zero-sugar-355ml",
+    "name": "Coca-Cola Vanilla Zero Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "coca-cola-with-coffee-355ml",
+    "name": "Coca-Cola With Coffee",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 69
+  },
+  {
+    "id": "coca-cola-zero-sugar-355ml",
+    "name": "Coca-Cola Zero Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 34
+  },
+  {
+    "id": "diet-barqs-root-beer-355ml",
+    "name": "Diet Barqs Root Beer",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "diet-cheerwine-355ml",
+    "name": "Diet Cheerwine",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 47
+  },
+  {
+    "id": "diet-coke-355ml",
+    "name": "Diet Coke",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 46
+  },
+  {
+    "id": "diet-coke-with-splenda-355ml",
+    "name": "Diet Coke with Splenda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 46
+  },
+  {
+    "id": "diet-dr-pepper-355ml",
+    "name": "Diet Dr Pepper",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 41
+  },
+  {
+    "id": "diet-mountain-dew-355ml",
+    "name": "Diet Mountain Dew",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "diet-pepsi-355ml",
+    "name": "Diet Pepsi",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 35
+  },
+  {
+    "id": "diet-rc-cola-355ml",
+    "name": "Diet RC Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 48
+  },
+  {
+    "id": "diet-wild-cherry-pepsi-355ml",
+    "name": "Diet Wild Cherry Pepsi",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "doc-soda-355ml",
+    "name": "doc Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "double-cola-355ml",
+    "name": "Double Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 36
+  },
+  {
+    "id": "dr-pepper-355ml",
+    "name": "Dr Pepper",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 42
+  },
+  {
+    "id": "dr-pepper-10-355ml",
+    "name": "Dr Pepper 10",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 51
+  },
+  {
+    "id": "dr-shasta-soda-355ml",
+    "name": "Dr Shasta Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 29
+  },
+  {
+    "id": "fanta-355ml",
+    "name": "Fanta",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "faygo-cola-355ml",
+    "name": "Faygo Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 43
+  },
+  {
+    "id": "faygo-moon-mist-355ml",
+    "name": "Faygo Moon Mist",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 20
+  },
+  {
+    "id": "fresca-355ml",
+    "name": "Fresca",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "ginger-ale-355ml",
+    "name": "Ginger Ale",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "green-cola-355ml",
+    "name": "Green Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 37
+  },
+  {
+    "id": "ibc-root-beer-355ml",
+    "name": "IBC Root Beer",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "inca-kola-355ml",
+    "name": "Inca Kola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "kickapoo-soda-joy-juice-fruit-shine-355ml",
+    "name": "Kickapoo Soda: Joy Juice & Fruit Shine",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "mello-yello-355ml",
+    "name": "Mello Yello",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 51
+  },
+  {
+    "id": "mountain-dew-355ml",
+    "name": "Mountain Dew",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "mountain-dew-baja-blast-355ml",
+    "name": "Mountain Dew Baja Blast",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "mountain-dew-code-red-355ml",
+    "name": "Mountain Dew Code Red",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "mountain-dew-live-wire-355ml",
+    "name": "Mountain Dew Live Wire",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "mountain-dew-major-melon-355ml",
+    "name": "Mountain Dew Major Melon",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "mountain-dew-voltage-355ml",
+    "name": "Mountain Dew Voltage",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "mountain-dew-zero-sugar-355ml",
+    "name": "Mountain Dew Zero Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 68
+  },
+  {
+    "id": "moxie-soda-355ml",
+    "name": "Moxie Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 24
+  },
+  {
+    "id": "mug-root-beer-355ml",
+    "name": "Mug Root Beer",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "orange-crush-355ml",
+    "name": "Orange Crush",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "pc-cola-355ml",
+    "name": "PC Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 12
+  },
+  {
+    "id": "pc-cola-diet-355ml",
+    "name": "PC Cola Diet",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 13
+  },
+  {
+    "id": "pepsi-355ml",
+    "name": "Pepsi",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "pepsi-caffeine-free-355ml",
+    "name": "Pepsi Caffeine Free",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "pepsi-made-with-sugar-355ml",
+    "name": "Pepsi Made With Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "pepsi-zero-sugar-355ml",
+    "name": "Pepsi Zero Sugar",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 69
+  },
+  {
+    "id": "pibb-xtra-355ml",
+    "name": "Pibb Xtra",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "rc-royal-crown-cola-355ml",
+    "name": "RC (Royal Crown) Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 43
+  },
+  {
+    "id": "ritz-cola-355ml",
+    "name": "Ritz Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 10
+  },
+  {
+    "id": "ruby-red-squirt-355ml",
+    "name": "Ruby Red Squirt",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 39
+  },
+  {
+    "id": "sarsaparilla-355ml",
+    "name": "Sarsaparilla",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "shasta-cola-355ml",
+    "name": "Shasta Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 43
+  },
+  {
+    "id": "shasta-diet-cola-355ml",
+    "name": "Shasta Diet Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 47
+  },
+  {
+    "id": "shasta-mountain-rush-355ml",
+    "name": "Shasta Mountain Rush",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 54
+  },
+  {
+    "id": "ski-soda-355ml",
+    "name": "Ski Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 69
+  },
+  {
+    "id": "slurpee-355ml",
+    "name": "Slurpee",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "sprite-355ml",
+    "name": "Sprite",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "squirt-soda-355ml",
+    "name": "Squirt Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "starbucks-refreshers-canned-355ml",
+    "name": "Starbucks Refreshers Canned",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "sun-drop-soda-355ml",
+    "name": "Sun Drop Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 64
+  },
+  {
+    "id": "sunkist-orange-soda-355ml",
+    "name": "Sunkist Orange Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 19
+  },
+  {
+    "id": "vernors-ginger-ale-355ml",
+    "name": "Vernors Ginger Ale",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "wave-soda-355ml",
+    "name": "Wave Soda",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 42
+  },
+  {
+    "id": "wild-cherry-pepsi-355ml",
+    "name": "Wild Cherry Pepsi",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "zevia-cola-355ml",
+    "name": "Zevia Cola",
+    "category": "soda",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "boost-nutritional-drink-237ml",
+    "name": "Boost Nutritional Drink",
+    "category": "soda",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 5
+  },
+  {
+    "id": "mucho-mango-energy-drink-237ml",
+    "name": "Mucho Mango Energy Drink",
+    "category": "soda",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "soda-stream-237ml",
+    "name": "Soda Stream",
+    "category": "soda",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 31
+  },
+  {
+    "id": "pg-tips-black-tea-201ml",
+    "name": "PG Tips Black Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 201,
+      "oz": 6.8
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "sencha-green-tea-shot-189ml",
+    "name": "Sencha Green Tea Shot",
+    "category": "tea",
+    "serving": {
+      "ml": 189,
+      "oz": 6.4
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "xingtea-iced-green-tea-695ml",
+    "name": "Xingtea Iced Green Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 695,
+      "oz": 23.5
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "gold-peak-tea-547ml",
+    "name": "Gold Peak Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 547,
+      "oz": 18.5
+    },
+    "caffeineMg": 48
+  },
+  {
+    "id": "pure-leaf-iced-tea-547ml",
+    "name": "Pure Leaf Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 547,
+      "oz": 18.5
+    },
+    "caffeineMg": 69
+  },
+  {
+    "id": "honest-iced-tea-500ml",
+    "name": "Honest Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 63
+  },
+  {
+    "id": "nestea-iced-tea-500ml",
+    "name": "Nestea Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 23
+  },
+  {
+    "id": "oi-ocha-green-tea-500ml",
+    "name": "Oi Ocha Green Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "teas-tea-oolong-500ml",
+    "name": "Teas' Tea Oolong",
+    "category": "tea",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "guayaki-canned-yerba-mate-458ml",
+    "name": "Guayaki Canned Yerba Mate",
+    "category": "tea",
+    "serving": {
+      "ml": 458,
+      "oz": 15.5
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "inko-s-white-tea-energy-458ml",
+    "name": "Inko's White Tea Energy",
+    "category": "tea",
+    "serving": {
+      "ml": 458,
+      "oz": 15.5
+    },
+    "caffeineMg": 165
+  },
+  {
+    "id": "master-brew-kombucha-450ml",
+    "name": "Master Brew Kombucha",
+    "category": "tea",
+    "serving": {
+      "ml": 450,
+      "oz": 15.2
+    },
+    "caffeineMg": 76
+  },
+  {
+    "id": "mcdonalds-sweet-tea-946ml",
+    "name": "McDonalds Sweet Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 946,
+      "oz": 32.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "dunkin-donuts-iced-tea-710ml",
+    "name": "Dunkin' Donuts Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 63
+  },
+  {
+    "id": "fuze-iced-tea-710ml",
+    "name": "Fuze Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 710,
+      "oz": 24.0
+    },
+    "caffeineMg": 24
+  },
+  {
+    "id": "peace-tea-680ml",
+    "name": "Peace Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 680,
+      "oz": 23.0
+    },
+    "caffeineMg": 23
+  },
+  {
+    "id": "lipton-iced-tea-591ml",
+    "name": "Lipton Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 25
+  },
+  {
+    "id": "sobe-green-tea-591ml",
+    "name": "SoBe Green Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 7
+  },
+  {
+    "id": "arizona-iced-tea-473ml",
+    "name": "Arizona Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "biggby-iced-tea-473ml",
+    "name": "Biggby Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 38
+  },
+  {
+    "id": "chick-fil-a-iced-tea-473ml",
+    "name": "Chick-fil-A Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 62
+  },
+  {
+    "id": "guayaki-yerba-mate-bottled-tea-473ml",
+    "name": "Guayaki Yerba Mate Bottled Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 140
+  },
+  {
+    "id": "snapple-tea-473ml",
+    "name": "Snapple Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 37
+  },
+  {
+    "id": "southern-sweet-tea-473ml",
+    "name": "Southern Sweet Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 41
+  },
+  {
+    "id": "taiwanese-milk-tea-473ml",
+    "name": "Taiwanese Milk Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 151
+  },
+  {
+    "id": "wendy-s-iced-tea-473ml",
+    "name": "Wendy's Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 32
+  },
+  {
+    "id": "xing-craft-brew-473ml",
+    "name": "Xing Craft Brew",
+    "category": "tea",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "brew-dr-kombucha-uplift-414ml",
+    "name": "Brew Dr Kombucha Uplift",
+    "category": "tea",
+    "serving": {
+      "ml": 414,
+      "oz": 14.0
+    },
+    "caffeineMg": 130
+  },
+  {
+    "id": "brisk-iced-tea-355ml",
+    "name": "Brisk Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 11
+  },
+  {
+    "id": "koe-kombucha-355ml",
+    "name": "KOE Kombucha",
+    "category": "tea",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 15
+  },
+  {
+    "id": "tejava-iced-tea-355ml",
+    "name": "Tejava Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "turkey-hill-iced-tea-355ml",
+    "name": "Turkey Hill Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 64
+  },
+  {
+    "id": "big-train-spiced-chai-237ml",
+    "name": "Big Train Spiced Chai",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 65
+  },
+  {
+    "id": "bigelow-tea-237ml",
+    "name": "Bigelow Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "brown-rice-tea-237ml",
+    "name": "Brown Rice Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 4
+  },
+  {
+    "id": "chai-tea-237ml",
+    "name": "Chai Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "cold-brew-tea-237ml",
+    "name": "Cold Brew Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "crystal-light-iced-tea-237ml",
+    "name": "Crystal Light Iced Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 10
+  },
+  {
+    "id": "fast-lane-black-tea-237ml",
+    "name": "Fast Lane Black Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "guayusa-tea-237ml",
+    "name": "Guayusa Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 41
+  },
+  {
+    "id": "hicaf-tea-237ml",
+    "name": "HICAF Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 110
+  },
+  {
+    "id": "k-cup-tea-237ml",
+    "name": "K Cup Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 41
+  },
+  {
+    "id": "kombucha-tea-237ml",
+    "name": "Kombucha Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 24
+  },
+  {
+    "id": "lipton-natural-energy-tea-237ml",
+    "name": "Lipton Natural Energy Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "lipton-tea-237ml",
+    "name": "Lipton Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "matcha-tea-237ml",
+    "name": "Matcha Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 64
+  },
+  {
+    "id": "morning-thunder-tea-237ml",
+    "name": "Morning Thunder Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "tazo-chai-237ml",
+    "name": "Tazo Chai",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 47
+  },
+  {
+    "id": "tea-black-237ml",
+    "name": "Tea (Black)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 42
+  },
+  {
+    "id": "tea-decaf-237ml",
+    "name": "Tea (Decaf)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 4
+  },
+  {
+    "id": "tea-green-237ml",
+    "name": "Tea (Green)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 18
+  },
+  {
+    "id": "tea-herbal-237ml",
+    "name": "Tea (Herbal)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "tea-iced-237ml",
+    "name": "Tea (Iced)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 47
+  },
+  {
+    "id": "tea-instant-237ml",
+    "name": "Tea (Instant)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "tea-jasmine-237ml",
+    "name": "Tea (Jasmine)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 25
+  },
+  {
+    "id": "tea-oolong-237ml",
+    "name": "Tea (Oolong)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 37
+  },
+  {
+    "id": "tea-white-237ml",
+    "name": "Tea (White)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 28
+  },
+  {
+    "id": "teavana-tea-237ml",
+    "name": "Teavana Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 41
+  },
+  {
+    "id": "twig-tea-kukicha-237ml",
+    "name": "Twig Tea (Kukicha)",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 25
+  },
+  {
+    "id": "waka-instant-tea-237ml",
+    "name": "Waka Instant Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "yellow-tea-237ml",
+    "name": "Yellow Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 63
+  },
+  {
+    "id": "yerba-mate-tea-237ml",
+    "name": "Yerba Mate Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 40
+  },
+  {
+    "id": "ymateina-yerba-mate-237ml",
+    "name": "YMateina Yerba Mate",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 80
+  },
+  {
+    "id": "zest-highly-caffeinated-tea-237ml",
+    "name": "Zest Highly Caffeinated Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 150
+  },
+  {
+    "id": "oregon-chai-tea-177ml",
+    "name": "Oregon Chai Tea",
+    "category": "tea",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 45
+  },
+  {
+    "id": "pacific-chai-177ml",
+    "name": "Pacific Chai",
+    "category": "tea",
+    "serving": {
+      "ml": 177,
+      "oz": 6.0
+    },
+    "caffeineMg": 29
+  },
+  {
+    "id": "perrier-energize-250ml",
+    "name": "Perrier Energize",
+    "category": "other",
+    "serving": {
+      "ml": 250,
+      "oz": 8.5
+    },
+    "caffeineMg": 99
+  },
+  {
+    "id": "3-water-500ml",
+    "name": "3 Water",
+    "category": "other",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "heroec-energy-water-500ml",
+    "name": "Heroec Energy Water",
+    "category": "other",
+    "serving": {
+      "ml": 500,
+      "oz": 16.9
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "caribou-bousted-sparkling-water-340ml",
+    "name": "Caribou BOUsted Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "phocus-sparkling-water-340ml",
+    "name": "Phocus Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "poland-spring-sparkling-energy-water-340ml",
+    "name": "Poland Spring Sparkling Energy Water",
+    "category": "other",
+    "serving": {
+      "ml": 340,
+      "oz": 11.5
+    },
+    "caffeineMg": 75
+  },
+  {
+    "id": "perrier-sparkling-water-330ml",
+    "name": "Perrier Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 330,
+      "oz": 11.2
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "vitaminwater-energy-591ml",
+    "name": "VitaminWater Energy",
+    "category": "other",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 50
+  },
+  {
+    "id": "vitarain-zero-enhanced-water-591ml",
+    "name": "VitaRain Zero Enhanced Water",
+    "category": "other",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 42
+  },
+  {
+    "id": "water-joe-591ml",
+    "name": "Water Joe",
+    "category": "other",
+    "serving": {
+      "ml": 591,
+      "oz": 20.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "polar-frost-plus-energy-503ml",
+    "name": "Polar Frost Plus Energy",
+    "category": "other",
+    "serving": {
+      "ml": 503,
+      "oz": 17.0
+    },
+    "caffeineMg": 67
+  },
+  {
+    "id": "hint-caffeine-kick-water-473ml",
+    "name": "Hint Caffeine Kick Water",
+    "category": "other",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 60
+  },
+  {
+    "id": "sparkling-ice-caffeine-473ml",
+    "name": "Sparkling Ice +Caffeine",
+    "category": "other",
+    "serving": {
+      "ml": 473,
+      "oz": 16.0
+    },
+    "caffeineMg": 70
+  },
+  {
+    "id": "aha-sparkling-water-355ml",
+    "name": "AHA Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 30
+  },
+  {
+    "id": "arti-sparkling-water-355ml",
+    "name": "Arti Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 120
+  },
+  {
+    "id": "bubbl-r-sparkling-water-355ml",
+    "name": "Bubbl'r Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 69
+  },
+  {
+    "id": "bubly-bounce-sparkling-water-355ml",
+    "name": "Bubly Bounce Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 35
+  },
+  {
+    "id": "bubly-sparkling-water-355ml",
+    "name": "Bubly Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "guru-sparkling-energy-water-355ml",
+    "name": "GURU Sparkling Energy Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "la-croix-sparkling-water-355ml",
+    "name": "La Croix Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "limitless-sparkling-water-355ml",
+    "name": "Limitless Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 35
+  },
+  {
+    "id": "pep-talk-sparkling-water-355ml",
+    "name": "Pep Talk Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 55
+  },
+  {
+    "id": "polar-seltzer-water-355ml",
+    "name": "Polar Seltzer Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "yerbae-sparkling-water-355ml",
+    "name": "Yerbae Sparkling Water",
+    "category": "other",
+    "serving": {
+      "ml": 355,
+      "oz": 12.0
+    },
+    "caffeineMg": 100
+  },
+  {
+    "id": "tonic-water-296ml",
+    "name": "Tonic Water",
+    "category": "other",
+    "serving": {
+      "ml": 296,
+      "oz": 10.0
+    },
+    "caffeineMg": 0
+  },
+  {
+    "id": "mio-energy-water-enhancer-237ml",
+    "name": "MiO Energy Water Enhancer",
+    "category": "other",
+    "serving": {
+      "ml": 237,
+      "oz": 8.0
+    },
+    "caffeineMg": 60
+  }
+]

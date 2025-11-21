@@ -10,23 +10,26 @@ import {
   AreaChart
 } from 'recharts';
 import { Coffee, BarChart2 } from 'lucide-react';
+import { DEFAULT_RANGE_PRESET, RANGE_PRESETS } from '../constants/rangePresets';
 
-const RANGE_OPTIONS = [
-  { value: 'day', label: 'Today', durationMs: 24 * 60 * 60 * 1000 },
-  { value: '3d', label: 'Last 3 Days', durationMs: 3 * 24 * 60 * 60 * 1000 },
-  { value: 'week', label: 'Last Week', durationMs: 7 * 24 * 60 * 60 * 1000 },
-  { value: 'all', label: 'All Drinks' }
-];
+const FALLBACK_RANGE =
+  RANGE_PRESETS.find((option) => option.value === DEFAULT_RANGE_PRESET) || RANGE_PRESETS[0];
 
 export const CaffeineChart = ({ 
   data, 
   caffeineLimit, 
   sleepTime, 
   targetSleepCaffeine,
+  rangePreset = DEFAULT_RANGE_PRESET,
   darkMode = false 
 }) => {
-  const [rangePreset, setRangePreset] = useState('day'); // today, 3d, week, all
   const [limitField, setLimitField] = useState(String(caffeineLimit));
+  const normalizedRange = rangePreset || DEFAULT_RANGE_PRESET;
+
+  const activeRange = useMemo(
+    () => RANGE_PRESETS.find((option) => option.value === normalizedRange) || FALLBACK_RANGE,
+    [normalizedRange]
+  );
 
   useEffect(() => {
     setLimitField(String(caffeineLimit));
@@ -44,6 +47,7 @@ export const CaffeineChart = ({
   if (sleepTimeDate < today) {
     sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
   }
+  const sleepTimeValue = sleepTimeDate.getTime();
 
   const resolvedLimit = useMemo(() => {
     const parsed = parseInt(limitField, 10);
@@ -56,32 +60,29 @@ export const CaffeineChart = ({
   // Filter data based on date preset
   const filteredData = useMemo(() => {
     if (!data || data.length === 0) return [];
-    
-    if (rangePreset === 'all') {
-      return data;
+
+    const baseData = data.map((point) => ({
+      ...point,
+      timestamp: new Date(point.time).getTime()
+    }));
+
+    if (!activeRange?.durationMs) {
+      return baseData;
     }
 
-    const selectedRange = RANGE_OPTIONS.find(option => option.value === rangePreset);
-    if (!selectedRange || !selectedRange.durationMs) {
-      return data;
-    }
-    
-    const now = new Date();
-    const cutoffTime = new Date(now.getTime() - selectedRange.durationMs);
-    
-    return data.filter(point => new Date(point.time) >= cutoffTime);
-  }, [data, rangePreset]);
+    const cutoffTime = Date.now() - activeRange.durationMs;
+    return baseData.filter((point) => point.timestamp >= cutoffTime);
+  }, [data, activeRange]);
 
-  // Calculate current caffeine level (fixed calculation)
-  const currentCaffeineLevel = useMemo(() => {
-    if (!filteredData || filteredData.length === 0) return 0;
-    
-    // Get the most recent data point
-    const sortedData = [...filteredData].sort((a, b) => new Date(a.time) - new Date(b.time));
-    const mostRecent = sortedData[sortedData.length - 1];
-    
-    return Math.round(mostRecent?.level || 0);
+  const xDomain = useMemo(() => {
+    if (!filteredData.length) {
+      return ['auto', 'auto'];
+    }
+    const timestamps = filteredData.map((point) => point.timestamp);
+    return [Math.min(...timestamps), Math.max(...timestamps)];
   }, [filteredData]);
+
+  const activeRangeLabel = activeRange?.label || 'All';
 
   // Calculate peak level for today
   const peakLevel = useMemo(() => {
@@ -105,6 +106,7 @@ export const CaffeineChart = ({
       if (current > prev + 20 && current > next + 10) {
         peakPoints.push({
           time: filteredData[i].time,
+          timestamp: filteredData[i].timestamp,
           level: current,
           index: i
         });
@@ -131,7 +133,8 @@ export const CaffeineChart = ({
   // Enhanced tooltip with peak highlighting
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const date = new Date(label);
+      const labelMs = typeof label === 'number' ? label : new Date(label).getTime();
+      const date = new Date(labelMs);
       const level = payload[0].value;
       const formattedTime = date.toLocaleString([], { 
         month: 'short', 
@@ -142,7 +145,7 @@ export const CaffeineChart = ({
       
       // Check if this is a peak
       const isPeak = peaks.some(peak => 
-        Math.abs(new Date(peak.time).getTime() - date.getTime()) < 60000 // Within 1 minute
+        Math.abs((peak.timestamp ?? new Date(peak.time).getTime()) - labelMs) < 60000 // Within 1 minute
       );
       
       // Determine status
@@ -207,55 +210,20 @@ export const CaffeineChart = ({
           : 'bg-white border-slate-100'
       }`}
     >
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Header + controls */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
             <BarChart2 size={18} className={darkMode ? 'text-blue-300' : 'text-blue-600'} />
             Trending Intake
           </div>
           <h2 className="text-2xl font-bold mt-1">Caffeine Levels</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-3 text-sm sm:text-base">
-          <div className={`rounded-xl p-3 border col-span-2 ${
-            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
-          }`}>
-            <p className="text-xs uppercase tracking-wide text-slate-400">Approx. Caffeine</p>
-            <p className="text-2xl font-bold">{currentCaffeineLevel} mg</p>
-          </div>
-          <div className={`rounded-xl p-3 border ${
-            darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
-          }`}>
-            <p className="text-xs uppercase tracking-wide text-slate-400">Peak</p>
-            <p className="text-lg font-semibold">{peakLevel} mg</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
-            Date window
-          </span>
-          <select
-            value={rangePreset}
-            onChange={(e) => setRangePreset(e.target.value)}
-            className={`w-full p-2.5 rounded-xl border font-medium appearance-none ${
-              darkMode 
-                ? 'bg-slate-800 border-slate-700 text-white' 
-                : 'bg-slate-50 border-slate-200 text-slate-900'
-            }`}
-          >
-            {RANGE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+            Showing {activeRangeLabel === 'All' ? 'all history' : activeRangeLabel}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full sm:w-56">
           <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
             Upper limit (mg)
           </span>
@@ -299,7 +267,10 @@ export const CaffeineChart = ({
             />
             
             <XAxis 
-              dataKey="time" 
+              dataKey="timestamp" 
+              type="number"
+              domain={xDomain}
+              scale="time"
               tickFormatter={formatXAxis} 
               stroke={darkMode ? '#9ca3af' : '#6b7280'}
               fontSize={11}
@@ -329,7 +300,7 @@ export const CaffeineChart = ({
             />
             
             <ReferenceLine 
-              x={sleepTimeDate} 
+              x={sleepTimeValue} 
               stroke={darkMode ? '#8b5cf6' : '#7c3aed'} 
               strokeDasharray="4 4" 
               strokeWidth={1.5}
