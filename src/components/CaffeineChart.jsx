@@ -21,7 +21,8 @@ export const CaffeineChart = ({
   sleepTime, 
   targetSleepCaffeine,
   rangePreset = DEFAULT_RANGE_PRESET,
-  darkMode = false 
+  darkMode = false,
+  onLimitChange
 }) => {
   const [limitField, setLimitField] = useState(String(caffeineLimit));
   const normalizedRange = rangePreset || DEFAULT_RANGE_PRESET;
@@ -200,6 +201,9 @@ export const CaffeineChart = ({
     }
     const normalized = Math.min(Math.max(parsed, 50), 800);
     setLimitField(String(normalized));
+    if (typeof onLimitChange === 'function' && normalized !== caffeineLimit) {
+      onLimitChange(normalized);
+    }
   };
 
   return (

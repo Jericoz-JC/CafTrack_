@@ -239,6 +239,20 @@ const CaffeineCalculator = () => {
   const handleRemoveIntake = (id) => {
     setCaffeineIntakes(prev => prev.filter(intake => intake.id !== id));
   };
+
+  const handleSleepTimeChange = (nextSleepTime) => {
+    setSettings((prev) => ({
+      ...prev,
+      sleepTime: nextSleepTime
+    }));
+  };
+
+  const handleCaffeineLimitChange = (nextLimit) => {
+    setSettings((prev) => ({
+      ...prev,
+      caffeineLimit: nextLimit
+    }));
+  };
   
   // Handle opening different modal types
   const openModal = (type) => {
@@ -342,6 +356,7 @@ const CaffeineCalculator = () => {
               sleepTime={settings.sleepTime}
               targetLevel={settings.targetSleepCaffeine}
               darkMode={darkMode}
+              onSleepTimeChange={handleSleepTimeChange}
             />
           </div>
         )}
@@ -412,6 +427,7 @@ const CaffeineCalculator = () => {
               targetSleepCaffeine={settings.targetSleepCaffeine}
               rangePreset={rangePreset}
               darkMode={darkMode}
+              onLimitChange={handleCaffeineLimitChange}
             />
           </div>
         )}

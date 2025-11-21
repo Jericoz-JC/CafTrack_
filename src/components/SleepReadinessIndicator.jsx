@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Moon, Clock, AlertCircle, Coffee } from 'lucide-react';
+import { BedtimeDial } from './BedtimeDial';
 
-export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, darkMode = false }) => {
+const formatTo12Hour = (time24) => {
+  if (!time24) return '';
+  const [rawHour = '00', rawMinute = '00'] = time24.split(':');
+  let hour = parseInt(rawHour, 10);
+  const minute = rawMinute.padStart(2, '0');
+  const period = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12 || 12;
+  return `${hour}:${minute} ${period}`;
+};
+
+export const SleepReadinessIndicator = ({
+  chartData,
+  sleepTime,
+  targetLevel,
+  darkMode = false,
+  onSleepTimeChange
+}) => {
+  const safeSleepTime = sleepTime || '22:00';
+  const sleepTimeLabel = useMemo(() => formatTo12Hour(safeSleepTime), [safeSleepTime]);
+  const handleDialChange = (nextTime) => {
+    if (typeof onSleepTimeChange === 'function') {
+      onSleepTimeChange(nextTime);
+    }
+  };
+  
   // Parse sleep time
-  const [sleepHour, sleepMinute] = sleepTime.split(':').map(Number);
+  const [sleepHour, sleepMinute] = safeSleepTime.split(':').map(Number);
   
   // Create a date object for today's sleep time
   const today = new Date();
@@ -60,10 +85,28 @@ export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, dar
   };
   
   return (
-    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow`}>
-      <h2 className="text-lg font-bold mb-2">Sleep Readiness</h2>
+    <div className={`p-4 rounded-2xl border shadow-lg space-y-5 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold">Bedtime</h2>
+          <span className={`text-sm font-semibold ${darkMode ? 'text-blue-300' : 'text-blue-600'}`}>
+            {sleepTimeLabel}
+          </span>
+        </div>
+        <div
+          className={`rounded-3xl border shadow-inner px-2 py-1 sm:px-4 sm:py-2 ${
+            darkMode ? 'border-slate-800 bg-slate-900/70' : 'border-slate-200 bg-slate-50'
+          }`}
+        >
+          <BedtimeDial 
+            value={safeSleepTime} 
+            onChange={handleDialChange} 
+            darkMode={darkMode} 
+          />
+        </div>
+      </div>
       
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className={`p-2 rounded-full mr-2 ${
             isReadyForSleep 
@@ -90,7 +133,7 @@ export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, dar
         </div>
       </div>
       
-      <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+      <div className={`p-3 rounded-xl space-y-3 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center">
             <Clock size={16} className={`mr-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
@@ -99,7 +142,7 @@ export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, dar
             </span>
           </div>
           <span className="font-medium">
-            {sleepTime}
+            {sleepTimeLabel}
           </span>
         </div>
         
@@ -137,4 +180,4 @@ export const SleepReadinessIndicator = ({ chartData, sleepTime, targetLevel, dar
       </p>
     </div>
   );
-}; 
+};
