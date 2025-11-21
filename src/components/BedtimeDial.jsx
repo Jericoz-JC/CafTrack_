@@ -121,14 +121,9 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
     const withinHandle = pointer.distance >= MIN_TOUCH_RADIUS && pointer.distance <= MAX_TOUCH_RADIUS;
     if (!withinHandle) return;
 
-    if (pointer.pointerType === 'mouse') {
-      activePointerIdRef.current = pointer.pointerId;
-      setIsDragging(true);
-      updateTimeByAngle(pointer.angle);
-      return;
-    }
-
-    startPendingDrag(pointer);
+    activePointerIdRef.current = pointer.pointerId;
+    setIsDragging(true);
+    updateTimeByAngle(pointer.angle);
   };
 
   const handleMove = (event) => {
@@ -318,10 +313,10 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
         {isDragging && (
           <text
             x="0"
-            y="80"
+            y="95"
             textAnchor="middle"
             fill={darkMode ? '#60a5fa' : '#3b82f6'}
-            fontSize="10"
+            fontSize="11"
             fontWeight="600"
           >
             Release to set

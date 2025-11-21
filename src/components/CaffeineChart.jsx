@@ -22,7 +22,9 @@ export const CaffeineChart = ({
   targetSleepCaffeine,
   rangePreset = DEFAULT_RANGE_PRESET,
   darkMode = false,
-  onLimitChange
+  onLimitChange,
+  onInteractionStart,
+  onInteractionEnd
 }) => {
   const [limitField, setLimitField] = useState(String(caffeineLimit));
   const normalizedRange = rangePreset || DEFAULT_RANGE_PRESET;
@@ -251,7 +253,15 @@ export const CaffeineChart = ({
       </div>
       
       {/* Chart */}
-      <div className="h-64 sm:h-80 mb-6">
+      <div
+        className="h-64 sm:h-80 mb-6"
+        onTouchStart={onInteractionStart}
+        onTouchEnd={onInteractionEnd}
+        onTouchCancel={onInteractionEnd}
+        onMouseDown={onInteractionStart}
+        onMouseUp={onInteractionEnd}
+        onMouseLeave={onInteractionEnd}
+      >
         <ResponsiveContainer width="100%" height="100%">
           <ChartComponent
             data={filteredData}

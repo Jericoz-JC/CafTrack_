@@ -41,22 +41,22 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
   
   return (
     <div 
-      className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-6 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-8 bg-black/60 backdrop-blur-sm"
       onClick={handleOutsideClick}
     >
       <div 
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-md sm:max-w-xl lg:max-w-2xl mx-auto rounded-3xl shadow-2xl border overflow-hidden ${frameStyles}`}
+        className={`w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto rounded-[32px] shadow-2xl border overflow-hidden ${frameStyles}`}
       >
-        <div className="max-h-[90vh] flex flex-col">
-          <div className={`flex justify-between items-center px-4 sm:px-6 py-4 border-b ${
+        <div className="max-h-[85vh] flex flex-col">
+          <div className={`flex justify-between items-center px-5 sm:px-7 py-4 border-b ${
             darkMode ? 'border-gray-800' : 'border-gray-100'
           }`}>
             <h2 className="text-xl font-bold">{title}</h2>
             <button 
               onClick={onClose}
-              className={`p-1 rounded-full transition-colors ${
+              className={`p-1.5 rounded-full transition-colors ${
                 darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
               }`}
               aria-label="Close modal"
@@ -65,7 +65,7 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
             </button>
           </div>
           
-          <div className="px-4 sm:px-6 py-4 overflow-y-auto">
+          <div className="px-5 sm:px-7 py-5 overflow-y-auto">
             {children}
           </div>
         </div>

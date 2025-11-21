@@ -59,6 +59,7 @@ const CaffeineCalculator = () => {
     oralContraceptivesAdjustment: false
   });
   const [rangePreset, setRangePreset] = useState(DEFAULT_RANGE_PRESET);
+  const [chartInteracting, setChartInteracting] = useState(false);
   
   // Touch handling for swipe navigation
   const touchStart = useRef({ x: 0, y: 0 });
@@ -262,6 +263,7 @@ const CaffeineCalculator = () => {
   
   // Handle touch events for swipe navigation
   const handleTouchStart = (e) => {
+    if (chartInteracting) return;
     touchStart.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY
@@ -269,6 +271,7 @@ const CaffeineCalculator = () => {
   };
   
   const handleTouchEnd = (e) => {
+    if (chartInteracting) return;
     touchEnd.current = {
       x: e.changedTouches[0].clientX,
       y: e.changedTouches[0].clientY
@@ -428,6 +431,8 @@ const CaffeineCalculator = () => {
               rangePreset={rangePreset}
               darkMode={darkMode}
               onLimitChange={handleCaffeineLimitChange}
+              onInteractionStart={() => setChartInteracting(true)}
+              onInteractionEnd={() => setChartInteracting(false)}
             />
           </div>
         )}
