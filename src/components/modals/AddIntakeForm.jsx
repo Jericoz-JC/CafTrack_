@@ -292,30 +292,37 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
 
   const renderListItem = (drink) => {
     const isActive = selectedDrink?.id === drink.id;
+    const shouldHide = selectedDrink && !isActive;
+
+    if (shouldHide) return null;
+
     return (
-      <button
-        key={drink.id}
-        onClick={() => handleDrinkClick(drink)}
-        className={listButtonClasses(isActive)}
-      >
-        <div>
-          <p className="font-semibold">{highlightName(drink.name)}</p>
-          <p
-            className={`text-xs ${
-              darkMode ? 'text-gray-400' : 'text-gray-500'
+      <div key={drink.id} className="space-y-2">
+        <button
+          onClick={() => handleDrinkClick(drink)}
+          className={listButtonClasses(isActive)}
+        >
+          <div>
+            <p className="font-semibold">{highlightName(drink.name)}</p>
+            <p
+              className={`text-xs ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}
+            >
+              {servingLabel(drink)} • {getCategoryLabel(drink.category)}
+            </p>
+          </div>
+          <span
+            className={`text-sm font-semibold ${
+              darkMode ? 'text-blue-300' : 'text-blue-600'
             }`}
           >
-            {servingLabel(drink)} • {getCategoryLabel(drink.category)}
-          </p>
-        </div>
-        <span
-          className={`text-sm font-semibold ${
-            darkMode ? 'text-blue-300' : 'text-blue-600'
-          }`}
-        >
-          {drink.caffeineMg} mg
-        </span>
-      </button>
+            {drink.caffeineMg} mg
+          </span>
+        </button>
+
+        {isActive && renderInlineSelection(drink)}
+      </div>
     );
   };
 
@@ -401,77 +408,72 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     );
   };
 
-  const renderSelectedDrinkControls = () => {
-    if (!selectedDrink) return null;
-    return (
-      <div
-        className={`mt-4 rounded-2xl p-4 shadow-lg ${
-          darkMode ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-slate-200'
-        }`}
-      >
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="font-semibold">{selectedDrink.name}</p>
-            <p
-              className={`text-xs ${
-                darkMode ? 'text-gray-400' : 'text-gray-500'
-              }`}
-            >
-              {servingLabel(selectedDrink)} •{' '}
-              {getCategoryLabel(selectedDrink.category)}
-            </p>
-          </div>
-          <button
-            onClick={() => setSelectedDrink(null)}
-            className={`p-1 rounded-full ${
-              darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'
+  const renderInlineSelection = (drink) => (
+    <div
+      className={`rounded-2xl p-4 border shadow-sm ${
+        darkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
+      }`}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <p className="font-semibold">{drink.name}</p>
+          <p
+            className={`text-xs ${
+              darkMode ? 'text-slate-400' : 'text-slate-500'
             }`}
-            aria-label="Clear selection"
           >
-            <X size={16} />
-          </button>
+            {servingLabel(drink)} • {getCategoryLabel(drink.category)}
+          </p>
         </div>
-
-        <div className="mt-4">
-          <div className="flex items-center justify-between mb-1 text-sm font-medium">
-            <span className="flex items-center">
-              <Percent size={16} className="mr-2" />
-              Portion consumed
-            </span>
-            <span
-              className={darkMode ? 'text-blue-300' : 'text-blue-600'}
-            >
-              {portion}%
-            </span>
-          </div>
-          <input
-            type="range"
-            min="10"
-            max="100"
-            step="5"
-            value={portion}
-            onChange={(event) => setPortion(Number(event.target.value))}
-            className="w-full"
-          />
-          <div className="flex justify-between text-xs mt-1">
-            <span>10%</span>
-            <span>50%</span>
-            <span>100%</span>
-          </div>
-        </div>
-
         <button
-          onClick={handleAddSelectedDrink}
-          className={`mt-4 w-full rounded-lg px-4 py-2 font-semibold text-white ${
-            darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-          } flex items-center justify-center`}
+          type="button"
+          onClick={() => setSelectedDrink(null)}
+          className={`p-1 rounded-full ${
+            darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
+          }`}
+          aria-label="Clear selection"
         >
-          <Plus size={18} className="mr-2" />
-          Add {selectedDrink.name}
+          <X size={14} />
         </button>
       </div>
-    );
-  };
+
+      <div>
+        <div className="flex items-center justify-between mb-1 text-sm font-medium">
+          <span>Portion consumed</span>
+          <span className={darkMode ? 'text-blue-300' : 'text-blue-600'}>
+            {portion}%
+          </span>
+        </div>
+        <input
+          type="range"
+          min="10"
+          max="100"
+          step="5"
+          value={portion}
+          onChange={(event) => setPortion(Number(event.target.value))}
+          className="w-full"
+        />
+        <div className="flex justify-between text-[11px] mt-1">
+          <span>10%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => handleAddSelectedDrink(drink)}
+        className={`mt-4 w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center ${
+          darkMode
+            ? 'bg-blue-600 hover:bg-blue-700'
+            : 'bg-blue-500 hover:bg-blue-600'
+        }`}
+      >
+        <Plus size={16} className="mr-2" />
+        Add {drink.name}
+      </button>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
@@ -550,7 +552,9 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto px-2 pb-3">{renderListContent()}</div>
+        <div className="flex-1 overflow-y-auto px-2 pb-3">
+          {renderListContent()}
+        </div>
         <div
           className={`px-4 py-3 border-t ${
             darkMode ? 'border-gray-800 bg-gray-900' : 'border-slate-100 bg-white'
@@ -570,8 +574,6 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           </button>
         </div>
       </div>
-
-      {renderSelectedDrinkControls()}
 
       {showCustomForm && (
         <div
