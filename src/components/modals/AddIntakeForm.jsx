@@ -95,10 +95,6 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
   }, [drinks]);
 
   useEffect(() => {
-    searchInputRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
     try {
       const stored = localStorage.getItem(RECENT_DRINK_STORAGE_KEY);
       if (stored) {
@@ -546,7 +542,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Search for a drink..."
-              className={`w-full rounded-full border px-10 py-2 text-sm ${
+              className={`w-full rounded-full border px-10 py-2 text-base ${
                 darkMode
                   ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
                   : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
@@ -590,7 +586,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               <label className="block text-sm font-medium mb-2">
                 Drink name
               </label>
-              <input
+            <input
                 ref={customNameInputRef}
                 type="text"
                 value={customName}
@@ -606,7 +602,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               <label className="block text-sm font-medium mb-2">
                 Caffeine amount (mg)
               </label>
-              <input
+            <input
                 type="number"
                 min="1"
                 max="1500"

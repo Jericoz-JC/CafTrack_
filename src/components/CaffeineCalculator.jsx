@@ -261,46 +261,9 @@ const CaffeineCalculator = () => {
     setShowModal(true);
   };
   
-  // Handle touch events for swipe navigation
-  const handleTouchStart = (e) => {
-    if (chartInteracting) return;
-    touchStart.current = {
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY
-    };
-  };
-  
-  const handleTouchEnd = (e) => {
-    if (chartInteracting) return;
-    touchEnd.current = {
-      x: e.changedTouches[0].clientX,
-      y: e.changedTouches[0].clientY
-    };
-    
-    // Calculate horizontal swipe distance
-    const horizontalDistance = touchEnd.current.x - touchStart.current.x;
-    const verticalDistance = Math.abs(touchEnd.current.y - touchStart.current.y);
-    
-    // Only register as horizontal swipe if horizontal distance is significant
-    // and vertical distance is minimal
-    if (Math.abs(horizontalDistance) > 50 && verticalDistance < 100) {
-      if (horizontalDistance > 0) {
-        // Swipe right
-        if (activeScreen === 'history') setActiveScreen('home');
-        else if (activeScreen === 'stats') setActiveScreen('history');
-      } else {
-        // Swipe left
-        if (activeScreen === 'home') setActiveScreen('history');
-        else if (activeScreen === 'history') setActiveScreen('stats');
-      }
-    }
-  };
-  
   return (
     <div 
       className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       {/* Header */}
       <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b ${
