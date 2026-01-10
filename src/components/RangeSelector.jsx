@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const RangeSelector = ({
+export const RangeSelector = React.memo(function RangeSelector({
   title = 'Metabolism Stats',
   value,
   onChange,
   options = [],
   darkMode = false,
-}) => {
+}) {
   return (
     <section
       className={`rounded-3xl px-4 py-5 shadow-inner border transition-colors ${
@@ -47,5 +47,5 @@ export const RangeSelector = ({
       </div>
     </section>
   );
-};
+});
 

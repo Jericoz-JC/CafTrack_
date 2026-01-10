@@ -1,7 +1,11 @@
 import React from 'react';
 import { Coffee, X } from 'lucide-react';
 
-export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
+export const IntakeItem = React.memo(function IntakeItem({
+  intake,
+  onRemove,
+  darkMode = false
+}) {
   // Format the timestamp
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -40,12 +44,12 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
     const colors = {
       coffee: darkMode ? 'bg-amber-900' : 'bg-amber-100',
       tea: darkMode ? 'bg-green-900' : 'bg-green-100',
-      energyDrinks: darkMode ? 'bg-red-900' : 'bg-red-100',
+      energy: darkMode ? 'bg-red-900' : 'bg-red-100',
       soda: darkMode ? 'bg-purple-900' : 'bg-purple-100',
       custom: darkMode ? 'bg-blue-900' : 'bg-blue-100'
     };
     
-    return colors[intake.category] || (darkMode ? 'bg-gray-700' : 'bg-gray-100');
+    return colors[intake.category] || (darkMode ? 'bg-slate-800' : 'bg-slate-100');
   };
   
   // Get text color based on category
@@ -53,17 +57,17 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
     const colors = {
       coffee: darkMode ? 'text-amber-400' : 'text-amber-800',
       tea: darkMode ? 'text-green-400' : 'text-green-800',
-      energyDrinks: darkMode ? 'text-red-400' : 'text-red-800',
+      energy: darkMode ? 'text-red-400' : 'text-red-800',
       soda: darkMode ? 'text-purple-400' : 'text-purple-800',
       custom: darkMode ? 'text-blue-400' : 'text-blue-800'
     };
     
-    return colors[intake.category] || (darkMode ? 'text-gray-400' : 'text-gray-800');
+    return colors[intake.category] || (darkMode ? 'text-slate-300' : 'text-slate-800');
   };
   
   return (
     <div className={`p-3 rounded-lg flex items-center justify-between ${
-      darkMode ? 'bg-gray-800' : 'bg-white'
+      darkMode ? 'bg-slate-900' : 'bg-white'
     } shadow`}>
       <div className="flex items-center">
         <div className={`p-2 rounded-full mr-3 ${getBgColor()}`}>
@@ -73,10 +77,10 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
         </div>
         
         <div>
-          <h3 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h3 className={`font-medium ${darkMode ? 'text-white' : 'text-slate-900'}`}>
             {intake.name}
           </h3>
-          <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
             {formatTime(intake.timestamp)}
           </p>
         </div>
@@ -89,8 +93,12 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
         
         <button 
           onClick={() => onRemove(intake.id)}
-          className={`p-1 rounded-full hover:bg-opacity-10 ${
-            darkMode ? 'hover:bg-gray-400' : 'hover:bg-gray-200'
+          className={`p-1 rounded-full hover:bg-opacity-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            darkMode ? 'hover:bg-slate-400' : 'hover:bg-slate-200'
+          } ${
+            darkMode
+              ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+              : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
         >
           <X size={18} />
@@ -98,4 +106,4 @@ export const IntakeItem = ({ intake, onRemove, darkMode = false }) => {
       </div>
     </div>
   );
-}; 
+}); 

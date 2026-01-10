@@ -160,8 +160,8 @@ export const CaffeineChart = ({
       return (
         <div className={`p-3 rounded-lg shadow-lg border max-w-xs ${
           darkMode 
-            ? 'bg-gray-800 text-white border-gray-600' 
-            : 'bg-white text-gray-900 border-gray-200'
+            ? 'bg-slate-900 text-white border-slate-700' 
+            : 'bg-white text-slate-900 border-slate-200'
         }`}>
           <p className="font-medium text-sm mb-1">{formattedTime}</p>
           <div className="flex items-center gap-2 mb-1">
@@ -245,6 +245,10 @@ export const CaffeineChart = ({
                 darkMode
                   ? 'bg-slate-900 border-slate-700 text-white'
                   : 'bg-white border-slate-200 text-slate-900'
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode
+                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
             <span className={darkMode ? 'text-slate-300' : 'text-slate-600'}>mg</span>

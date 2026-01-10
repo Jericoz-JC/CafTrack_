@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { 
   Coffee, 
   Plus, 
   Settings, 
   Info, 
-  Moon, 
-  X, 
-  ChevronRight, 
-  AlertCircle, 
-  AlertTriangle, 
-  Check,
+  Moon,
+  X,
   BarChart2,
   History,
   Sun
 } from 'lucide-react';
 
-// Placeholder imports - these components will be implemented next
-import { Modal } from './modals/Modal';
 import { SettingsModal } from './modals/SettingsModal';
 import { AddIntakeModal } from './modals/AddIntakeModal';
 import { AddIntakeForm } from './modals/AddIntakeForm';
@@ -27,14 +21,119 @@ import { SleepReadinessIndicator } from './SleepReadinessIndicator';
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
+import { DEFAULT_SETTINGS, HALF_LIFE_HOURS_BY_RATE } from '../constants/caffeine';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
+
+const safeJsonParse = (value) => {
+  if (!value) return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+};
+
+const normalizeTime = (value, fallback) => {
+  if (typeof value !== 'string') return fallback;
+  const match = value.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return fallback;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return fallback;
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return fallback;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+
+const normalizeNumber = (value, { min, max, fallback }) => {
+  const parsed = typeof value === 'number' ? value : Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
+};
+
+const normalizeBool = (value, fallback = false) => {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+  }
+  return fallback;
+};
+
+const normalizeSettings = (candidate) => {
+  const base = DEFAULT_SETTINGS;
+  if (!candidate || typeof candidate !== 'object') return base;
+
+  const metabolismRate =
+    candidate.metabolismRate === 'fast' ||
+    candidate.metabolismRate === 'average' ||
+    candidate.metabolismRate === 'slow'
+      ? candidate.metabolismRate
+      : base.metabolismRate;
+
+  return {
+    metabolismRate,
+    caffeineLimit: normalizeNumber(candidate.caffeineLimit, {
+      min: 50,
+      max: 1000,
+      fallback: base.caffeineLimit
+    }),
+    sleepTime: normalizeTime(candidate.sleepTime, base.sleepTime),
+    targetSleepCaffeine: normalizeNumber(candidate.targetSleepCaffeine, {
+      min: 0,
+      max: 200,
+      fallback: base.targetSleepCaffeine
+    }),
+    pregnancyAdjustment: normalizeBool(candidate.pregnancyAdjustment, base.pregnancyAdjustment),
+    smokerAdjustment: normalizeBool(candidate.smokerAdjustment, base.smokerAdjustment),
+    oralContraceptivesAdjustment: normalizeBool(
+      candidate.oralContraceptivesAdjustment,
+      base.oralContraceptivesAdjustment
+    )
+  };
+};
+
+const normalizeIntakes = (candidate) => {
+  if (!Array.isArray(candidate)) return [];
+  const result = [];
+  for (const raw of candidate) {
+    if (!raw || typeof raw !== 'object') continue;
+    const id =
+      typeof raw.id === 'string' && raw.id.trim()
+        ? raw.id
+        : typeof raw.id === 'number'
+          ? String(raw.id)
+          : null;
+    const timestamp =
+      typeof raw.timestamp === 'string' && raw.timestamp.trim()
+        ? raw.timestamp
+        : null;
+    const parsedTime = timestamp ? new Date(timestamp).getTime() : Number.NaN;
+    if (!id || !timestamp || Number.isNaN(parsedTime)) continue;
+
+    const amount = normalizeNumber(raw.amount, { min: 0, max: 2000, fallback: NaN });
+    if (!Number.isFinite(amount)) continue;
+
+    result.push({
+      id,
+      timestamp,
+      amount,
+      name: typeof raw.name === 'string' ? raw.name : 'Caffeine',
+      category: typeof raw.category === 'string' ? raw.category : 'custom'
+    });
+  }
+  return result;
+};
 
 // Add a floating action button that appears on all screens
 const FloatingActionButton = ({ onClick, darkMode }) => (
   <button 
     onClick={onClick} 
-    className={`fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-200 hover:scale-105 ${
+    className={`fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
       darkMode ? 'bg-blue-600 hover:bg-blue-500 ring-1 ring-slate-800' : 'bg-blue-500 hover:bg-blue-600 ring-1 ring-blue-200'
+    } ${
+      darkMode
+        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+        : 'focus-visible:ring-blue-500 focus-visible:ring-offset-slate-50'
     }`}
     aria-label="Add caffeine intake"
   >
@@ -49,65 +148,79 @@ const CaffeineCalculator = () => {
   const [modalType, setModalType] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
   const [caffeineIntakes, setCaffeineIntakes] = useState([]);
-  const [settings, setSettings] = useState({
-    metabolismRate: 'average', // fast, average, slow
-    caffeineLimit: 400, // in mg
-    sleepTime: '22:00', // 24-hour format
-    targetSleepCaffeine: 30, // in mg
-    pregnancyAdjustment: false,
-    smokerAdjustment: false,
-    oralContraceptivesAdjustment: false
-  });
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [rangePreset, setRangePreset] = useState(DEFAULT_RANGE_PRESET);
-  const [chartInteracting, setChartInteracting] = useState(false);
-  
-  // Touch handling for swipe navigation
-  const touchStart = useRef({ x: 0, y: 0 });
-  const touchEnd = useRef({ x: 0, y: 0 });
-  
-  // Constants for calculations
-  const HALF_LIFE_MAPPINGS = {
-    fast: 4, // hours
-    average: 5.5,
-    slow: 7.5
-  };
+  const [hydrated, setHydrated] = useState(false);
+  const [undoState, setUndoState] = useState(null);
   
   // Load saved data from localStorage on initial render
   useEffect(() => {
-    const savedIntakes = localStorage.getItem('caffeineIntakes');
-    const savedSettings = localStorage.getItem('caffeineSettings');
-    const savedDarkMode = localStorage.getItem('darkMode');
-    
-    if (savedIntakes) {
-      setCaffeineIntakes(JSON.parse(savedIntakes));
-    }
-    
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
-    }
-    
-    if (savedDarkMode === 'true') {
-      setDarkMode(true);
+    try {
+      const savedIntakes = localStorage.getItem('caffeineIntakes');
+      const savedSettings = localStorage.getItem('caffeineSettings');
+      const savedDarkMode = localStorage.getItem('darkMode');
+
+      const parsedIntakes = normalizeIntakes(safeJsonParse(savedIntakes));
+      const parsedSettings = normalizeSettings(safeJsonParse(savedSettings));
+
+      setCaffeineIntakes(parsedIntakes);
+      setSettings(parsedSettings);
+
+      if (savedDarkMode != null) {
+        setDarkMode(normalizeBool(savedDarkMode, false));
+      }
+    } catch {
+      // If storage is unavailable (private mode / denied), fall back to defaults.
+      setCaffeineIntakes([]);
+      setSettings(DEFAULT_SETTINGS);
+      setDarkMode(false);
+    } finally {
+      setHydrated(true);
     }
   }, []);
   
   // Save data to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem('caffeineIntakes', JSON.stringify(caffeineIntakes));
-  }, [caffeineIntakes]);
+    if (!hydrated) return;
+    try {
+      localStorage.setItem('caffeineIntakes', JSON.stringify(caffeineIntakes));
+    } catch {
+      // ignore storage errors
+    }
+  }, [caffeineIntakes, hydrated]);
   
   useEffect(() => {
-    localStorage.setItem('caffeineSettings', JSON.stringify(settings));
-  }, [settings]);
+    if (!hydrated) return;
+    try {
+      localStorage.setItem('caffeineSettings', JSON.stringify(settings));
+    } catch {
+      // ignore storage errors
+    }
+  }, [settings, hydrated]);
   
   useEffect(() => {
-    localStorage.setItem('darkMode', darkMode.toString());
+    if (!hydrated) return;
+    try {
+      localStorage.setItem('darkMode', darkMode.toString());
+    } catch {
+      // ignore storage errors
+    }
     if (darkMode) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
-  }, [darkMode]);
+  }, [darkMode, hydrated]);
+
+  useEffect(() => {
+    if (!undoState) return undefined;
+    const timeoutId = window.setTimeout(() => {
+      setUndoState(null);
+    }, 5000);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [undoState]);
   
   // Calculate current caffeine level based on metabolism and intake history
   const calculateCurrentCaffeineLevel = () => {
@@ -115,7 +228,7 @@ const CaffeineCalculator = () => {
     const now = new Date();
     
     // Get base half-life in hours
-    let halfLifeHours = HALF_LIFE_MAPPINGS[settings.metabolismRate];
+    let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
     
     // Apply adjustments for special conditions
     if (settings.pregnancyAdjustment) halfLifeHours *= 1.5;
@@ -153,7 +266,7 @@ const CaffeineCalculator = () => {
     );
     
     // Calculate base half-life in milliseconds
-    let halfLifeHours = HALF_LIFE_MAPPINGS[settings.metabolismRate];
+    let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
     
     // Apply adjustments
     if (settings.pregnancyAdjustment) halfLifeHours *= 1.5;
@@ -225,7 +338,36 @@ const CaffeineCalculator = () => {
   }, [caffeineIntakes, rangePreset]);
   
   // Handle adding new caffeine intake
-  const handleAddIntake = (intakeData) => {
+  const closeModal = useCallback(() => {
+    setShowModal(false);
+  }, []);
+
+  const openModal = useCallback((type) => {
+    setModalType(type);
+    setShowModal(true);
+  }, []);
+
+  const openAddModal = useCallback(() => {
+    openModal('add');
+  }, [openModal]);
+
+  const openInfoModal = useCallback(() => {
+    openModal('info');
+  }, [openModal]);
+
+  const openSettingsModal = useCallback(() => {
+    openModal('settings');
+  }, [openModal]);
+
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode((prev) => !prev);
+  }, []);
+
+  const goHome = useCallback(() => setActiveScreen('home'), []);
+  const goHistory = useCallback(() => setActiveScreen('history'), []);
+  const goStats = useCallback(() => setActiveScreen('stats'), []);
+
+  const handleAddIntake = useCallback((intakeData) => {
     const newIntake = {
       id: Date.now().toString(),
       timestamp: intakeData.timestamp || new Date().toISOString(), // Use provided timestamp or current time
@@ -233,33 +375,52 @@ const CaffeineCalculator = () => {
     };
     
     setCaffeineIntakes(prev => [newIntake, ...prev]);
-    setShowModal(false);
-  };
+    closeModal();
+  }, [closeModal]);
   
   // Handle removing a caffeine intake
-  const handleRemoveIntake = (id) => {
-    setCaffeineIntakes(prev => prev.filter(intake => intake.id !== id));
-  };
+  const handleRemoveIntake = useCallback((id) => {
+    setCaffeineIntakes((prev) => {
+      const index = prev.findIndex((intake) => intake.id === id);
+      if (index === -1) return prev;
+      const removed = prev[index];
+      setUndoState({ intake: removed, index });
+      return prev.filter((intake) => intake.id !== id);
+    });
+  }, []);
 
-  const handleSleepTimeChange = (nextSleepTime) => {
+  const dismissUndo = useCallback(() => {
+    setUndoState(null);
+  }, []);
+
+  const handleUndoRemove = useCallback(() => {
+    if (!undoState?.intake) return;
+    const { intake, index } = undoState;
+    setCaffeineIntakes((prev) => {
+      if (prev.some((existing) => existing.id === intake.id)) {
+        return prev;
+      }
+      const next = [...prev];
+      const insertAt = Math.min(Math.max(index, 0), next.length);
+      next.splice(insertAt, 0, intake);
+      return next;
+    });
+    setUndoState(null);
+  }, [undoState]);
+
+  const handleSleepTimeChange = useCallback((nextSleepTime) => {
     setSettings((prev) => ({
       ...prev,
       sleepTime: nextSleepTime
     }));
-  };
+  }, []);
 
-  const handleCaffeineLimitChange = (nextLimit) => {
+  const handleCaffeineLimitChange = useCallback((nextLimit) => {
     setSettings((prev) => ({
       ...prev,
       caffeineLimit: nextLimit
     }));
-  };
-  
-  // Handle opening different modal types
-  const openModal = (type) => {
-    setModalType(type);
-    setShowModal(true);
-  };
+  }, []);
   
   return (
     <div 
@@ -275,27 +436,39 @@ const CaffeineCalculator = () => {
         </div>
         <div className="flex">
           <button 
-            onClick={() => setDarkMode(!darkMode)} 
-            className={`p-2 rounded-full border transition-colors ${
+            onClick={toggleDarkMode}
+            className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            } ${
+              darkMode
+                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
             aria-label="Toggle theme"
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
-            onClick={() => openModal('info')} 
-            className={`p-2 rounded-full border ml-2 transition-colors ${
+            onClick={openInfoModal}
+            className={`p-2 rounded-full border ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            } ${
+              darkMode
+                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
             aria-label="Learn more"
           >
             <Info size={20} />
           </button>
           <button 
-            onClick={() => openModal('settings')} 
-            className={`p-2 rounded-full border ml-2 transition-colors ${
+            onClick={openSettingsModal}
+            className={`p-2 rounded-full border ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+            } ${
+              darkMode
+                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
             aria-label="Open settings"
           >
@@ -352,7 +525,7 @@ const CaffeineCalculator = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-100'}`}>
                     <p className="font-medium">No entries for this range.</p>
                     <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                       Try selecting a broader window above to see older drinks.
@@ -360,13 +533,17 @@ const CaffeineCalculator = () => {
                   </div>
                 )
               ) : (
-                <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-100'}`}>
                   <p>No caffeine intake recorded yet.</p>
                   <button 
-                    onClick={() => openModal('add')} 
+                    onClick={openAddModal} 
                     className={`mt-2 px-4 py-2 rounded-lg ${
                       darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
-                    } text-white`}
+                    } text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                      darkMode
+                        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+                        : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                    }`}
                   >
                     Add Your First Drink
                   </button>
@@ -394,8 +571,6 @@ const CaffeineCalculator = () => {
               rangePreset={rangePreset}
               darkMode={darkMode}
               onLimitChange={handleCaffeineLimitChange}
-              onInteractionStart={() => setChartInteracting(true)}
-              onInteractionEnd={() => setChartInteracting(false)}
             />
           </div>
         )}
@@ -403,7 +578,7 @@ const CaffeineCalculator = () => {
       
       {/* Floating Action Button on all screens */}
       <FloatingActionButton 
-        onClick={() => openModal('add')} 
+        onClick={openAddModal}
         darkMode={darkMode}
       />
       
@@ -415,30 +590,79 @@ const CaffeineCalculator = () => {
           icon={<Coffee size={20} />} 
           label="Home" 
           active={activeScreen === 'home'} 
-          onClick={() => setActiveScreen('home')}
+          onClick={goHome}
           darkMode={darkMode}
         />
         <NavButton 
           icon={<History size={20} />} 
           label="History" 
           active={activeScreen === 'history'} 
-          onClick={() => setActiveScreen('history')}
+          onClick={goHistory}
           darkMode={darkMode}
         />
         <NavButton 
           icon={<BarChart2 size={20} />} 
           label="Stats" 
           active={activeScreen === 'stats'} 
-          onClick={() => setActiveScreen('stats')}
+          onClick={goStats}
           darkMode={darkMode}
         />
       </nav>
+
+      {/* Undo Toast */}
+      {undoState?.intake && (
+        <div className="fixed left-0 right-0 bottom-20 z-30 px-4">
+          <div
+            role="status"
+            aria-live="polite"
+            className={`mx-auto max-w-xl rounded-2xl border shadow-2xl px-4 py-3 flex items-center justify-between gap-3 ${
+              darkMode
+                ? 'bg-slate-900 border-slate-800 text-white'
+                : 'bg-white border-slate-200 text-slate-900'
+            }`}
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-semibold truncate">
+                Removed “{undoState.intake.name}”
+              </p>
+              <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                Undo is available for a few seconds.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleUndoRemove}
+                className={`rounded-xl px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  darkMode
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                }`}
+              >
+                Undo
+              </button>
+              <button
+                type="button"
+                onClick={dismissUndo}
+                aria-label="Dismiss undo"
+                className={`p-2 rounded-xl border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  darkMode
+                    ? 'border-slate-700 hover:bg-slate-800 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    : 'border-slate-200 hover:bg-slate-100 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                }`}
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Modals */}
       {showModal && (
         <>
           {modalType === 'add' && (
-            <AddIntakeModal onClose={() => setShowModal(false)} darkMode={darkMode}>
+            <AddIntakeModal onClose={closeModal} darkMode={darkMode}>
               <AddIntakeForm onAdd={handleAddIntake} darkMode={darkMode} />
             </AddIntakeModal>
           )}
@@ -447,14 +671,14 @@ const CaffeineCalculator = () => {
             <SettingsModal 
               settings={settings} 
               onSave={setSettings} 
-              onClose={() => setShowModal(false)}
+              onClose={closeModal}
               darkMode={darkMode}
-              onToggleDarkMode={() => setDarkMode(!darkMode)}
+              onToggleDarkMode={toggleDarkMode}
             />
           )}
           
           {modalType === 'info' && (
-            <InfoModal onClose={() => setShowModal(false)} darkMode={darkMode} />
+            <InfoModal onClose={closeModal} darkMode={darkMode} />
           )}
         </>
       )}

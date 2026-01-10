@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
   AlertCircle,
-  Percent,
   Plus,
   Search,
   X
@@ -138,7 +137,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         return nameMatch || categoryMatch;
       })
       .slice(0, SEARCH_RESULTS_LIMIT);
-  }, [deferredQuery, drinks]);
+  }, [deferredQuery, combinedDrinks]);
 
   const recentDrinks = useMemo(() => {
     if (!recentDrinkIds.length) return [];
@@ -239,10 +238,15 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     if (!customName.trim() || !customAmount.trim()) {
       return;
     }
+    const parsedAmount = Number(customAmount);
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      return;
+    }
+    const normalizedAmount = Math.min(1500, Math.max(1, Math.round(parsedAmount)));
     const timestamp = buildTimestamp();
     onAdd({
       name: customName.trim(),
-      amount: Number(customAmount),
+      amount: normalizedAmount,
       category: 'custom',
       timestamp
     });
@@ -275,18 +279,22 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
 
   const listContainerClasses = `rounded-3xl border flex flex-col max-h-[28rem] ${
     darkMode
-      ? 'border-gray-700 bg-gray-900 text-white'
-      : 'border-slate-200 bg-white text-gray-900 shadow-lg'
+      ? 'border-slate-800 bg-slate-900 text-white'
+      : 'border-slate-200 bg-white text-slate-900 shadow-lg'
   }`;
 
   const listButtonClasses = (isActive) =>
-    `w-full text-left px-4 py-3 flex justify-between items-center rounded-2xl transition-all ${
+    `w-full text-left px-4 py-3 flex justify-between items-center rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+      darkMode
+        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+        : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+    } ${
       isActive
         ? darkMode
           ? 'bg-blue-900/40'
           : 'bg-blue-50'
         : darkMode
-          ? 'hover:bg-gray-800'
+          ? 'hover:bg-slate-800'
           : 'hover:bg-slate-50'
     }`;
 
@@ -306,7 +314,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             <p className="font-semibold">{highlightName(drink.name)}</p>
             <p
               className={`text-xs ${
-                darkMode ? 'text-gray-400' : 'text-gray-500'
+                darkMode ? 'text-slate-400' : 'text-slate-500'
               }`}
             >
               {servingLabel(drink)} • {getCategoryLabel(drink.category)}
@@ -332,7 +340,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       <section className="py-3 space-y-3" key={title}>
         <p
           className={`px-4 text-xs font-semibold tracking-wide uppercase ${
-            darkMode ? 'text-gray-400' : 'text-slate-500'
+            darkMode ? 'text-slate-400' : 'text-slate-500'
           }`}
         >
           {title}
@@ -350,7 +358,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             <div
               key={key}
               className={`h-10 rounded-lg ${
-                darkMode ? 'bg-gray-800 animate-pulse' : 'bg-gray-100 animate-pulse'
+                darkMode ? 'bg-slate-800 animate-pulse' : 'bg-slate-100 animate-pulse'
               }`}
             />
           ))}
@@ -384,8 +392,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             </p>
             <button
               onClick={() => handleCustomCtaClick(searchQuery)}
-              className={`mt-3 inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium ${
+              className={`mt-3 inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+              } ${
+                darkMode
+                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
               <Plus size={16} className="mr-2" />
@@ -428,8 +440,10 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         <button
           type="button"
           onClick={() => setSelectedDrink(null)}
-          className={`p-1 rounded-full ${
-            darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
+          className={`p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            darkMode
+              ? 'hover:bg-slate-800 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+              : 'hover:bg-slate-100 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
           aria-label="Clear selection"
         >
@@ -463,10 +477,14 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       <button
         type="button"
         onClick={() => handleAddSelectedDrink(drink)}
-        className={`mt-4 w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center ${
+        className={`mt-4 w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
           darkMode
             ? 'bg-blue-600 hover:bg-blue-700'
             : 'bg-blue-500 hover:bg-blue-600'
+        } ${
+          darkMode
+            ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+            : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
         }`}
       >
         <Plus size={16} className="mr-2" />
@@ -479,7 +497,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     <div className="space-y-6">
       <div
         className={`rounded-2xl p-4 shadow-lg ${
-          darkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white border border-slate-200'
+          darkMode ? 'bg-slate-900 border border-slate-800' : 'bg-white border border-slate-200'
         }`}
       >
         <div className="grid grid-cols-2 gap-3">
@@ -490,14 +508,18 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 key={mode}
                 type="button"
                 onClick={() => setTimeMode(mode)}
-                className={`h-20 rounded-2xl border text-lg font-semibold transition-all ${
+                className={`h-20 rounded-2xl border text-lg font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  darkMode
+                    ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                } ${
                   isActive
                     ? darkMode
                       ? 'bg-blue-600 text-white border-blue-500 shadow-lg'
                       : 'bg-blue-500 text-white border-blue-500 shadow-lg'
                     : darkMode
-                      ? 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700 shadow'
-                      : 'bg-slate-50 text-gray-700 border-slate-200 hover:bg-white shadow'
+                  ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700 shadow'
+                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-white shadow'
                 }`}
                 aria-pressed={isActive}
               >
@@ -513,8 +535,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             onChange={(event) => setCustomTime(event.target.value)}
             className={`mt-4 w-full rounded-xl border px-3 py-3 text-base shadow-inner ${
               darkMode
-                ? 'bg-gray-800 border-gray-700 text-white'
-                : 'bg-white border-gray-300 text-gray-900'
+                ? 'bg-slate-900 border-slate-700 text-white'
+                : 'bg-white border-slate-300 text-slate-900'
+            } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+              darkMode
+                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           />
         )}
@@ -523,7 +549,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       <div className={listContainerClasses}>
         <div
           className={`px-4 py-3 border-b ${
-            darkMode ? 'border-gray-800' : 'border-slate-100'
+            darkMode ? 'border-slate-800' : 'border-slate-100'
           }`}
         >
           <label htmlFor="drink-search" className="sr-only">
@@ -533,7 +559,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             <Search
               size={16}
               className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                darkMode ? 'text-gray-500' : 'text-gray-400'
+                darkMode ? 'text-slate-500' : 'text-slate-400'
               }`}
             />
             <input
@@ -546,8 +572,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               placeholder="Search for a drink..."
               className={`w-full rounded-full border px-10 py-2 text-base ${
                 darkMode
-                  ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-                  : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
+                  ? 'bg-slate-900 border-slate-700 text-white placeholder-slate-500'
+                  : 'bg-white border-slate-200 text-slate-900 placeholder-slate-500'
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode
+                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
           </div>
@@ -557,16 +587,20 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         </div>
         <div
           className={`px-4 py-3 border-t ${
-            darkMode ? 'border-gray-800 bg-gray-900' : 'border-slate-100 bg-white'
+            darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'
           }`}
         >
           <button
             type="button"
             onClick={() => handleCustomCtaClick(searchQuery.trim())}
-            className={`w-full rounded-full px-4 py-2 text-sm font-semibold flex items-center justify-center ${
+            className={`w-full rounded-full px-4 py-2 text-sm font-semibold flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'bg-gray-800 text-white hover:bg-gray-700'
-                : 'bg-slate-100 text-gray-900 hover:bg-slate-200'
+                ? 'bg-slate-800 text-white hover:bg-slate-700'
+                : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+            } ${
+              darkMode
+                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           >
             <Plus size={16} className="mr-2" />
@@ -579,7 +613,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         <div
           ref={customFormRef}
           className={`rounded-2xl p-4 shadow-2xl ring-1 ring-black/5 ${
-            darkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white border border-slate-200'
+            darkMode ? 'bg-slate-900 border border-slate-800' : 'bg-white border border-slate-200'
           }`}
         >
           <h3 className="font-semibold mb-4">Custom drink</h3>
@@ -595,8 +629,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 onChange={(event) => setCustomName(event.target.value)}
                 className={`w-full rounded-lg border px-3 py-2 ${
                   darkMode
-                    ? 'bg-gray-800 border-gray-700 text-white'
-                    : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-slate-900 border-slate-700 text-white'
+                    : 'bg-white border-slate-300 text-slate-900'
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  darkMode
+                    ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
             </div>
@@ -612,15 +650,23 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 onChange={(event) => setCustomAmount(event.target.value)}
                 className={`w-full rounded-lg border px-3 py-2 ${
                   darkMode
-                    ? 'bg-gray-800 border-gray-700 text-white'
-                    : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-slate-900 border-slate-700 text-white'
+                    : 'bg-white border-slate-300 text-slate-900'
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  darkMode
+                    ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
             </div>
             <button
               type="submit"
-              className={`w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center ${
+              className={`w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+              } ${
+                darkMode
+                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
               <Plus size={16} className="mr-2" />

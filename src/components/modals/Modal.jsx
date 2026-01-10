@@ -36,8 +36,8 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
   };
   
   const frameStyles = darkMode
-    ? 'bg-gray-900 text-white border-gray-800'
-    : 'bg-white text-gray-900 border-gray-100';
+    ? 'bg-slate-900 text-white border-slate-800'
+    : 'bg-white text-slate-900 border-slate-100';
   
   return (
     <div 
@@ -51,13 +51,17 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
       >
         <div className="max-h-[85vh] flex flex-col">
           <div className={`flex justify-between items-center px-5 sm:px-7 py-4 border-b ${
-            darkMode ? 'border-gray-800' : 'border-gray-100'
+            darkMode ? 'border-slate-800' : 'border-slate-100'
           }`}>
             <h2 className="text-xl font-bold">{title}</h2>
             <button 
               onClick={onClose}
               className={`p-1.5 rounded-full transition-colors ${
-                darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode
+                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
               aria-label="Close modal"
             >

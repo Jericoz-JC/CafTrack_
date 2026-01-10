@@ -85,7 +85,7 @@ export const SleepReadinessIndicator = ({
   };
   
   return (
-    <div className={`p-4 rounded-2xl border shadow-lg space-y-5 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+    <div className={`p-4 rounded-2xl border shadow-lg space-y-5 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold">Bedtime</h2>
@@ -133,11 +133,11 @@ export const SleepReadinessIndicator = ({
         </div>
       </div>
       
-      <div className={`p-3 rounded-xl space-y-3 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <div className={`p-3 rounded-xl space-y-3 ${darkMode ? 'bg-slate-800' : 'bg-slate-50'}`}>
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center">
-            <Clock size={16} className={`mr-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-            <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <Clock size={16} className={`mr-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`} />
+            <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
               Sleep Time
             </span>
           </div>
@@ -148,8 +148,8 @@ export const SleepReadinessIndicator = ({
         
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center">
-            <Clock size={16} className={`mr-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-            <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <Clock size={16} className={`mr-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`} />
+            <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
               Time Until Sleep
             </span>
           </div>
@@ -160,8 +160,8 @@ export const SleepReadinessIndicator = ({
         
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Coffee size={16} className={`mr-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-            <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <Coffee size={16} className={`mr-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`} />
+            <span className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
               Projected Level at Sleep
             </span>
           </div>
@@ -175,7 +175,7 @@ export const SleepReadinessIndicator = ({
         </div>
       </div>
       
-      <p className={`mt-3 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+      <p className={`mt-3 text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
         Target sleep caffeine level: {targetLevel} mg or less
       </p>
     </div>

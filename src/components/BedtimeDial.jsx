@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Moon } from 'lucide-react';
 
 const RADIUS = 100;
@@ -8,7 +8,6 @@ const LABEL_RADIUS = RADIUS - 25;
 const TOUCH_TOLERANCE = 18;
 const MIN_TOUCH_RADIUS = RADIUS - TOUCH_TOLERANCE;
 const MAX_TOUCH_RADIUS = RADIUS + TOUCH_TOLERANCE;
-const DRAG_ACTIVATION_DISTANCE = 12;
 
 const parseTime = (timeStr) => {
   const [h = '0', m = '0'] = (timeStr || '').split(':');
@@ -91,7 +90,6 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
   const safeValue = value || '22:00';
   const svgRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
-  const pendingDragRef = useRef(null);
   const activePointerIdRef = useRef(null);
 
   const currentMinutes = parseTime(safeValue);
@@ -100,20 +98,12 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
   const handleX = RADIUS * Math.sin(rad);
   const handleY = -RADIUS * Math.cos(rad);
 
-  const updateTimeByAngle = (angle) => {
+  const updateTimeByAngle = useCallback((angle) => {
     const minutes = degreesToMinutes(angle);
     if (typeof onChange === 'function') {
       onChange(formatTime(minutes));
     }
-  };
-
-  const startPendingDrag = (pointer) => {
-    pendingDragRef.current = {
-      pointerId: pointer.pointerId,
-      startX: pointer.clientX,
-      startY: pointer.clientY
-    };
-  };
+  }, [onChange]);
 
   const handleStart = (event) => {
     const pointer = getPointerState(event, null, svgRef.current);
@@ -126,68 +116,35 @@ export const BedtimeDial = ({ value, onChange, darkMode }) => {
     updateTimeByAngle(pointer.angle);
   };
 
-  const handleMove = (event) => {
-    const pointerId = isDragging ? activePointerIdRef.current : pendingDragRef.current?.pointerId;
-    const pointer = getPointerState(event, pointerId, svgRef.current);
+  const handleMove = useCallback((event) => {
+    if (!isDragging) return;
+    const pointer = getPointerState(event, activePointerIdRef.current, svgRef.current);
     if (!pointer) return;
+    if (pointer.pointerType === 'touch') event.preventDefault();
+    updateTimeByAngle(pointer.angle);
+  }, [isDragging, updateTimeByAngle]);
 
-    if (isDragging) {
-      if (pointer.pointerType === 'touch') event.preventDefault();
-      updateTimeByAngle(pointer.angle);
-      return;
-    }
-
-    if (!pendingDragRef.current) return;
-
-    const moveDistance = Math.hypot(
-      pointer.clientX - pendingDragRef.current.startX,
-      pointer.clientY - pendingDragRef.current.startY
-    );
-
-    const withinBand =
-      pointer.distance >= MIN_TOUCH_RADIUS &&
-      pointer.distance <= MAX_TOUCH_RADIUS;
-
-    if (!withinBand) {
-      pendingDragRef.current = null;
-      return;
-    }
-
-    if (moveDistance >= DRAG_ACTIVATION_DISTANCE) {
-      pendingDragRef.current = null;
-      activePointerIdRef.current = pointer.pointerId;
-      setIsDragging(true);
-      updateTimeByAngle(pointer.angle);
-      if (pointer.pointerType === 'touch') event.preventDefault();
-    }
-  };
-
-  const handleEnd = () => {
+  const handleEnd = useCallback(() => {
     setIsDragging(false);
     activePointerIdRef.current = null;
-    pendingDragRef.current = null;
-  };
+  }, []);
 
   useEffect(() => {
     if (!isDragging) return undefined;
-
-    const handleMoveEvent = (event) => handleMove(event);
-    const handleUpEvent = () => handleEnd();
-
-    window.addEventListener('mousemove', handleMoveEvent);
-    window.addEventListener('mouseup', handleUpEvent);
-    window.addEventListener('touchmove', handleMoveEvent, { passive: false });
-    window.addEventListener('touchend', handleUpEvent);
-    window.addEventListener('touchcancel', handleUpEvent);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+    window.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('touchend', handleEnd);
+    window.addEventListener('touchcancel', handleEnd);
 
     return () => {
-      window.removeEventListener('mousemove', handleMoveEvent);
-      window.removeEventListener('mouseup', handleUpEvent);
-      window.removeEventListener('touchmove', handleMoveEvent);
-      window.removeEventListener('touchend', handleUpEvent);
-      window.removeEventListener('touchcancel', handleUpEvent);
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('touchend', handleEnd);
+      window.removeEventListener('touchcancel', handleEnd);
     };
-  }, [isDragging]);
+  }, [isDragging, handleEnd, handleMove]);
 
   const getDisplayTime = () => {
     const [h = '0', m = '0'] = safeValue.split(':');

@@ -1,12 +1,12 @@
 import React from 'react';
 import CaffeineCalculator from './components/CaffeineCalculator';
-import './App.css';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   return (
-    <div className="App">
+    <ErrorBoundary>
       <CaffeineCalculator />
-    </div>
+    </ErrorBoundary>
   );
 }
 
