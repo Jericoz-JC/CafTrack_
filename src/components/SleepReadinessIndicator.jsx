@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Moon, Clock, AlertCircle, TrendingDown } from 'lucide-react';
+import { Moon, Clock, TrendingDown } from 'lucide-react';
 
 const formatTo12Hour = (time24) => {
   if (!time24) return '';
@@ -80,27 +80,16 @@ export const SleepReadinessIndicator = ({
         darkMode ? 'text-slate-100' : 'text-slate-900'
       }`}
     >
-      {/* Header with status */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className={`p-2.5 rounded-full ${
-            isReadyForSleep
-              ? darkMode ? 'bg-green-900/50' : 'bg-green-100'
-              : darkMode ? 'bg-amber-900/50' : 'bg-amber-100'
-          }`}>
-            {isReadyForSleep
-              ? <Moon size={22} className="text-green-500" />
-              : <AlertCircle size={22} className="text-amber-500" />
-            }
+          <div className={`p-2.5 rounded-full ${darkMode ? 'bg-white/10' : 'bg-slate-900/5'}`}>
+            <Moon size={20} className={darkMode ? 'text-slate-200' : 'text-slate-700'} />
           </div>
           <div>
             <h2 className="font-bold">Sleep Readiness</h2>
-            <span className={`text-sm font-medium ${
-              isReadyForSleep
-                ? darkMode ? 'text-green-400' : 'text-green-600'
-                : darkMode ? 'text-amber-400' : 'text-amber-600'
-            }`}>
-              {isReadyForSleep ? 'Ready for sleep' : 'Caffeine still active'}
+            <span className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+              Projection for your bedtime
             </span>
           </div>
         </div>
@@ -135,14 +124,14 @@ export const SleepReadinessIndicator = ({
           <div className="flex items-center justify-center mb-1">
             <TrendingDown size={14} className={
               isReadyForSleep
-                ? 'text-green-500'
+                ? 'text-emerald-500'
                 : 'text-amber-500'
             } />
           </div>
           <p className={`font-semibold text-sm ${
             isReadyForSleep
-              ? darkMode ? 'text-green-400' : 'text-green-600'
-              : darkMode ? 'text-amber-400' : 'text-amber-600'
+              ? darkMode ? 'text-emerald-300' : 'text-emerald-600'
+              : darkMode ? 'text-amber-300' : 'text-amber-600'
           }`}>
             {caffeineAtSleepTime} mg
           </p>

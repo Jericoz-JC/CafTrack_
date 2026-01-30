@@ -91,12 +91,12 @@ export const BedtimePopover = ({
         ref={buttonRef}
         onClick={handleToggle}
         className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 flex items-center gap-1.5 ${
-          darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+          darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
         } ${
           darkMode
             ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
             : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
-        } ${isOpen ? (darkMode ? 'bg-slate-800' : 'bg-slate-100') : ''}`}
+        } ${isOpen ? (darkMode ? 'bg-white/10' : 'bg-white/70') : ''}`}
         aria-label={`Bedtime: ${displayTime}`}
         aria-expanded={isOpen}
         aria-haspopup="dialog"

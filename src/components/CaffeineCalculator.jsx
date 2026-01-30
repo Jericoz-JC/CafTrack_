@@ -462,8 +462,8 @@ const CaffeineCalculator = () => {
       className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}
     >
       {/* Header */}
-      <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b ${
-        darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'
+      <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b backdrop-blur ${
+        darkMode ? 'bg-slate-950/80 border-white/10' : 'bg-white/80 border-slate-200/70'
       }`}>
         <div className="flex items-center">
           <Coffee className={`mr-2 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`} />
@@ -473,7 +473,7 @@ const CaffeineCalculator = () => {
           <button
             onClick={toggleDarkMode}
             className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+              darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
             } ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
@@ -494,7 +494,7 @@ const CaffeineCalculator = () => {
           <button
             onClick={openInfoModal}
             className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+              darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
             } ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
@@ -507,7 +507,7 @@ const CaffeineCalculator = () => {
           <button
             onClick={openSettingsModal}
             className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-              darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
+              darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
             } ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
@@ -567,7 +567,9 @@ const CaffeineCalculator = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-100'}`}>
+                  <div className={`p-4 rounded-2xl text-center glass-surface glass-highlight ${
+                    darkMode ? 'text-slate-100' : 'text-slate-900'
+                  }`}>
                     <p className="font-medium">No entries for this range.</p>
                     <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                       Try selecting a broader window above to see older drinks.
@@ -575,7 +577,9 @@ const CaffeineCalculator = () => {
                   </div>
                 )
               ) : (
-                <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-100'}`}>
+                <div className={`p-4 rounded-2xl text-center glass-surface glass-highlight ${
+                  darkMode ? 'text-slate-100' : 'text-slate-900'
+                }`}>
                   <p>No caffeine intake recorded yet.</p>
                   <button 
                     onClick={openAddModal} 
@@ -625,8 +629,8 @@ const CaffeineCalculator = () => {
       />
       
       {/* Bottom Navigation */}
-      <nav className={`fixed bottom-0 left-0 right-0 flex justify-around py-3 border-t shadow-2xl ${
-        darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-100'
+      <nav className={`fixed bottom-0 left-0 right-0 flex justify-around py-3 border-t shadow-2xl backdrop-blur ${
+        darkMode ? 'bg-slate-950/80 border-white/10' : 'bg-white/80 border-slate-200/70'
       }`}>
         <NavButton 
           icon={<Coffee size={20} />} 
@@ -657,10 +661,8 @@ const CaffeineCalculator = () => {
           <div
             role="status"
             aria-live="polite"
-            className={`mx-auto max-w-xl rounded-2xl border shadow-2xl px-4 py-3 flex items-center justify-between gap-3 ${
-              darkMode
-                ? 'bg-slate-900 border-slate-800 text-white'
-                : 'bg-white border-slate-200 text-slate-900'
+            className={`mx-auto max-w-xl rounded-2xl glass-surface glass-highlight px-4 py-3 flex items-center justify-between gap-3 ${
+              darkMode ? 'text-slate-100' : 'text-slate-900'
             }`}
           >
             <div className="min-w-0">
@@ -677,7 +679,7 @@ const CaffeineCalculator = () => {
                 onClick={handleUndoRemove}
                 className={`rounded-xl px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
                     : 'bg-blue-600 hover:bg-blue-700 text-white focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               >
@@ -689,8 +691,8 @@ const CaffeineCalculator = () => {
                 aria-label="Dismiss undo"
                 className={`p-2 rounded-xl border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'border-slate-700 hover:bg-slate-800 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
-                    : 'border-slate-200 hover:bg-slate-100 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                    ? 'border-white/10 hover:bg-white/10 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+                    : 'border-slate-200/70 hover:bg-white/70 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               >
                 <X size={16} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coffee, AlertTriangle, Check } from 'lucide-react';
+import { AlertTriangle, Check, Coffee } from 'lucide-react';
 
 export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode = false }) => {
   // Determine status based on current level vs limit
@@ -9,26 +9,26 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
     if (percentage < 50) {
       return {
         label: 'Low',
-        icon: <Check size={20} className="text-green-500" />,
-        color: darkMode ? 'bg-green-900' : 'bg-green-100',
-        textColor: darkMode ? 'text-green-400' : 'text-green-800',
-        progressColor: 'bg-green-500'
+        icon: <Check size={20} className="text-emerald-500" />,
+        color: darkMode ? 'bg-emerald-900/40' : 'bg-emerald-100',
+        textColor: darkMode ? 'text-emerald-300' : 'text-emerald-700',
+        progressColor: 'bg-emerald-500'
       };
     } else if (percentage < 80) {
       return {
         label: 'Moderate',
-        icon: <Coffee size={20} className="text-yellow-500" />,
-        color: darkMode ? 'bg-yellow-900' : 'bg-yellow-100',
-        textColor: darkMode ? 'text-yellow-400' : 'text-yellow-800',
-        progressColor: 'bg-yellow-500'
+        icon: <Coffee size={20} className="text-amber-500" />,
+        color: darkMode ? 'bg-amber-900/40' : 'bg-amber-100',
+        textColor: darkMode ? 'text-amber-300' : 'text-amber-700',
+        progressColor: 'bg-amber-500'
       };
     } else {
       return {
         label: 'High',
-        icon: <AlertTriangle size={20} className="text-red-500" />,
-        color: darkMode ? 'bg-red-900' : 'bg-red-100',
-        textColor: darkMode ? 'text-red-400' : 'text-red-800',
-        progressColor: 'bg-red-500'
+        icon: <AlertTriangle size={20} className="text-rose-500" />,
+        color: darkMode ? 'bg-rose-900/40' : 'bg-rose-100',
+        textColor: darkMode ? 'text-rose-300' : 'text-rose-700',
+        progressColor: 'bg-rose-500'
       };
     }
   };
