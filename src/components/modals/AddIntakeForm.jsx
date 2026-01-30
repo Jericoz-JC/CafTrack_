@@ -46,11 +46,11 @@ const TimeOptionButton = ({ label, description, isSelected, onClick, darkMode, f
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
       ${isSelected
         ? darkMode
-          ? 'bg-blue-500/20 border-blue-500 text-blue-400'
-          : 'bg-blue-500/10 border-blue-500 text-blue-600'
+          ? 'bg-blue-500/20 border-blue-400/80 text-blue-300'
+          : 'bg-blue-500/10 border-blue-500/70 text-blue-600'
         : darkMode
-          ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
-          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
+          ? 'bg-white/10 border-white/10 text-slate-200 hover:bg-white/20'
+          : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
       }
       ${darkMode
         ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -63,7 +63,7 @@ const TimeOptionButton = ({ label, description, isSelected, onClick, darkMode, f
       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
         isSelected
           ? 'border-blue-500 bg-blue-500'
-          : darkMode ? 'border-slate-600' : 'border-slate-300'
+          : darkMode ? 'border-white/30' : 'border-slate-300'
       }`}>
         {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
       </div>
@@ -366,25 +366,23 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     }
   };
 
-  const listContainerClasses = `rounded-3xl border flex flex-col max-h-[28rem] ${
-    darkMode
-      ? 'border-slate-800 bg-slate-900 text-white'
-      : 'border-slate-200 bg-white text-slate-900 shadow-lg'
+  const listContainerClasses = `rounded-3xl flex flex-col max-h-[28rem] glass-surface glass-highlight ${
+    darkMode ? 'text-slate-100' : 'text-slate-900'
   }`;
 
   const listButtonClasses = (isActive) =>
     `w-full text-left px-4 py-3 flex justify-between items-center rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
       darkMode
-        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
         : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
     } ${
       isActive
         ? darkMode
-          ? 'bg-blue-900/40'
-          : 'bg-blue-50'
+          ? 'bg-blue-500/15'
+          : 'bg-blue-500/10'
         : darkMode
-          ? 'hover:bg-slate-800'
-          : 'hover:bg-slate-50'
+          ? 'hover:bg-white/10'
+          : 'hover:bg-slate-900/5'
     }`;
 
   const renderListItem = (drink) => {
@@ -446,8 +444,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           {[1, 2, 3, 4].map((key) => (
             <div
               key={key}
-              className={`h-10 rounded-lg ${
-                darkMode ? 'bg-slate-800 animate-pulse' : 'bg-slate-100 animate-pulse'
+              className={`h-10 rounded-lg animate-pulse ${
+                darkMode ? 'bg-white/10' : 'bg-slate-200/70'
               }`}
             />
           ))}
@@ -511,8 +509,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
 
   const renderInlineSelection = (drink) => (
     <div
-      className={`rounded-2xl p-4 border shadow-sm ${
-        darkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
+      className={`rounded-2xl p-4 glass-surface glass-highlight ${
+        darkMode ? 'text-slate-100' : 'text-slate-900'
       }`}
     >
       <div className="flex items-start justify-between mb-3">
@@ -531,8 +529,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           onClick={() => setSelectedDrink(null)}
           className={`p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
             darkMode
-              ? 'hover:bg-slate-800 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
-              : 'hover:bg-slate-100 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+              ? 'hover:bg-white/10 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+              : 'hover:bg-slate-900/5 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
           aria-label="Clear selection"
         >
@@ -585,8 +583,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
   return (
     <div className="space-y-6">
       <div
-        className={`rounded-2xl p-4 shadow-lg ${
-          darkMode ? 'bg-slate-900 border border-slate-800' : 'bg-white border border-slate-200'
+        className={`rounded-glass p-4 glass-surface glass-highlight ${
+          darkMode ? 'text-slate-100' : 'text-slate-900'
         }`}
       >
         <p className={`text-sm font-medium mb-3 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -624,11 +622,11 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
             ${timeMode === 'specific'
               ? darkMode
-                ? 'bg-blue-500/20 border-blue-500 text-blue-400'
-                : 'bg-blue-500/10 border-blue-500 text-blue-600'
+                ? 'bg-blue-500/20 border-blue-400/80 text-blue-300'
+                : 'bg-blue-500/10 border-blue-500/70 text-blue-600'
               : darkMode
-                ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
-                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
+                ? 'bg-white/10 border-white/10 text-slate-200 hover:bg-white/20'
+                : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
             }
             ${darkMode
               ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -643,7 +641,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
                 timeMode === 'specific'
                   ? 'border-blue-500 bg-blue-500'
-                  : darkMode ? 'border-slate-600' : 'border-slate-300'
+                  : darkMode ? 'border-white/30' : 'border-slate-300'
               }`}>
                 {timeMode === 'specific' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
               </div>
@@ -659,8 +657,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         </button>
 
         {timeMode === 'specific' && (
-          <div className={`mt-3 p-3 rounded-xl space-y-3 ${
-            darkMode ? 'bg-slate-800' : 'bg-slate-50'
+          <div className={`mt-3 p-3 rounded-xl space-y-3 border ${
+            darkMode ? 'bg-white/10 border-white/10' : 'bg-white/70 border-slate-200/70'
           }`}>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -680,12 +678,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                   onChange={(event) => setCustomDate(event.target.value)}
                   className={`w-full rounded-lg border px-3 py-2 text-base ${
                     darkMode
-                      ? 'bg-slate-900 border-slate-700 text-white'
-                      : 'bg-white border-slate-300 text-slate-900'
+                      ? 'bg-white/5 border-white/10 text-white'
+                      : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-800'
-                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-slate-50'
+                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
               </div>
@@ -705,12 +703,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                   onChange={(event) => setCustomTime(event.target.value)}
                   className={`w-full rounded-lg border px-3 py-2 text-base ${
                     darkMode
-                      ? 'bg-slate-900 border-slate-700 text-white'
-                      : 'bg-white border-slate-300 text-slate-900'
+                      ? 'bg-white/5 border-white/10 text-white'
+                      : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-800'
-                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-slate-50'
+                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
               </div>
@@ -726,15 +724,15 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
                     ${isQuickDateSelected(daysAgo)
                       ? darkMode
-                        ? 'bg-blue-500/30 text-blue-400 border border-blue-500'
-                        : 'bg-blue-500/20 text-blue-600 border border-blue-500'
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-400/80'
+                        : 'bg-blue-500/10 text-blue-600 border border-blue-500/70'
                       : darkMode
-                        ? 'bg-slate-700 text-slate-300 border border-slate-600 hover:bg-slate-600'
-                        : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                        ? 'bg-white/10 text-slate-200 border border-white/10 hover:bg-white/20'
+                        : 'bg-white/70 text-slate-700 border border-slate-200/70 hover:bg-white'
                     }
                     ${darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-800'
-                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-slate-50'
+                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                     }
                   `}
                 >
@@ -747,11 +745,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       </div>
 
       <div className={listContainerClasses}>
-        <div
-          className={`px-4 py-3 border-b ${
-            darkMode ? 'border-slate-800' : 'border-slate-100'
-          }`}
-        >
+        <div className="px-4 py-3 border-b border-glass-stroke">
           <label htmlFor="drink-search" className="sr-only">
             Search for a drink
           </label>
@@ -772,8 +766,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               placeholder="Search for a drink..."
               className={`w-full rounded-full border px-10 py-2 text-base ${
                 darkMode
-                  ? 'bg-slate-900 border-slate-700 text-white placeholder-slate-500'
-                  : 'bg-white border-slate-200 text-slate-900 placeholder-slate-500'
+                  ? 'bg-white/5 border-white/10 text-white placeholder-slate-500'
+                  : 'bg-white/80 border-slate-200/80 text-slate-900 placeholder-slate-500'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
                   ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -786,8 +780,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           {renderListContent()}
         </div>
         <div
-          className={`px-4 py-3 border-t ${
-            darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'
+          className={`px-4 py-3 border-t border-glass-stroke ${
+            darkMode ? 'bg-white/5' : 'bg-white/60'
           }`}
         >
           <button
@@ -795,8 +789,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             onClick={() => handleCustomCtaClick(searchQuery.trim())}
             className={`w-full rounded-full px-4 py-2 text-sm font-semibold flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'bg-slate-800 text-white hover:bg-slate-700'
-                : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+                ? 'bg-white/10 text-white hover:bg-white/20'
+                : 'bg-white/80 text-slate-900 hover:bg-white'
             } ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -812,8 +806,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       {showCustomForm && (
         <div
           ref={customFormRef}
-          className={`rounded-2xl p-4 shadow-2xl ring-1 ring-black/5 ${
-            darkMode ? 'bg-slate-900 border border-slate-800' : 'bg-white border border-slate-200'
+          className={`rounded-2xl p-4 glass-surface glass-highlight ${
+            darkMode ? 'text-slate-100' : 'text-slate-900'
           }`}
         >
           <h3 className="font-semibold mb-4">Custom drink</h3>
@@ -829,8 +823,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 onChange={(event) => setCustomName(event.target.value)}
                 className={`w-full rounded-lg border px-3 py-2 ${
                   darkMode
-                    ? 'bg-slate-900 border-slate-700 text-white'
-                    : 'bg-white border-slate-300 text-slate-900'
+                    ? 'bg-white/5 border-white/10 text-white'
+                    : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
                     ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -850,8 +844,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 onChange={(event) => setCustomAmount(event.target.value)}
                 className={`w-full rounded-lg border px-3 py-2 ${
                   darkMode
-                    ? 'bg-slate-900 border-slate-700 text-white'
-                    : 'bg-white border-slate-300 text-slate-900'
+                    ? 'bg-white/5 border-white/10 text-white'
+                    : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
                     ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'

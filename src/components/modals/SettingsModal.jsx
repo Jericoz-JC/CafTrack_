@@ -51,9 +51,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             value={formData.metabolismRate}
             onChange={handleChange}
             className={`w-full p-2 rounded-lg border ${
-              darkMode 
-                ? 'bg-slate-900 border-slate-700 text-white' 
-                : 'bg-white border-slate-300 text-slate-900'
+              darkMode
+                ? 'bg-white/5 border-white/10 text-white'
+                : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -83,9 +83,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             max="1000"
             step="50"
             className={`w-full p-2 rounded-lg border ${
-              darkMode 
-                ? 'bg-slate-900 border-slate-700 text-white' 
-                : 'bg-white border-slate-300 text-slate-900'
+              darkMode
+                ? 'bg-white/5 border-white/10 text-white'
+                : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -111,9 +111,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             max="200"
             step="5"
             className={`w-full p-2 rounded-lg border ${
-              darkMode 
-                ? 'bg-slate-900 border-slate-700 text-white' 
-                : 'bg-white border-slate-300 text-slate-900'
+              darkMode
+                ? 'bg-white/5 border-white/10 text-white'
+                : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
                 ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -126,7 +126,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
         </div>
         
         {/* Adjustments Section */}
-        <div className={`p-4 rounded-lg ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+        <div className={`p-4 rounded-2xl glass-surface glass-highlight ${
+          darkMode ? 'text-slate-100' : 'text-slate-900'
+        }`}>
           <h3 className="font-medium mb-3">Special Conditions</h3>
           
           {/* Pregnancy */}
@@ -176,7 +178,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
         </div>
         
         {/* Dark Mode Toggle */}
-        <div className={`p-4 rounded-lg ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+        <div className={`p-4 rounded-2xl glass-surface glass-highlight ${
+          darkMode ? 'text-slate-100' : 'text-slate-900'
+        }`}>
           <h3 className="font-medium mb-3">Appearance</h3>
           <div className="flex justify-between items-center">
             <span>Dark Mode</span>
@@ -186,7 +190,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
               className={`p-2 rounded-full ${
                 darkMode 
                   ? 'bg-blue-600 text-white' 
-                  : 'bg-slate-200 text-slate-900'
+                  : 'bg-white/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
                   ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'

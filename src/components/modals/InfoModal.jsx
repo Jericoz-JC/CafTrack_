@@ -75,7 +75,9 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
           </p>
         </section>
         
-        <div className={`mt-6 p-4 rounded-lg text-sm ${darkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-600'}`}>
+        <div className={`mt-6 p-4 rounded-2xl text-sm glass-surface glass-highlight ${
+          darkMode ? 'text-slate-300' : 'text-slate-600'
+        }`}>
           <p>
             This app provides general guidelines and calculations based on scientific research but is not a medical tool. Individual responses to caffeine can vary significantly.
           </p>
