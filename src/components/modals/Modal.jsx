@@ -36,32 +36,30 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
   };
   
   const frameStyles = darkMode
-    ? 'bg-slate-900 text-white border-slate-800'
-    : 'bg-white text-slate-900 border-slate-100';
+    ? 'glass-surface-strong glass-highlight text-slate-100'
+    : 'glass-surface-strong glass-highlight text-slate-900';
   
   return (
-    <div 
-      className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-8 bg-black/60 backdrop-blur-sm"
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-8 glass-backdrop"
       onClick={handleOutsideClick}
     >
       <div 
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto rounded-[32px] shadow-2xl border overflow-hidden ${frameStyles}`}
+        className={`w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto rounded-glass overflow-hidden ${frameStyles}`}
       >
         <div className="max-h-[85vh] flex flex-col">
-          <div className={`flex justify-between items-center px-5 sm:px-7 py-4 border-b ${
-            darkMode ? 'border-slate-800' : 'border-slate-100'
-          }`}>
+          <div className="flex justify-between items-center px-5 sm:px-7 py-4 border-b border-glass-stroke">
             <h2 className="text-xl font-bold">{title}</h2>
             <button 
               onClick={onClose}
               className={`p-1.5 rounded-full transition-colors ${
-                darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-100'
+                darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-900/5'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
-                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                  ? 'focus-visible:ring-sky-300 focus-visible:ring-offset-slate-950'
+                  : 'focus-visible:ring-sky-500 focus-visible:ring-offset-white'
               }`}
               aria-label="Close modal"
             >

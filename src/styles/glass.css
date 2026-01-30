@@ -1,0 +1,84 @@
+
+:root {
+  --glass-surface: rgba(255, 255, 255, 0.66);
+  --glass-surface-strong: rgba(255, 255, 255, 0.78);
+  --glass-stroke: rgba(148, 163, 184, 0.28);
+  --glass-highlight: rgba(255, 255, 255, 0.68);
+  --glass-shadow: 0 24px 55px -38px rgba(15, 23, 42, 0.45),
+    0 16px 26px -24px rgba(15, 23, 42, 0.28);
+  --glass-glow: rgba(56, 189, 248, 0.16);
+  --glass-overlay: linear-gradient(180deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.2));
+  --glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2) 55%, rgba(255, 255, 255, 0.55));
+  --glass-prism: radial-gradient(140% 80% at 10% 0%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 65%);
+  --glass-ambient: radial-gradient(700px 380px at 12% -6%, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0)),
+    radial-gradient(900px 420px at 88% -10%, rgba(251, 191, 36, 0.18), rgba(251, 191, 36, 0)),
+    radial-gradient(800px 520px at 50% 120%, rgba(14, 165, 233, 0.15), rgba(14, 165, 233, 0));
+  --app-bg: var(--glass-ambient), linear-gradient(180deg, #f4f7fb 0%, #e8edf4 100%);
+}
+
+body.dark {
+  --glass-surface: rgba(11, 17, 30, 0.62);
+  --glass-surface-strong: rgba(11, 17, 30, 0.76);
+  --glass-stroke: rgba(148, 163, 184, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 28px 65px -40px rgba(2, 6, 23, 0.85),
+    0 18px 30px -25px rgba(2, 6, 23, 0.6);
+  --glass-glow: rgba(56, 189, 248, 0.18);
+  --glass-overlay: linear-gradient(180deg, rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.45));
+  --glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0.1));
+  --glass-prism: radial-gradient(140% 80% at 10% 0%, rgba(56, 189, 248, 0.18), rgba(2, 6, 23, 0) 65%);
+  --glass-ambient: radial-gradient(720px 420px at 12% -8%, rgba(56, 189, 248, 0.2), rgba(2, 6, 23, 0)),
+    radial-gradient(900px 460px at 88% -10%, rgba(45, 212, 191, 0.16), rgba(2, 6, 23, 0)),
+    radial-gradient(800px 520px at 50% 120%, rgba(59, 130, 246, 0.18), rgba(2, 6, 23, 0));
+  --app-bg: var(--glass-ambient), linear-gradient(180deg, #060a12 0%, #02040a 100%);
+}
+
+.glass-surface {
+  position: relative;
+  background: var(--glass-prism), var(--glass-sheen), var(--glass-surface);
+  border: 1px solid var(--glass-stroke);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+.glass-surface-strong {
+  position: relative;
+  background: var(--glass-prism), var(--glass-sheen), var(--glass-surface-strong);
+  border: 1px solid var(--glass-stroke);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
+}
+
+.glass-surface::after,
+.glass-surface-strong::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(140% 80% at 0% 0%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 65%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.glass-border {
+  border: 1px solid var(--glass-stroke);
+}
+
+.glass-glow {
+  box-shadow: var(--glass-shadow),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 26px -6px var(--glass-glow);
+}
+
+.glass-highlight {
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.08);
+}
+
+.glass-backdrop {
+  background: var(--glass-overlay);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
