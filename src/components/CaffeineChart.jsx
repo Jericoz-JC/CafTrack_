@@ -153,24 +153,22 @@ export const CaffeineChart = ({
       
       // Determine status
       const percentage = (level / resolvedLimit) * 100;
-      let status = { text: 'Low', color: 'text-green-500' };
-      if (percentage >= 80) status = { text: 'High', color: 'text-red-500' };
-      else if (percentage >= 50) status = { text: 'Moderate', color: 'text-yellow-500' };
+      let status = { text: 'Low', color: 'text-emerald-500' };
+      if (percentage >= 80) status = { text: 'High', color: 'text-rose-500' };
+      else if (percentage >= 50) status = { text: 'Moderate', color: 'text-amber-500' };
 
       return (
-        <div className={`p-3 rounded-lg shadow-lg border max-w-xs ${
-          darkMode 
-            ? 'bg-slate-900 text-white border-slate-700' 
-            : 'bg-white text-slate-900 border-slate-200'
+        <div className={`p-3 rounded-2xl glass-surface glass-highlight max-w-xs ${
+          darkMode ? 'text-slate-100' : 'text-slate-900'
         }`}>
           <p className="font-medium text-sm mb-1">{formattedTime}</p>
           <div className="flex items-center gap-2 mb-1">
-            <Coffee size={14} className="text-blue-500" />
+            <Coffee size={14} className={darkMode ? 'text-sky-300' : 'text-sky-500'} />
             <span className="font-bold text-lg">{Math.round(level)} mg</span>
             <span className={`text-xs font-medium ${status.color}`}>({status.text})</span>
           </div>
           {isPeak && (
-            <div className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+            <div className="text-xs text-amber-500 dark:text-amber-400 mt-1">
               ☕ Intake detected
             </div>
           )}
@@ -183,6 +181,8 @@ export const CaffeineChart = ({
     
     return null;
   };
+
+  const areaColor = darkMode ? '#38bdf8' : '#0ea5e9';
 
   // Chart component selection (fixed to AreaChart for consistent look)
   const ChartComponent = AreaChart;
@@ -210,17 +210,15 @@ export const CaffeineChart = ({
 
   return (
     <div
-      className={`p-4 sm:p-6 rounded-2xl shadow-lg border space-y-6 ${
-        darkMode
-          ? 'bg-slate-900 border-slate-800'
-          : 'bg-white border-slate-100'
+      className={`p-4 sm:p-6 rounded-glass glass-surface glass-highlight space-y-6 ${
+        darkMode ? 'text-slate-100' : 'text-slate-900'
       }`}
     >
       {/* Header + controls */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
-            <BarChart2 size={18} className={darkMode ? 'text-blue-300' : 'text-blue-600'} />
+            <BarChart2 size={18} className={darkMode ? 'text-sky-300' : 'text-sky-600'} />
             Trending Intake
           </div>
           <h2 className="text-2xl font-bold mt-1">Caffeine Levels</h2>
@@ -230,7 +228,9 @@ export const CaffeineChart = ({
         </div>
 
         <div className="flex flex-col gap-2 w-full sm:w-56">
-          <span className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+          <span className={`text-sm font-semibold uppercase tracking-wide ${
+            darkMode ? 'text-slate-400' : 'text-slate-500'
+          }`}>
             Upper limit (mg)
           </span>
           <div className="flex items-center gap-2">
@@ -243,8 +243,8 @@ export const CaffeineChart = ({
               onBlur={handleLimitBlur}
               className={`flex-1 rounded-xl px-3 py-2 border font-semibold ${
                 darkMode
-                  ? 'bg-slate-900 border-slate-700 text-white'
-                  : 'bg-white border-slate-200 text-slate-900'
+                  ? 'bg-white/5 border-white/10 text-white'
+                  : 'bg-white/80 border-slate-200/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
                   ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
@@ -273,15 +273,15 @@ export const CaffeineChart = ({
           >
             <defs>
               <linearGradient id="colorLevel" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={darkMode ? '#3b82f6' : '#2563eb'} stopOpacity={0.3}/>
-                <stop offset="95%" stopColor={darkMode ? '#3b82f6' : '#2563eb'} stopOpacity={0}/>
+                <stop offset="5%" stopColor={areaColor} stopOpacity={darkMode ? 0.3 : 0.22} />
+                <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid 
               strokeDasharray="3 3" 
               vertical={false}
-              stroke={darkMode ? '#374151' : '#e5e7eb'} 
-              opacity={0.5}
+              stroke={darkMode ? '#1f2937' : '#e5e7eb'} 
+              opacity={darkMode ? 0.5 : 0.6}
             />
             
             <XAxis 
@@ -290,7 +290,7 @@ export const CaffeineChart = ({
               domain={xDomain}
               scale="time"
               tickFormatter={formatXAxis} 
-              stroke={darkMode ? '#9ca3af' : '#6b7280'}
+              stroke={darkMode ? '#94a3b8' : '#64748b'}
               fontSize={11}
               tickLine={false}
               axisLine={false}
@@ -299,7 +299,7 @@ export const CaffeineChart = ({
             />
             
             <YAxis 
-              stroke={darkMode ? '#9ca3af' : '#6b7280'} 
+              stroke={darkMode ? '#94a3b8' : '#64748b'} 
               domain={[0, yAxisMax]}
               fontSize={11}
               tickLine={false}
@@ -312,21 +312,21 @@ export const CaffeineChart = ({
             {/* Reference lines without labels */}
             <ReferenceLine 
               y={resolvedLimit} 
-              stroke={darkMode ? '#ef4444' : '#dc2626'} 
+              stroke={darkMode ? '#fb7185' : '#e11d48'} 
               strokeDasharray="4 4" 
               strokeWidth={1.5}
             />
             
             <ReferenceLine 
               x={sleepTimeValue} 
-              stroke={darkMode ? '#8b5cf6' : '#7c3aed'} 
+              stroke={darkMode ? '#7dd3fc' : '#0ea5e9'} 
               strokeDasharray="4 4" 
               strokeWidth={1.5}
             />
             
             <ReferenceLine 
               y={targetSleepCaffeine} 
-              stroke={darkMode ? '#10b981' : '#059669'} 
+              stroke={darkMode ? '#34d399' : '#10b981'} 
               strokeDasharray="4 4" 
               strokeWidth={1.5}
             />
@@ -334,14 +334,14 @@ export const CaffeineChart = ({
             <Area
               type={lineType}
               dataKey="level"
-              stroke={darkMode ? '#3b82f6' : '#2563eb'}
+              stroke={areaColor}
               fill="url(#colorLevel)"
               strokeWidth={2}
               dot={false}
               activeDot={{ 
                 r: 4, 
-                fill: darkMode ? '#60a5fa' : '#3b82f6',
-                stroke: darkMode ? '#1e40af' : '#1d4ed8',
+                fill: darkMode ? '#7dd3fc' : '#0ea5e9',
+                stroke: darkMode ? '#075985' : '#0369a1',
                 strokeWidth: 2
               }}
             />
@@ -352,19 +352,19 @@ export const CaffeineChart = ({
       {/* Legend */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
         <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
+          <div className={`w-4 h-0.5 ${darkMode ? 'bg-sky-400' : 'bg-sky-500'}`} />
           <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>Caffeine Level</span>
         </div>
         
         <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-red-500' : 'border-red-600'}`} />
+          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-rose-400' : 'border-rose-500'}`} />
           <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
             Daily Limit ({resolvedLimit}mg)
           </span>
         </div>
         
         <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-green-500' : 'border-green-600'}`} />
+          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-emerald-400' : 'border-emerald-500'}`} />
           <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
             Sleep Target ({targetSleepCaffeine}mg)
           </span>
