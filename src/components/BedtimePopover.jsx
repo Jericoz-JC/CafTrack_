@@ -150,8 +150,8 @@ export const BedtimePopover = ({
                           ? 'bg-sky-500/90 text-white shadow-lg shadow-sky-500/30'
                           : 'bg-sky-500 text-white shadow-lg shadow-sky-500/25'
                         : darkMode
-                          ? 'bg-white/5 text-slate-200 hover:bg-white/10'
-                          : 'bg-slate-900/5 text-slate-700 hover:bg-slate-900/10'
+                          ? 'bg-white/10 text-slate-200 hover:bg-white/20'
+                          : 'bg-white/70 text-slate-700 hover:bg-white'
                     }`}
                   >
                     {active && <Check size={14} />}
@@ -175,7 +175,7 @@ export const BedtimePopover = ({
                 className={`w-full rounded-xl border px-3 py-2.5 text-sm ${
                   darkMode
                     ? 'bg-white/5 border-white/10 text-white'
-                    : 'bg-white/70 border-slate-200 text-slate-900'
+                    : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
                     ? 'focus-visible:ring-sky-300 focus-visible:ring-offset-slate-950'
