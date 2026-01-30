@@ -9,17 +9,15 @@ export const RangeSelector = React.memo(function RangeSelector({
 }) {
   return (
     <section
-      className={`rounded-3xl px-4 py-5 shadow-inner border transition-colors ${
-        darkMode
-          ? 'bg-slate-900 border-slate-800 text-white'
-          : 'bg-slate-100 border-slate-200 text-slate-900'
+      className={`rounded-glass px-4 py-5 glass-surface glass-highlight ${
+        darkMode ? 'text-slate-100' : 'text-slate-900'
       }`}
       aria-label={title}
     >
       <p className="text-lg font-semibold">{title}</p>
       <div
         className={`mt-3 flex rounded-full p-1 ${
-          darkMode ? 'bg-slate-800' : 'bg-white shadow-sm'
+          darkMode ? 'bg-white/10' : 'bg-white/70 shadow-sm'
         }`}
       >
         {options.map((option) => {

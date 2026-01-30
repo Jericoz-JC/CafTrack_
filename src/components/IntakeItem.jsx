@@ -66,9 +66,11 @@ export const IntakeItem = React.memo(function IntakeItem({
   };
   
   return (
-    <div className={`p-3 rounded-lg flex items-center justify-between ${
-      darkMode ? 'bg-slate-900' : 'bg-white'
-    } shadow`}>
+    <div
+      className={`p-3 rounded-2xl flex items-center justify-between glass-surface glass-highlight ${
+        darkMode ? 'text-slate-100' : 'text-slate-900'
+      }`}
+    >
       <div className="flex items-center">
         <div className={`p-2 rounded-full mr-3 ${getBgColor()}`}>
           <span className={getTextColor()}>

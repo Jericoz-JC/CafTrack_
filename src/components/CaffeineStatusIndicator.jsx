@@ -37,7 +37,11 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
   const progressPercentage = Math.min(100, (currentLevel / caffeineLimit) * 100);
   
   return (
-    <div className={`p-4 rounded-lg ${darkMode ? 'bg-slate-900' : 'bg-white'} shadow`}>
+    <div
+      className={`p-4 rounded-glass glass-surface glass-highlight ${
+        darkMode ? 'text-slate-100' : 'text-slate-900'
+      }`}
+    >
       <h2 className="text-lg font-bold mb-2">Current Caffeine Level</h2>
       
       <div className="flex items-center justify-between mb-2">
@@ -59,7 +63,11 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
       </div>
       
       {/* Progress bar */}
-      <div className={`h-2 w-full rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
+      <div
+        className={`h-2 w-full rounded-full overflow-hidden ${
+          darkMode ? 'bg-white/10' : 'bg-slate-200/80'
+        }`}
+      >
         <div 
           className={`h-full ${status.progressColor} transition-all duration-500 ease-out`}
           style={{ width: `${progressPercentage}%` }}

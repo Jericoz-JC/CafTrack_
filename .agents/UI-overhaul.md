@@ -42,6 +42,41 @@
 
 ---
 
+## Phase 2.1 — Add Button Layout
+**TDD (tests first)**
+- `src/components/CaffeineCalculator.test.js`: FAB remains reachable above bottom nav and opens add modal.
+
+**Implementation**
+- Keep the existing bottom nav and right-side FAB.
+- Keep the FAB aligned to the screen edge on mobile and desktop.
+- Ensure spacing above the bottom nav and undo toast remains consistent.
+
+**Manual Break**
+- You confirm the FAB alignment on mobile/desktop and that it clears the undo toast.
+
+---
+
+## Phase 2.2 — Universal Glass Materials (iOS-style)
+**Design Input**
+- Reference Apple Materials/HIG translucency patterns (subtle, low-contrast glow, consistent blur). Add Caffeine Intake modal is the quality bar.
+
+**TDD (tests first)**
+- No new functional tests; visual-only changes (snapshot tests optional if desired).
+
+**Implementation**
+- Rework `src/styles/glass.css` to a single, universal material:
+  - Reduce the top-left light source; avoid prismatic streaks.
+  - Use consistent blur + light edge stroke across all surfaces.
+  - Keep glow minimal and even; remove heavy shadow stacking.
+- Normalize usage: replace mixed `glass-surface`/`glass-surface-strong` with a single `glass-surface` across cards, popovers, and modals.
+- Tune `glass-backdrop` for a softer dim without heavy tint.
+- Align modal/popover and card backgrounds to a polished, understated look.
+
+**Manual Break**
+- You run the app and verify the material feels consistent across stacked cards and the Add Intake modal.
+
+---
+
 ## Phase 3 — Core Cards & Surfaces
 **TDD (tests first)**
 - `src/components/CaffeineStatusIndicator.test.js`: renders status + caffeine value.
@@ -81,20 +116,38 @@
 - Redesign `AddIntakeForm` time picker per segmented control layout.
 - Apply glass styles to `SettingsModal`, `InfoModal`, and `BedtimePopover`.
 - Remove `src/components/BedtimeDial.jsx` and any unused imports.
+- Normalize modal interior surfaces (inputs, list rows, callouts) to the new glass material.
 
 **Manual Break**
 - You test time selection flows and bedtime popover in the header.
 
 ---
 
-## Phase 5 — Chart + Polish
+## Phase 5 — Color System + Chart + Polish
 **TDD (tests first)**
 - `src/components/CaffeineChart.test.js`: legend labels and limit input behavior.
 
 **Implementation**
+- Update accent palette to align with the softened glass material.
+- Unify status colors (reduce harsh green/yellow/red) across cards and chips.
 - Update chart accent colors and glass tooltip.
 - Final polish pass: focus rings, motion safety, OLED background consistency.
 - Optional: run web-interface-guidelines review for accessibility.
 
 **Manual Break**
 - You confirm final visuals and interactions before merge.
+
+---
+
+## Phase 5.1 — Consistency Sweep (Surfaces)
+**Targets**
+- `AddIntakeForm` inner panels, inputs, list rows, and buttons.
+- `SettingsModal` form fields and callout blocks.
+- `InfoModal` footnote callout.
+- Header controls, bottom nav buttons, and undo toast.
+- History empty states.
+- `BedtimePopover` trigger + preset buttons.
+- `CaffeineChart` inputs/legend panels.
+
+**Manual Break**
+- You confirm all high-traffic UI surfaces feel unified and professional.

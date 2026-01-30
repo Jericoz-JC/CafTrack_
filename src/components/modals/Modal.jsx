@@ -36,8 +36,8 @@ export const Modal = ({ title, onClose, children, darkMode = false }) => {
   };
   
   const frameStyles = darkMode
-    ? 'glass-surface-strong glass-highlight text-slate-100'
-    : 'glass-surface-strong glass-highlight text-slate-900';
+    ? 'glass-surface glass-highlight text-slate-100'
+    : 'glass-surface glass-highlight text-slate-900';
   
   return (
     <div

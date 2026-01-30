@@ -118,7 +118,7 @@ export const BedtimePopover = ({
             role="dialog"
             aria-label="Set bedtime"
             aria-modal="true"
-            className={`absolute inset-x-0 bottom-0 top-0 w-full h-full sm:static sm:h-auto rounded-none sm:rounded-2xl overflow-y-auto glass-surface-strong glass-highlight ${
+            className={`absolute inset-x-0 bottom-0 top-0 w-full h-full sm:static sm:h-auto rounded-none sm:rounded-2xl overflow-y-auto glass-surface glass-highlight ${
               darkMode ? 'text-slate-100' : 'text-slate-900'
             }`}
           >

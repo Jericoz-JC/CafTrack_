@@ -6,7 +6,6 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
   const [formData, setFormData] = useState({
     metabolismRate: settings.metabolismRate,
     caffeineLimit: settings.caffeineLimit,
-    sleepTime: settings.sleepTime,
     targetSleepCaffeine: settings.targetSleepCaffeine,
     pregnancyAdjustment: settings.pregnancyAdjustment,
     smokerAdjustment: settings.smokerAdjustment,
@@ -29,12 +28,14 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
     e.preventDefault();
     
     // Convert string values to numbers where needed
+    // Preserve sleepTime from original settings (now managed via header popover)
     const processedData = {
       ...formData,
+      sleepTime: settings.sleepTime,
       caffeineLimit: Number(formData.caffeineLimit),
       targetSleepCaffeine: Number(formData.targetSleepCaffeine)
     };
-    
+
     onSave(processedData);
     onClose();
   };
@@ -94,28 +95,6 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
           <p className={`mt-1 text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
             Recommended: 400mg for healthy adults
           </p>
-        </div>
-        
-        {/* Sleep Time */}
-        <div>
-          <label className="block mb-2 font-medium">
-            Target Sleep Time
-          </label>
-          <input
-            type="time"
-            name="sleepTime"
-            value={formData.sleepTime}
-            onChange={handleChange}
-            className={`w-full p-2 rounded-lg border ${
-              darkMode 
-                ? 'bg-slate-900 border-slate-700 text-white' 
-                : 'bg-white border-slate-300 text-slate-900'
-            } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-              darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
-                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
-            }`}
-          />
         </div>
         
         {/* Target Sleep Caffeine Level */}

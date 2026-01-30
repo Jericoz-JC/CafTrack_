@@ -21,6 +21,7 @@ import { SleepReadinessIndicator } from './SleepReadinessIndicator';
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
+import { BedtimePopover } from './BedtimePopover';
 import { DEFAULT_SETTINGS, HALF_LIFE_HOURS_BY_RATE } from '../constants/caffeine';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 
@@ -323,6 +324,40 @@ const CaffeineCalculator = () => {
   // Current caffeine level
   const currentCaffeineLevel = useMemo(calculateCurrentCaffeineLevel, [caffeineIntakes, settings]);
 
+  // Calculate caffeine at sleep time for header popover
+  const sleepTimeInfo = useMemo(() => {
+    const safeSleepTime = settings.sleepTime || '22:00';
+    const [sleepHour, sleepMinute] = safeSleepTime.split(':').map(Number);
+
+    const today = new Date();
+    const sleepTimeDate = new Date(today);
+    sleepTimeDate.setHours(sleepHour, sleepMinute, 0, 0);
+
+    if (sleepTimeDate < today) {
+      sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
+    }
+
+    // Find closest chart data point to sleep time
+    let caffeineAtSleep = 0;
+    if (chartData && chartData.length > 0) {
+      let closestPoint = chartData[0];
+      let smallestDiff = Math.abs(new Date(chartData[0].time) - sleepTimeDate);
+
+      for (let i = 1; i < chartData.length; i++) {
+        const diff = Math.abs(new Date(chartData[i].time) - sleepTimeDate);
+        if (diff < smallestDiff) {
+          smallestDiff = diff;
+          closestPoint = chartData[i];
+        }
+      }
+      caffeineAtSleep = closestPoint.level;
+    }
+
+    const isReadyForSleep = caffeineAtSleep <= settings.targetSleepCaffeine;
+
+    return { caffeineAtSleep, isReadyForSleep };
+  }, [chartData, settings.sleepTime, settings.targetSleepCaffeine]);
+
   const filteredIntakes = useMemo(() => {
     if (!caffeineIntakes.length) {
       return [];
@@ -434,8 +469,8 @@ const CaffeineCalculator = () => {
           <Coffee className={`mr-2 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`} />
           <h1 className="text-xl font-bold">CafTrack</h1>
         </div>
-        <div className="flex">
-          <button 
+        <div className="flex items-center gap-2">
+          <button
             onClick={toggleDarkMode}
             className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
@@ -448,9 +483,17 @@ const CaffeineCalculator = () => {
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button 
+          <BedtimePopover
+            sleepTime={settings.sleepTime}
+            onSleepTimeChange={handleSleepTimeChange}
+            darkMode={darkMode}
+            caffeineAtSleep={sleepTimeInfo.caffeineAtSleep}
+            targetLevel={settings.targetSleepCaffeine}
+            isReadyForSleep={sleepTimeInfo.isReadyForSleep}
+          />
+          <button
             onClick={openInfoModal}
-            className={`p-2 rounded-full border ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
             } ${
               darkMode
@@ -461,9 +504,9 @@ const CaffeineCalculator = () => {
           >
             <Info size={20} />
           </button>
-          <button 
+          <button
             onClick={openSettingsModal}
-            className={`p-2 rounded-full border ml-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'
             } ${
               darkMode
@@ -490,12 +533,11 @@ const CaffeineCalculator = () => {
             />
             
             {/* Sleep Readiness */}
-            <SleepReadinessIndicator 
+            <SleepReadinessIndicator
               chartData={chartData}
               sleepTime={settings.sleepTime}
               targetLevel={settings.targetSleepCaffeine}
               darkMode={darkMode}
-              onSleepTimeChange={handleSleepTimeChange}
             />
           </div>
         )}
