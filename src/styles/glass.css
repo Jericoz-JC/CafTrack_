@@ -1,31 +1,31 @@
 
 :root {
-  --glass-surface: rgba(255, 255, 255, 0.72);
-  --glass-surface-strong: rgba(255, 255, 255, 0.72);
-  --glass-stroke: rgba(148, 163, 184, 0.22);
-  --glass-highlight: rgba(255, 255, 255, 0.45);
-  --glass-shadow: 0 18px 40px -28px rgba(15, 23, 42, 0.35),
-    0 8px 18px -16px rgba(15, 23, 42, 0.2);
-  --glass-glow: rgba(56, 189, 248, 0.08);
-  --glass-overlay: rgba(15, 23, 42, 0.3);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.05));
-  --glass-ambient: radial-gradient(900px 480px at 50% -12%, rgba(59, 130, 246, 0.12), rgba(59, 130, 246, 0)),
-    radial-gradient(720px 460px at 80% 0%, rgba(251, 191, 36, 0.1), rgba(251, 191, 36, 0));
-  --app-bg: var(--glass-ambient), linear-gradient(180deg, #f6f8fb 0%, #e9eef5 100%);
+  --glass-surface: rgba(255, 255, 255, 0.78);
+  --glass-surface-strong: rgba(255, 255, 255, 0.94);
+  --glass-stroke: rgba(148, 163, 184, 0.28);
+  --glass-highlight: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 18px 40px -28px rgba(15, 23, 42, 0.28),
+    0 10px 20px -16px rgba(15, 23, 42, 0.2);
+  --glass-glow: rgba(56, 189, 248, 0.05);
+  --glass-overlay: rgba(15, 23, 42, 0.38);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.16) 45%, rgba(255, 255, 255, 0.05));
+  --glass-ambient: radial-gradient(860px 420px at 50% -12%, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0)),
+    radial-gradient(680px 420px at 80% 0%, rgba(251, 191, 36, 0.08), rgba(251, 191, 36, 0));
+  --app-bg: var(--glass-ambient), linear-gradient(180deg, #f5f7fb 0%, #e7edf5 100%);
 }
 
 body.dark {
-  --glass-surface: rgba(8, 13, 24, 0.62);
-  --glass-surface-strong: rgba(8, 13, 24, 0.62);
-  --glass-stroke: rgba(148, 163, 184, 0.18);
-  --glass-highlight: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 22px 50px -32px rgba(2, 6, 23, 0.78),
-    0 12px 24px -18px rgba(2, 6, 23, 0.55);
-  --glass-glow: rgba(56, 189, 248, 0.1);
-  --glass-overlay: rgba(2, 6, 23, 0.62);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0));
-  --glass-ambient: radial-gradient(920px 520px at 50% -10%, rgba(56, 189, 248, 0.16), rgba(2, 6, 23, 0)),
-    radial-gradient(720px 460px at 80% 0%, rgba(45, 212, 191, 0.12), rgba(2, 6, 23, 0));
+  --glass-surface: rgba(9, 13, 23, 0.7);
+  --glass-surface-strong: rgba(9, 13, 23, 0.88);
+  --glass-stroke: rgba(148, 163, 184, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 22px 50px -32px rgba(2, 6, 23, 0.75),
+    0 12px 24px -18px rgba(2, 6, 23, 0.6);
+  --glass-glow: rgba(148, 163, 184, 0.08);
+  --glass-overlay: rgba(2, 6, 23, 0.7);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.02));
+  --glass-ambient: radial-gradient(900px 500px at 50% -10%, rgba(148, 163, 184, 0.12), rgba(2, 6, 23, 0)),
+    radial-gradient(700px 440px at 80% 0%, rgba(148, 163, 184, 0.08), rgba(2, 6, 23, 0));
   --app-bg: var(--glass-ambient), linear-gradient(180deg, #05070f 0%, #02030a 100%);
 }
 
@@ -34,8 +34,8 @@ body.dark {
   background: var(--glass-sheen), var(--glass-surface);
   border: 1px solid var(--glass-stroke);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
 }
 
 .glass-surface-strong {
@@ -43,8 +43,8 @@ body.dark {
   background: var(--glass-sheen), var(--glass-surface-strong);
   border: 1px solid var(--glass-stroke);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
 }
 
 .glass-border {
@@ -63,6 +63,7 @@ body.dark {
 
 .glass-backdrop {
   background: var(--glass-overlay);
-  backdrop-filter: blur(14px) saturate(120%);
-  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(115%);
+  -webkit-backdrop-filter: blur(12px) saturate(115%);
+  overscroll-behavior: contain;
 }

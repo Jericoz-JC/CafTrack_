@@ -22,10 +22,15 @@ export const CaffeineChart = ({
   targetSleepCaffeine,
   rangePreset = DEFAULT_RANGE_PRESET,
   darkMode = false,
+  variant = 'default',
   onLimitChange,
   onInteractionStart,
-  onInteractionEnd
+  onInteractionEnd,
+  showBedtimeLine = true,
+  showSleepTargetLine = true,
+  showLimitLine = true
 }) => {
+  const isCompact = variant === 'desktop';
   const [limitField, setLimitField] = useState(String(caffeineLimit));
   const normalizedRange = rangePreset || DEFAULT_RANGE_PRESET;
 
@@ -163,12 +168,12 @@ export const CaffeineChart = ({
         }`}>
           <p className="font-medium text-sm mb-1">{formattedTime}</p>
           <div className="flex items-center gap-2 mb-1">
-            <Coffee size={14} className={darkMode ? 'text-sky-300' : 'text-sky-500'} />
-            <span className="font-bold text-lg">{Math.round(level)} mg</span>
+            <Coffee size={14} className={darkMode ? 'text-slate-300' : 'text-sky-500'} aria-hidden="true" />
+            <span className="font-bold text-lg tabular-nums">{Math.round(level)} mg</span>
             <span className={`text-xs font-medium ${status.color}`}>({status.text})</span>
           </div>
           {isPeak && (
-            <div className="text-xs text-amber-500 dark:text-amber-400 mt-1">
+            <div className={`text-xs mt-1 ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>
               ☕ Intake detected
             </div>
           )}
@@ -182,7 +187,7 @@ export const CaffeineChart = ({
     return null;
   };
 
-  const areaColor = darkMode ? '#38bdf8' : '#0ea5e9';
+  const areaColor = darkMode ? '#94a3b8' : '#0ea5e9';
 
   // Chart component selection (fixed to AreaChart for consistent look)
   const ChartComponent = AreaChart;
@@ -208,46 +213,55 @@ export const CaffeineChart = ({
     }
   };
 
+  const legendColumnsClass = showBedtimeLine ? 'sm:grid-cols-4' : 'sm:grid-cols-3';
+
   return (
     <div
-      className={`p-4 sm:p-6 rounded-glass glass-surface glass-highlight space-y-6 ${
+      className={`rounded-glass glass-surface glass-highlight ${
         darkMode ? 'text-slate-100' : 'text-slate-900'
-      }`}
+      } ${isCompact ? 'p-4 space-y-4' : 'p-4 sm:p-6 space-y-6'}`}
     >
       {/* Header + controls */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className={`flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between ${isCompact ? 'text-sm' : ''}`}>
         <div>
-          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
-            <BarChart2 size={18} className={darkMode ? 'text-sky-300' : 'text-sky-600'} />
+          <div className={`flex items-center gap-2 font-semibold uppercase tracking-wide ${isCompact ? 'text-xs' : 'text-sm'}`}>
+            <BarChart2 size={18} className={darkMode ? 'text-slate-300' : 'text-sky-600'} aria-hidden="true" />
             Trending Intake
           </div>
-          <h2 className="text-2xl font-bold mt-1">Caffeine Levels</h2>
-          <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+          <h2 className={`${isCompact ? 'text-lg' : 'text-2xl'} font-bold mt-1`}>Caffeine Levels</h2>
+          <p className={`${isCompact ? 'text-xs' : 'text-sm'} ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
             Showing {activeRangeLabel === 'All' ? 'all history' : activeRangeLabel}
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 w-full sm:w-56">
-          <span className={`text-sm font-semibold uppercase tracking-wide ${
-            darkMode ? 'text-slate-400' : 'text-slate-500'
-          }`}>
-            Upper limit (mg)
-          </span>
+        <div className={`flex flex-col gap-2 w-full ${isCompact ? 'sm:w-48' : 'sm:w-56'}`}>
+          <label
+            htmlFor="daily-limit-input"
+            className={`${isCompact ? 'text-xs' : 'text-sm'} font-semibold uppercase tracking-wide ${
+              darkMode ? 'text-slate-400' : 'text-slate-500'
+            }`}
+          >
+            Daily Limit (mg)
+          </label>
           <div className="flex items-center gap-2">
             <input
+              id="daily-limit-input"
+              name="dailyLimit"
+              autoComplete="off"
+              inputMode="numeric"
               type="number"
               min="50"
               max="800"
               value={limitField}
               onChange={(e) => setLimitField(e.target.value)}
               onBlur={handleLimitBlur}
-              className={`flex-1 rounded-xl px-3 py-2 border font-semibold ${
+              className={`flex-1 rounded-xl px-3 py-2 border font-semibold tabular-nums ${
                 darkMode
                   ? 'bg-white/5 border-white/10 text-white'
                   : 'bg-white/80 border-slate-200/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
@@ -258,7 +272,7 @@ export const CaffeineChart = ({
       
       {/* Chart */}
       <div
-        className="h-64 sm:h-80 mb-6"
+        className={`${isCompact ? 'h-[320px] mb-4' : 'h-64 sm:h-80 lg:h-96 mb-6'}`}
         onTouchStart={onInteractionStart}
         onTouchEnd={onInteractionEnd}
         onTouchCancel={onInteractionEnd}
@@ -310,26 +324,32 @@ export const CaffeineChart = ({
             <Tooltip content={<CustomTooltip />} />
             
             {/* Reference lines without labels */}
-            <ReferenceLine 
-              y={resolvedLimit} 
-              stroke={darkMode ? '#fb7185' : '#e11d48'} 
-              strokeDasharray="4 4" 
-              strokeWidth={1.5}
-            />
+            {showLimitLine && (
+              <ReferenceLine 
+                y={resolvedLimit} 
+                stroke={darkMode ? '#fb7185' : '#e11d48'} 
+                strokeDasharray="4 4" 
+                strokeWidth={1.5}
+              />
+            )}
             
-            <ReferenceLine 
-              x={sleepTimeValue} 
-              stroke={darkMode ? '#7dd3fc' : '#0ea5e9'} 
-              strokeDasharray="4 4" 
-              strokeWidth={1.5}
-            />
+            {showBedtimeLine && (
+              <ReferenceLine 
+                x={sleepTimeValue} 
+                stroke={darkMode ? '#cbd5e1' : '#0ea5e9'} 
+                strokeDasharray="4 4" 
+                strokeWidth={1.5}
+              />
+            )}
             
-            <ReferenceLine 
-              y={targetSleepCaffeine} 
-              stroke={darkMode ? '#34d399' : '#10b981'} 
-              strokeDasharray="4 4" 
-              strokeWidth={1.5}
-            />
+            {showSleepTargetLine && (
+              <ReferenceLine 
+                y={targetSleepCaffeine} 
+                stroke={darkMode ? '#34d399' : '#10b981'} 
+                strokeDasharray="4 4" 
+                strokeWidth={1.5}
+              />
+            )}
             
             <Area
               type={lineType}
@@ -350,25 +370,36 @@ export const CaffeineChart = ({
       </div>
       
       {/* Legend */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+      <div className={`grid grid-cols-1 ${legendColumnsClass} gap-3 ${isCompact ? 'text-xs' : 'text-sm'}`}>
         <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 ${darkMode ? 'bg-sky-400' : 'bg-sky-500'}`} />
+          <div className={`w-4 h-0.5 ${darkMode ? 'bg-slate-400' : 'bg-sky-500'}`} />
           <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>Caffeine Level</span>
         </div>
         
-        <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-rose-400' : 'border-rose-500'}`} />
-          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
-            Daily Limit ({resolvedLimit}mg)
-          </span>
-        </div>
+        {showLimitLine && (
+          <div className="flex items-center gap-2">
+            <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-rose-400' : 'border-rose-500'}`} />
+            <span className={`tabular-nums ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+              Daily Limit ({resolvedLimit} mg)
+            </span>
+          </div>
+        )}
         
-        <div className="flex items-center gap-2">
-          <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-emerald-400' : 'border-emerald-500'}`} />
-          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>
-            Sleep Target ({targetSleepCaffeine}mg)
-          </span>
+        {showSleepTargetLine && (
+          <div className="flex items-center gap-2">
+            <div className={`w-4 h-0.5 border-dashed border-2 ${darkMode ? 'border-emerald-400' : 'border-emerald-500'}`} />
+            <span className={`tabular-nums ${darkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+              Sleep Target ({targetSleepCaffeine} mg)
+            </span>
+          </div>
+        )}
+
+        {showBedtimeLine && (
+          <div className="flex items-center gap-2">
+          <div className={`w-0.5 h-4 ${darkMode ? 'bg-slate-300' : 'bg-sky-600'}`} />
+          <span className={darkMode ? 'text-slate-200' : 'text-slate-700'}>Bedtime</span>
         </div>
+        )}
       </div>
     </div>
   );

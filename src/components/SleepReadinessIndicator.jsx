@@ -84,7 +84,7 @@ export const SleepReadinessIndicator = ({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className={`p-2.5 rounded-full ${darkMode ? 'bg-white/10' : 'bg-slate-900/5'}`}>
-            <Moon size={20} className={darkMode ? 'text-slate-200' : 'text-slate-700'} />
+            <Moon size={20} className={darkMode ? 'text-slate-200' : 'text-slate-700'} aria-hidden="true" />
           </div>
           <div>
             <h2 className="font-bold">Sleep Readiness</h2>
@@ -104,18 +104,18 @@ export const SleepReadinessIndicator = ({
         {/* Bedtime */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-1">
-            <Moon size={14} className={darkMode ? 'text-slate-400' : 'text-slate-500'} />
+            <Moon size={14} className={darkMode ? 'text-slate-400' : 'text-slate-500'} aria-hidden="true" />
           </div>
-          <p className="font-semibold text-sm">{sleepTimeLabel}</p>
+          <p className="font-semibold text-sm tabular-nums">{sleepTimeLabel}</p>
           <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Bedtime</p>
         </div>
 
         {/* Time until sleep */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-1">
-            <Clock size={14} className={darkMode ? 'text-slate-400' : 'text-slate-500'} />
+            <Clock size={14} className={darkMode ? 'text-slate-400' : 'text-slate-500'} aria-hidden="true" />
           </div>
-          <p className="font-semibold text-sm">{timeUntilSleep()}</p>
+          <p className="font-semibold text-sm tabular-nums">{timeUntilSleep()}</p>
           <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Until sleep</p>
         </div>
 
@@ -126,9 +126,9 @@ export const SleepReadinessIndicator = ({
               isReadyForSleep
                 ? 'text-emerald-500'
                 : 'text-amber-500'
-            } />
+            } aria-hidden="true" />
           </div>
-          <p className={`font-semibold text-sm ${
+          <p className={`font-semibold text-sm tabular-nums ${
             isReadyForSleep
               ? darkMode ? 'text-emerald-300' : 'text-emerald-600'
               : darkMode ? 'text-amber-300' : 'text-amber-600'
@@ -140,7 +140,7 @@ export const SleepReadinessIndicator = ({
       </div>
 
       {/* Target hint */}
-      <p className={`mt-3 text-xs text-center ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+      <p className={`mt-3 text-xs text-center tabular-nums ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
         Target: {targetLevel} mg or less at bedtime
       </p>
     </div>

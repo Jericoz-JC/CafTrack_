@@ -9,7 +9,7 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
     if (percentage < 50) {
       return {
         label: 'Low',
-        icon: <Check size={20} className="text-emerald-500" />,
+        icon: <Check size={20} className="text-emerald-500" aria-hidden="true" />,
         color: darkMode ? 'bg-emerald-900/40' : 'bg-emerald-100',
         textColor: darkMode ? 'text-emerald-300' : 'text-emerald-700',
         progressColor: 'bg-emerald-500'
@@ -17,7 +17,7 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
     } else if (percentage < 80) {
       return {
         label: 'Moderate',
-        icon: <Coffee size={20} className="text-amber-500" />,
+        icon: <Coffee size={20} className="text-amber-500" aria-hidden="true" />,
         color: darkMode ? 'bg-amber-900/40' : 'bg-amber-100',
         textColor: darkMode ? 'text-amber-300' : 'text-amber-700',
         progressColor: 'bg-amber-500'
@@ -25,7 +25,7 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
     } else {
       return {
         label: 'High',
-        icon: <AlertTriangle size={20} className="text-rose-500" />,
+        icon: <AlertTriangle size={20} className="text-rose-500" aria-hidden="true" />,
         color: darkMode ? 'bg-rose-900/40' : 'bg-rose-100',
         textColor: darkMode ? 'text-rose-300' : 'text-rose-700',
         progressColor: 'bg-rose-500'
@@ -50,7 +50,7 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
             {status.icon}
           </div>
           <div>
-            <span className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+            <span className={`text-2xl font-bold tabular-nums ${darkMode ? 'text-white' : 'text-slate-900'}`}>
               {currentLevel}
             </span>
             <span className={`ml-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>mg</span>
@@ -69,14 +69,14 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
         }`}
       >
         <div 
-          className={`h-full ${status.progressColor} transition-all duration-500 ease-out`}
+          className={`h-full ${status.progressColor} transition-[width] duration-500 ease-out`}
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
       
       <div className="flex justify-between mt-1 text-xs">
         <span className={darkMode ? 'text-slate-400' : 'text-slate-600'}>0 mg</span>
-        <span className={darkMode ? 'text-slate-400' : 'text-slate-600'}>
+        <span className={`tabular-nums ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
           Daily Limit: {caffeineLimit} mg
         </span>
       </div>

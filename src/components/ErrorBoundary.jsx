@@ -34,7 +34,7 @@ export class ErrorBoundary extends React.Component {
           <button
             type="button"
             onClick={this.handleReload}
-            className="mt-5 w-full rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-slate-900"
+            className="mt-5 w-full rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-slate-700 dark:hover:bg-slate-600 dark:focus-visible:ring-white/30 dark:focus-visible:ring-offset-slate-900"
           >
             Reload
           </button>

@@ -19,6 +19,14 @@ body {
   background-attachment: fixed;
 }
 
+html {
+  color-scheme: light;
+}
+
+body.dark {
+  color-scheme: dark;
+}
+
 h1,
 h2,
 h3 {
@@ -26,6 +34,7 @@ h3 {
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 #root {

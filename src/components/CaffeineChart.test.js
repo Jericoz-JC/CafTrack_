@@ -24,8 +24,8 @@ describe('CaffeineChart', () => {
     );
 
     expect(screen.getByText(/Caffeine Level/i)).toBeInTheDocument();
-    expect(screen.getByText(/Daily Limit \(200mg\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Sleep Target \(30mg\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Daily Limit \(200 mg\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sleep Target \(30 mg\)/i)).toBeInTheDocument();
   });
 
   test('limit input calls onLimitChange on blur', () => {

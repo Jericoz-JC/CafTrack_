@@ -8,7 +8,7 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
       <div className="space-y-4">
         <section>
           <h3 className="text-lg font-medium flex items-center mb-2">
-            <Coffee size={20} className="mr-2" />
+            <Coffee size={20} className="mr-2" aria-hidden="true" />
             What is Caffeine?
           </h3>
           <p className={`${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
@@ -18,7 +18,7 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
         
         <section>
           <h3 className="text-lg font-medium flex items-center mb-2">
-            <Coffee size={20} className="mr-2" />
+            <Coffee size={20} className="mr-2" aria-hidden="true" />
             How Caffeine Affects Your Body
           </h3>
           <p className={`${darkMode ? 'text-slate-300' : 'text-slate-700'} mb-2`}>
@@ -31,7 +31,7 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
         
         <section>
           <h3 className="text-lg font-medium flex items-center mb-2">
-            <Coffee size={20} className="mr-2" />
+            <Coffee size={20} className="mr-2" aria-hidden="true" />
             Metabolism and Half-Life
           </h3>
           <p className={`${darkMode ? 'text-slate-300' : 'text-slate-700'} mb-2`}>
@@ -49,7 +49,7 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
         
         <section>
           <h3 className="text-lg font-medium flex items-center mb-2">
-            <AlertCircle size={20} className="mr-2" />
+            <AlertCircle size={20} className="mr-2" aria-hidden="true" />
             Recommended Limits
           </h3>
           <p className={`${darkMode ? 'text-slate-300' : 'text-slate-700'} mb-2`}>
@@ -67,7 +67,7 @@ export const InfoModal = ({ onClose, darkMode = false }) => {
         
         <section>
           <h3 className="text-lg font-medium flex items-center mb-2">
-            <AlertCircle size={20} className="mr-2" />
+            <AlertCircle size={20} className="mr-2" aria-hidden="true" />
             Sleep and Caffeine
           </h3>
           <p className={`${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>

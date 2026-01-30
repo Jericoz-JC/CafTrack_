@@ -35,42 +35,51 @@ const getDateOffset = (daysAgo) => {
   return date.toISOString().split('T')[0];
 };
 
-const TimeOptionButton = ({ label, description, isSelected, onClick, darkMode, fullWidth = false }) => (
+const TimeOptionButton = ({
+  label,
+  description,
+  isSelected,
+  onClick,
+  darkMode,
+  fullWidth = false,
+  compact = false
+}) => (
   <button
     type="button"
     onClick={onClick}
     className={`
       ${fullWidth ? 'w-full' : ''}
-      px-4 py-3 rounded-xl border text-left transition-all
+      ${compact ? 'px-3 py-2 rounded-lg text-xs text-center' : 'px-4 py-3 rounded-xl text-left text-sm'}
+      border transition-colors
       touch-manipulation
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
       ${isSelected
         ? darkMode
-          ? 'bg-blue-500/20 border-blue-400/80 text-blue-300'
+          ? 'bg-white/10 border-white/20 text-slate-100'
           : 'bg-blue-500/10 border-blue-500/70 text-blue-600'
         : darkMode
           ? 'bg-white/10 border-white/10 text-slate-200 hover:bg-white/20'
           : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
       }
       ${darkMode
-        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+        ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
         : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
       }
     `}
     aria-pressed={isSelected}
   >
-    <div className="flex items-center gap-3">
+    <div className={`flex items-center ${compact ? 'gap-2 justify-center' : 'gap-3'}`}>
       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
         isSelected
-          ? 'border-blue-500 bg-blue-500'
+          ? 'border-slate-200 bg-slate-200'
           : darkMode ? 'border-white/30' : 'border-slate-300'
       }`}>
         {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
       </div>
-      <div className="flex items-baseline gap-2">
-        <span className="font-medium">{label}</span>
+      <div className={`flex items-baseline gap-2 ${compact ? 'text-xs' : ''}`}>
+        <span className={`font-medium ${compact ? 'text-xs' : ''}`}>{label}</span>
         {description && (
-          <span className={`text-xs ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+          <span className={`text-[10px] ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
             {description}
           </span>
         )}
@@ -124,7 +133,14 @@ const FEATURED_DRINK_MAP = FEATURED_DRINKS.reduce(
   new Map()
 );
 
-export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
+export const AddIntakeForm = ({
+  onAdd,
+  darkMode = false,
+  alwaysShowCustomForm = false,
+  variant = 'default',
+  showRecent = true
+}) => {
+  const isCompact = variant === 'desktop';
   const { drinks, drinksById, loading, error } = useDrinkDatabase();
   const [timeMode, setTimeMode] = useState('now');
   const [customTime, setCustomTime] = useState(getCurrentTime());
@@ -136,7 +152,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
   const [customAmount, setCustomAmount] = useState('');
   const [recentDrinkIds, setRecentDrinkIds] = useState([]);
   const [recentLoaded, setRecentLoaded] = useState(false);
-  const [showCustomForm, setShowCustomForm] = useState(false);
+  const [showCustomForm, setShowCustomForm] = useState(Boolean(alwaysShowCustomForm));
 
   const searchInputRef = useRef(null);
   const customNameInputRef = useRef(null);
@@ -176,6 +192,12 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       // ignore storage errors
     }
   }, [recentDrinkIds, recentLoaded]);
+
+  useEffect(() => {
+    if (alwaysShowCustomForm) {
+      setShowCustomForm(true);
+    }
+  }, [alwaysShowCustomForm]);
 
   const deferredQuery = useDeferredValue(searchQuery.trim().toLowerCase());
 
@@ -231,7 +253,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     return (
       <>
         {before}
-        <span className={darkMode ? 'text-blue-300' : 'text-blue-600'}>
+        <span className={darkMode ? 'text-slate-100' : 'text-blue-600'}>
           {match}
         </span>
         {after}
@@ -366,24 +388,24 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     }
   };
 
-  const listContainerClasses = `rounded-3xl flex flex-col max-h-[28rem] glass-surface glass-highlight ${
+  const listContainerClasses = `flex flex-col glass-surface glass-highlight ${
     darkMode ? 'text-slate-100' : 'text-slate-900'
-  }`;
+  } ${isCompact ? 'rounded-xl max-h-[12rem]' : 'rounded-xl sm:rounded-2xl max-h-[28rem]'}`;
 
   const listButtonClasses = (isActive) =>
-    `w-full text-left px-4 py-3 flex justify-between items-center rounded-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+    `w-full text-left flex justify-between items-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
       darkMode
-        ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-950'
+        ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
         : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
     } ${
       isActive
         ? darkMode
-          ? 'bg-blue-500/15'
+          ? 'bg-white/10'
           : 'bg-blue-500/10'
         : darkMode
           ? 'hover:bg-white/10'
           : 'hover:bg-slate-900/5'
-    }`;
+    } ${isCompact ? 'rounded-lg px-3 py-2 text-sm' : 'rounded-xl sm:rounded-2xl px-4 py-3'}`;
 
   const renderListItem = (drink) => {
     const isActive = selectedDrink?.id === drink.id;
@@ -398,9 +420,11 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           className={listButtonClasses(isActive)}
         >
           <div>
-            <p className="font-semibold">{highlightName(drink.name)}</p>
+            <p className={`font-semibold ${isCompact ? 'text-sm' : ''}`}>
+              {highlightName(drink.name)}
+            </p>
             <p
-              className={`text-xs ${
+              className={`${isCompact ? 'text-[11px]' : 'text-xs'} ${
                 darkMode ? 'text-slate-400' : 'text-slate-500'
               }`}
             >
@@ -408,8 +432,8 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             </p>
           </div>
           <span
-            className={`text-sm font-semibold ${
-              darkMode ? 'text-blue-300' : 'text-blue-600'
+            className={`${isCompact ? 'text-xs' : 'text-sm'} font-semibold tabular-nums ${
+              darkMode ? 'text-slate-100' : 'text-blue-600'
             }`}
           >
             {drink.caffeineMg} mg
@@ -424,7 +448,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
   const renderSection = (title, items) => {
     if (!items?.length) return null;
     return (
-      <section className="py-3 space-y-3" key={title}>
+      <section className={`${isCompact ? 'py-2 space-y-2' : 'py-3 space-y-3'}`} key={title}>
         <p
           className={`px-4 text-xs font-semibold tracking-wide uppercase ${
             darkMode ? 'text-slate-400' : 'text-slate-500'
@@ -432,7 +456,9 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         >
           {title}
         </p>
-        <div className="space-y-3 px-2">{items.map(renderListItem)}</div>
+        <div className={`${isCompact ? 'space-y-2 px-2' : 'space-y-3 px-2'}`}>
+          {items.map(renderListItem)}
+        </div>
       </section>
     );
   };
@@ -444,7 +470,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           {[1, 2, 3, 4].map((key) => (
             <div
               key={key}
-              className={`h-10 rounded-lg animate-pulse ${
+              className={`h-10 rounded-lg animate-pulse motion-reduce:animate-none ${
                 darkMode ? 'bg-white/10' : 'bg-slate-200/70'
               }`}
             />
@@ -456,7 +482,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
     if (error) {
       return (
         <div className="p-4 flex items-center text-sm text-red-500">
-          <AlertCircle size={16} className="mr-2" />
+          <AlertCircle size={16} className="mr-2" aria-hidden="true" />
           Unable to load drinks. Please try again shortly.
         </div>
       );
@@ -480,14 +506,14 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
             <button
               onClick={() => handleCustomCtaClick(searchQuery)}
               className={`mt-3 inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                darkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+                darkMode ? 'bg-slate-700 text-white' : 'bg-blue-500 text-white'
               } ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
-              <Plus size={16} className="mr-2" />
+              <Plus size={16} className="mr-2" aria-hidden="true" />
               Create “{searchQuery}”
             </button>
           </div>
@@ -495,29 +521,29 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       }
 
       return (
-        <div>{filteredDrinks.map(renderListItem)}</div>
+        <div className="space-y-3">{filteredDrinks.map(renderListItem)}</div>
       );
     }
 
     return (
       <>
         {renderSection('Favorites', FEATURED_DRINKS)}
-        {renderSection('Recent', recentDrinks)}
+        {showRecent && renderSection('Recent', recentDrinks)}
       </>
     );
   };
 
   const renderInlineSelection = (drink) => (
     <div
-      className={`rounded-2xl p-4 glass-surface glass-highlight ${
+      className={`glass-surface glass-highlight ${
         darkMode ? 'text-slate-100' : 'text-slate-900'
-      }`}
+      } ${isCompact ? 'rounded-lg p-3' : 'rounded-xl sm:rounded-2xl p-4'}`}
     >
       <div className="flex items-start justify-between mb-3">
         <div>
-          <p className="font-semibold">{drink.name}</p>
+          <p className={`font-semibold ${isCompact ? 'text-sm' : ''}`}>{drink.name}</p>
           <p
-            className={`text-xs ${
+            className={`${isCompact ? 'text-[11px]' : 'text-xs'} ${
               darkMode ? 'text-slate-400' : 'text-slate-500'
             }`}
           >
@@ -529,23 +555,25 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           onClick={() => setSelectedDrink(null)}
           className={`p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
             darkMode
-              ? 'hover:bg-white/10 focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+              ? 'hover:bg-white/10 focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
               : 'hover:bg-slate-900/5 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
           aria-label="Clear selection"
         >
-          <X size={14} />
+          <X size={14} aria-hidden="true" />
         </button>
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-1 text-sm font-medium">
+        <div className={`flex items-center justify-between mb-1 ${isCompact ? 'text-xs' : 'text-sm'} font-medium`}>
           <span>Portion consumed</span>
-          <span className={darkMode ? 'text-blue-300' : 'text-blue-600'}>
+          <span className={`tabular-nums ${darkMode ? 'text-slate-100' : 'text-blue-600'}`}>
             {portion}%
           </span>
         </div>
         <input
+          name="portion"
+          aria-label="Portion consumed"
           type="range"
           min="10"
           max="100"
@@ -554,7 +582,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
           onChange={(event) => setPortion(Number(event.target.value))}
           className="w-full"
         />
-        <div className="flex justify-between text-[11px] mt-1">
+        <div className={`flex justify-between ${isCompact ? 'text-[10px]' : 'text-[11px]'} mt-1`}>
           <span>10%</span>
           <span>50%</span>
           <span>100%</span>
@@ -566,93 +594,124 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         onClick={() => handleAddSelectedDrink(drink)}
         className={`mt-4 w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
           darkMode
-            ? 'bg-blue-600 hover:bg-blue-700'
+            ? 'bg-slate-700 hover:bg-slate-600'
             : 'bg-blue-500 hover:bg-blue-600'
         } ${
           darkMode
-            ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+            ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
             : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
         }`}
       >
-        <Plus size={16} className="mr-2" />
+        <Plus size={16} className="mr-2" aria-hidden="true" />
         Add {drink.name}
       </button>
     </div>
   );
 
   return (
-    <div className="space-y-6">
+    <div className={isCompact ? 'space-y-4' : 'space-y-6'}>
       <div
-        className={`rounded-glass p-4 glass-surface glass-highlight ${
+        className={`glass-surface glass-highlight ${
           darkMode ? 'text-slate-100' : 'text-slate-900'
-        }`}
+        } ${isCompact ? 'rounded-lg p-3' : 'rounded-xl sm:rounded-2xl p-4'}`}
       >
-        <p className={`text-sm font-medium mb-3 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+        <p className={`${isCompact ? 'text-xs' : 'text-sm'} font-medium mb-3 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
           When did you have this?
         </p>
 
-        <TimeOptionButton
-          label="Just now"
-          isSelected={timeMode === 'now'}
-          onClick={() => setTimeMode('now')}
-          darkMode={darkMode}
-          fullWidth
-        />
+        {isCompact ? (
+          <div className="grid grid-cols-3 gap-2">
+            <TimeOptionButton
+              label="Just now"
+              isSelected={timeMode === 'now'}
+              onClick={() => setTimeMode('now')}
+              darkMode={darkMode}
+              compact
+            />
+            <TimeOptionButton
+              label="1 hour ago"
+              isSelected={timeMode === '1hr'}
+              onClick={() => setTimeMode('1hr')}
+              darkMode={darkMode}
+              compact
+            />
+            <TimeOptionButton
+              label="Earlier today"
+              isSelected={timeMode === 'earlier'}
+              onClick={() => setTimeMode('earlier')}
+              darkMode={darkMode}
+              compact
+            />
+          </div>
+        ) : (
+          <>
+            <TimeOptionButton
+              label="Just now"
+              isSelected={timeMode === 'now'}
+              onClick={() => setTimeMode('now')}
+              darkMode={darkMode}
+              fullWidth
+            />
 
-        <div className="grid grid-cols-2 gap-2 mt-2">
-          <TimeOptionButton
-            label="1 hour ago"
-            isSelected={timeMode === '1hr'}
-            onClick={() => setTimeMode('1hr')}
-            darkMode={darkMode}
-          />
-          <TimeOptionButton
-            label="Earlier today"
-            description="8:00 AM"
-            isSelected={timeMode === 'earlier'}
-            onClick={() => setTimeMode('earlier')}
-            darkMode={darkMode}
-          />
-        </div>
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <TimeOptionButton
+                label="1 hour ago"
+                isSelected={timeMode === '1hr'}
+                onClick={() => setTimeMode('1hr')}
+                darkMode={darkMode}
+              />
+              <TimeOptionButton
+                label="Earlier today"
+                description="8:00 AM"
+                isSelected={timeMode === 'earlier'}
+                onClick={() => setTimeMode('earlier')}
+                darkMode={darkMode}
+              />
+            </div>
+          </>
+        )}
 
         <button
           type="button"
           onClick={() => setTimeMode('specific')}
-          className={`mt-2 w-full px-4 py-3 rounded-xl border text-left transition-all touch-manipulation
+          className={`mt-2 w-full border text-left transition-colors touch-manipulation ${
+            isCompact ? 'px-3 py-2 rounded-lg text-xs' : 'px-4 py-3 rounded-xl'
+          }
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
             ${timeMode === 'specific'
               ? darkMode
-                ? 'bg-blue-500/20 border-blue-400/80 text-blue-300'
+                ? 'bg-white/10 border-white/20 text-slate-100'
                 : 'bg-blue-500/10 border-blue-500/70 text-blue-600'
               : darkMode
                 ? 'bg-white/10 border-white/10 text-slate-200 hover:bg-white/20'
                 : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
             }
             ${darkMode
-              ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+              ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
               : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }
           `}
           aria-pressed={timeMode === 'specific'}
           aria-expanded={timeMode === 'specific'}
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                timeMode === 'specific'
-                  ? 'border-blue-500 bg-blue-500'
-                  : darkMode ? 'border-white/30' : 'border-slate-300'
-              }`}>
-                {timeMode === 'specific' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+            <div className="flex items-center justify-between">
+              <div className={`flex items-center ${isCompact ? 'gap-2' : 'gap-3'}`}>
+                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
+                  timeMode === 'specific'
+                    ? 'border-slate-200 bg-slate-200'
+                    : darkMode ? 'border-white/30' : 'border-slate-300'
+                }`}>
+                  {timeMode === 'specific' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                </div>
+                <span className={`font-medium ${isCompact ? 'text-xs' : ''}`}>Pick exact time</span>
               </div>
-              <span className="font-medium">Pick exact time</span>
-            </div>
-            <ChevronDown
-              size={18}
-              className={`transition-transform duration-200 ${timeMode === 'specific' ? 'rotate-180' : ''} ${
-                darkMode ? 'text-slate-500' : 'text-slate-400'
-              }`}
-            />
+              <ChevronDown
+                size={18}
+                className={`transition-transform duration-200 ${timeMode === 'specific' ? 'rotate-180' : ''} ${
+                  darkMode ? 'text-slate-500' : 'text-slate-400'
+                }`}
+                aria-hidden="true"
+              />
           </div>
         </button>
 
@@ -672,17 +731,21 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 </label>
                 <input
                   id="custom-date"
+                  name="customDate"
+                  autoComplete="off"
                   type="date"
                   value={customDate}
                   max={getCurrentDate()}
                   onChange={(event) => setCustomDate(event.target.value)}
-                  className={`w-full rounded-lg border px-3 py-2 text-base ${
+                  className={`w-full rounded-lg border px-3 ${
+                    isCompact ? 'py-1.5 text-sm' : 'py-2 text-base'
+                  } ${
                     darkMode
                       ? 'bg-white/5 border-white/10 text-white'
                       : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
@@ -698,16 +761,20 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                 </label>
                 <input
                   id="custom-time"
+                  name="customTime"
+                  autoComplete="off"
                   type="time"
                   value={customTime}
                   onChange={(event) => setCustomTime(event.target.value)}
-                  className={`w-full rounded-lg border px-3 py-2 text-base ${
+                  className={`w-full rounded-lg border px-3 ${
+                    isCompact ? 'py-1.5 text-sm' : 'py-2 text-base'
+                  } ${
                     darkMode
                       ? 'bg-white/5 border-white/10 text-white'
                       : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
@@ -720,18 +787,18 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
                   key={daysAgo}
                   type="button"
                   onClick={() => handleQuickDate(daysAgo)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all touch-manipulation
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors touch-manipulation
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
                     ${isQuickDateSelected(daysAgo)
                       ? darkMode
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-400/80'
+                        ? 'bg-white/10 text-slate-100 border border-white/20'
                         : 'bg-blue-500/10 text-blue-600 border border-blue-500/70'
                       : darkMode
                         ? 'bg-white/10 text-slate-200 border border-white/10 hover:bg-white/20'
                         : 'bg-white/70 text-slate-700 border border-slate-200/70 hover:bg-white'
                     }
                     ${darkMode
-                      ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                     }
                   `}
@@ -745,7 +812,7 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
       </div>
 
       <div className={listContainerClasses}>
-        <div className="px-4 py-3 border-b border-glass-stroke">
+        <div className={`border-b border-glass-stroke ${isCompact ? 'px-4 py-2' : 'px-4 py-3'}`}>
           <label htmlFor="drink-search" className="sr-only">
             Search for a drink
           </label>
@@ -755,22 +822,26 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
               className={`absolute left-3 top-1/2 -translate-y-1/2 ${
                 darkMode ? 'text-slate-500' : 'text-slate-400'
               }`}
+              aria-hidden="true"
             />
             <input
               id="drink-search"
               ref={searchInputRef}
+              name="drinkSearch"
+              autoComplete="off"
+              inputMode="search"
               type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Search for a drink..."
-              className={`w-full rounded-full border px-10 py-2 text-base ${
+              placeholder="Search for a drink…"
+              className={`w-full rounded-full border px-10 ${isCompact ? 'py-1.5 text-sm' : 'py-2 text-base'} ${
                 darkMode
                   ? 'bg-white/5 border-white/10 text-white placeholder-slate-500'
                   : 'bg-white/80 border-slate-200/80 text-slate-900 placeholder-slate-500'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
@@ -779,87 +850,96 @@ export const AddIntakeForm = ({ onAdd, darkMode = false }) => {
         <div className="flex-1 overflow-y-auto px-2 pb-3">
           {renderListContent()}
         </div>
-        <div
-          className={`px-4 py-3 border-t border-glass-stroke ${
-            darkMode ? 'bg-white/5' : 'bg-white/60'
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => handleCustomCtaClick(searchQuery.trim())}
-            className={`w-full rounded-full px-4 py-2 text-sm font-semibold flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-              darkMode
-                ? 'bg-white/10 text-white hover:bg-white/20'
-                : 'bg-white/80 text-slate-900 hover:bg-white'
-            } ${
-              darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
-                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+        {!alwaysShowCustomForm && (
+          <div
+            className={`px-4 py-3 border-t border-glass-stroke ${
+              darkMode ? 'bg-white/5' : 'bg-white/60'
             }`}
           >
-            <Plus size={16} className="mr-2" />
-            Add Custom Drink
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={() => handleCustomCtaClick(searchQuery.trim())}
+              className={`w-full rounded-full px-4 py-2 text-sm font-semibold flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode
+                  ? 'bg-white/10 text-white hover:bg-white/20'
+                  : 'bg-white/80 text-slate-900 hover:bg-white'
+              } ${
+                darkMode
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+              }`}
+            >
+              <Plus size={16} className="mr-2" aria-hidden="true" />
+              Add Custom Drink
+            </button>
+          </div>
+        )}
       </div>
 
       {showCustomForm && (
         <div
           ref={customFormRef}
-          className={`rounded-2xl p-4 glass-surface glass-highlight ${
+          className={`glass-surface glass-highlight ${
             darkMode ? 'text-slate-100' : 'text-slate-900'
-          }`}
+          } ${isCompact ? 'rounded-lg p-3' : 'rounded-xl sm:rounded-2xl p-4'}`}
         >
-          <h3 className="font-semibold mb-4">Custom drink</h3>
-          <form onSubmit={handleCustomSubmit} className="space-y-4">
+          <h3 className={`font-semibold ${isCompact ? 'mb-3 text-sm' : 'mb-4'}`}>Custom Drink</h3>
+          <form onSubmit={handleCustomSubmit} className={isCompact ? 'space-y-3' : 'space-y-4'}>
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label htmlFor="custom-drink-name" className={`block ${isCompact ? 'text-xs mb-1.5' : 'text-sm mb-2'} font-medium`}>
                 Drink name
               </label>
-            <input
+              <input
                 ref={customNameInputRef}
+                id="custom-drink-name"
+                name="customDrinkName"
+                autoComplete="off"
                 type="text"
                 value={customName}
                 onChange={(event) => setCustomName(event.target.value)}
-                className={`w-full rounded-lg border px-3 py-2 ${
+                className={`w-full rounded-lg border px-3 ${isCompact ? 'py-1.5 text-sm' : 'py-2'} ${
                   darkMode
                     ? 'bg-white/5 border-white/10 text-white'
                     : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                     : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label htmlFor="custom-drink-amount" className={`block ${isCompact ? 'text-xs mb-1.5' : 'text-sm mb-2'} font-medium`}>
                 Caffeine amount (mg)
               </label>
-            <input
+              <input
+                id="custom-drink-amount"
+                name="customDrinkAmount"
+                autoComplete="off"
+                inputMode="numeric"
                 type="number"
                 min="1"
                 max="1500"
                 value={customAmount}
                 onChange={(event) => setCustomAmount(event.target.value)}
-                className={`w-full rounded-lg border px-3 py-2 ${
+                className={`w-full rounded-lg border px-3 ${isCompact ? 'py-1.5 text-sm' : 'py-2'} ${
                   darkMode
                     ? 'bg-white/5 border-white/10 text-white'
                     : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                     : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
             </div>
             <button
               type="submit"
-              className={`w-full rounded-lg px-4 py-2 font-semibold text-white flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+              className={`w-full rounded-lg px-4 ${isCompact ? 'py-1.5 text-sm' : 'py-2'} font-semibold text-white flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
               } ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >

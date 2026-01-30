@@ -45,8 +45,9 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Metabolism Rate */}
         <div>
-          <label className="block mb-2 font-medium">Metabolism Rate</label>
+          <label htmlFor="metabolism-rate" className="block mb-2 font-medium">Metabolism Rate</label>
           <select
+            id="metabolism-rate"
             name="metabolismRate"
             value={formData.metabolismRate}
             onChange={handleChange}
@@ -56,7 +57,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           >
@@ -71,24 +72,27 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
         
         {/* Caffeine Limit */}
         <div>
-          <label className="block mb-2 font-medium">
+          <label htmlFor="caffeine-limit" className="block mb-2 font-medium">
             Daily Caffeine Limit (mg)
           </label>
           <input
             type="number"
+            id="caffeine-limit"
             name="caffeineLimit"
+            autoComplete="off"
+            inputMode="numeric"
             value={formData.caffeineLimit}
             onChange={handleChange}
             min="100"
             max="1000"
             step="50"
-            className={`w-full p-2 rounded-lg border ${
+            className={`w-full p-2 rounded-lg border tabular-nums ${
               darkMode
                 ? 'bg-white/5 border-white/10 text-white'
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           />
@@ -99,24 +103,27 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
         
         {/* Target Sleep Caffeine Level */}
         <div>
-          <label className="block mb-2 font-medium">
+          <label htmlFor="target-sleep-caffeine" className="block mb-2 font-medium">
             Target Sleep Caffeine Level (mg)
           </label>
           <input
             type="number"
+            id="target-sleep-caffeine"
             name="targetSleepCaffeine"
+            autoComplete="off"
+            inputMode="numeric"
             value={formData.targetSleepCaffeine}
             onChange={handleChange}
             min="0"
             max="200"
             step="5"
-            className={`w-full p-2 rounded-lg border ${
+            className={`w-full p-2 rounded-lg border tabular-nums ${
               darkMode
                 ? 'bg-white/5 border-white/10 text-white'
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           />
@@ -132,49 +139,43 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
           <h3 className="font-medium mb-3">Special Conditions</h3>
           
           {/* Pregnancy */}
-          <div className="flex items-center mb-2">
+          <label className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
               id="pregnancyAdjustment"
               name="pregnancyAdjustment"
               checked={formData.pregnancyAdjustment}
               onChange={handleChange}
-              className="mr-2 h-4 w-4"
+              className="h-4 w-4"
             />
-            <label htmlFor="pregnancyAdjustment">
-              Pregnancy (slower metabolism)
-            </label>
-          </div>
+            <span>Pregnancy (slower metabolism)</span>
+          </label>
           
           {/* Smoker */}
-          <div className="flex items-center mb-2">
+          <label className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
               id="smokerAdjustment"
               name="smokerAdjustment"
               checked={formData.smokerAdjustment}
               onChange={handleChange}
-              className="mr-2 h-4 w-4"
+              className="h-4 w-4"
             />
-            <label htmlFor="smokerAdjustment">
-              Smoker (faster metabolism)
-            </label>
-          </div>
+            <span>Smoker (faster metabolism)</span>
+          </label>
           
           {/* Oral Contraceptives */}
-          <div className="flex items-center">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               id="oralContraceptivesAdjustment"
               name="oralContraceptivesAdjustment"
               checked={formData.oralContraceptivesAdjustment}
               onChange={handleChange}
-              className="mr-2 h-4 w-4"
+              className="h-4 w-4"
             />
-            <label htmlFor="oralContraceptivesAdjustment">
-              Oral contraceptives (slower metabolism)
-            </label>
-          </div>
+            <span>Oral contraceptives (slower metabolism)</span>
+          </label>
         </div>
         
         {/* Dark Mode Toggle */}
@@ -187,17 +188,18 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             <button
               type="button"
               onClick={onToggleDarkMode}
+              aria-label="Toggle dark mode"
               className={`p-2 rounded-full ${
                 darkMode 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-slate-700 text-white' 
                   : 'bg-white/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              {darkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -207,10 +209,10 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
           <button
             type="submit"
             className={`px-4 py-2 rounded-lg ${
-              darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+              darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
             } text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           >
