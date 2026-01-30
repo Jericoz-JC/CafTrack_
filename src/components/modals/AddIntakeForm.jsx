@@ -62,7 +62,7 @@ const TimeOptionButton = ({
           : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
       }
       ${darkMode
-        ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+        ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
         : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
       }
     `}
@@ -71,7 +71,7 @@ const TimeOptionButton = ({
     <div className={`flex items-center ${compact ? 'gap-2 justify-center' : 'gap-3'}`}>
       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
         isSelected
-          ? 'border-slate-200 bg-slate-200'
+          ? 'border-blue-500 bg-blue-500'
           : darkMode ? 'border-white/30' : 'border-slate-300'
       }`}>
         {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -393,18 +393,18 @@ export const AddIntakeForm = ({
   } ${isCompact ? 'rounded-xl max-h-[12rem]' : 'rounded-xl sm:rounded-2xl max-h-[28rem]'}`;
 
   const listButtonClasses = (isActive) =>
-    `w-full text-left flex justify-between items-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+    `w-full text-left flex justify-between items-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
       darkMode
         ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
         : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
     } ${
       isActive
         ? darkMode
-          ? 'bg-white/10'
-          : 'bg-blue-500/10'
+          ? 'bg-white/10 shadow-sm'
+          : 'bg-blue-500/10 shadow-sm'
         : darkMode
-          ? 'hover:bg-white/10'
-          : 'hover:bg-slate-900/5'
+          ? 'hover:bg-white/10 hover:-translate-y-0.5'
+          : 'hover:bg-slate-50 hover:-translate-y-0.5 hover:shadow-sm'
     } ${isCompact ? 'rounded-lg px-3 py-2 text-sm' : 'rounded-xl sm:rounded-2xl px-4 py-3'}`;
 
   const renderListItem = (drink) => {
@@ -509,7 +509,7 @@ export const AddIntakeForm = ({
                 darkMode ? 'bg-slate-700 text-white' : 'bg-blue-500 text-white'
               } ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
@@ -555,7 +555,7 @@ export const AddIntakeForm = ({
           onClick={() => setSelectedDrink(null)}
           className={`p-1 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
             darkMode
-              ? 'hover:bg-white/10 focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+              ? 'hover:bg-white/10 focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
               : 'hover:bg-slate-900/5 focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
           aria-label="Clear selection"
@@ -598,7 +598,7 @@ export const AddIntakeForm = ({
             : 'bg-blue-500 hover:bg-blue-600'
         } ${
           darkMode
-            ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+            ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
             : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
         }`}
       >
@@ -687,7 +687,7 @@ export const AddIntakeForm = ({
                 : 'bg-white/70 border-slate-200/70 text-slate-700 hover:bg-white'
             }
             ${darkMode
-              ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+              ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
               : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }
           `}
@@ -698,7 +698,7 @@ export const AddIntakeForm = ({
               <div className={`flex items-center ${isCompact ? 'gap-2' : 'gap-3'}`}>
                 <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
                   timeMode === 'specific'
-                    ? 'border-slate-200 bg-slate-200'
+                    ? 'border-blue-500 bg-blue-500'
                     : darkMode ? 'border-white/30' : 'border-slate-300'
                 }`}>
                   {timeMode === 'specific' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -745,7 +745,7 @@ export const AddIntakeForm = ({
                       : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
@@ -774,7 +774,7 @@ export const AddIntakeForm = ({
                       : 'bg-white/80 border-slate-200/80 text-slate-900'
                   } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     darkMode
-                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                   }`}
                 />
@@ -798,7 +798,7 @@ export const AddIntakeForm = ({
                         : 'bg-white/70 text-slate-700 border border-slate-200/70 hover:bg-white'
                     }
                     ${darkMode
-                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                       : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                     }
                   `}
@@ -841,7 +841,7 @@ export const AddIntakeForm = ({
                   : 'bg-white/80 border-slate-200/80 text-slate-900 placeholder-slate-500'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
@@ -865,7 +865,7 @@ export const AddIntakeForm = ({
                   : 'bg-white/80 text-slate-900 hover:bg-white'
               } ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
@@ -883,7 +883,11 @@ export const AddIntakeForm = ({
             darkMode ? 'text-slate-100' : 'text-slate-900'
           } ${isCompact ? 'rounded-lg p-3' : 'rounded-xl sm:rounded-2xl p-4'}`}
         >
-          <h3 className={`font-semibold ${isCompact ? 'mb-3 text-sm' : 'mb-4'}`}>Custom Drink</h3>
+          <div className="flex items-center gap-3 mb-3">
+            <div className={`flex-1 h-px ${darkMode ? 'bg-white/10' : 'bg-slate-200'}`} />
+            <h3 className={`font-semibold ${isCompact ? 'text-sm' : ''} ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Custom Drink</h3>
+            <div className={`flex-1 h-px ${darkMode ? 'bg-white/10' : 'bg-slate-200'}`} />
+          </div>
           <form onSubmit={handleCustomSubmit} className={isCompact ? 'space-y-3' : 'space-y-4'}>
             <div>
               <label htmlFor="custom-drink-name" className={`block ${isCompact ? 'text-xs mb-1.5' : 'text-sm mb-2'} font-medium`}>
@@ -903,7 +907,7 @@ export const AddIntakeForm = ({
                     : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                     : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
@@ -928,7 +932,7 @@ export const AddIntakeForm = ({
                     : 'bg-white/80 border-slate-200/80 text-slate-900'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
-                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                    ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                     : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
                 }`}
               />
@@ -939,7 +943,7 @@ export const AddIntakeForm = ({
                 darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
               } ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >

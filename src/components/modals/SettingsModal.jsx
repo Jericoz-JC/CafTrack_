@@ -57,7 +57,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           >
@@ -92,7 +92,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           />
@@ -123,7 +123,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
                 : 'bg-white/80 border-slate-200/80 text-slate-900'
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           />
@@ -195,7 +195,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
                   : 'bg-white/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             >
@@ -212,7 +212,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
               darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
             } text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               darkMode
-                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                 : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
             }`}
           >

@@ -68,7 +68,7 @@ export const IntakeItem = React.memo(function IntakeItem({
   
   return (
     <div
-      className={`rounded-2xl flex items-center justify-between glass-surface glass-highlight ${
+      className={`rounded-2xl flex items-center justify-between glass-surface glass-highlight transition-transform duration-200 hover:-translate-y-0.5 ${
         darkMode ? 'text-slate-100' : 'text-slate-900'
       } ${compact ? 'p-2' : 'p-3'}`}
     >
@@ -106,7 +106,7 @@ export const IntakeItem = React.memo(function IntakeItem({
             darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-900/5'
           } ${
             darkMode
-              ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+              ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
               : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
           }`}
         >

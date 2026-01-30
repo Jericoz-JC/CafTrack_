@@ -133,6 +133,8 @@ const normalizeIntakes = (candidate) => {
 
 const SCREEN_QUERY_KEY = 'tab';
 
+// Client-only: This app uses Create React App (no SSR), so window is always available.
+// The typeof check is kept for defensive coding but won't trigger in practice.
 const getInitialScreen = () => {
   if (typeof window === 'undefined') return 'home';
   const params = new URLSearchParams(window.location.search);
@@ -149,7 +151,7 @@ const FloatingActionButton = ({ onClick, darkMode }) => (
     type="button"
     onClick={onClick} 
     className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-4 z-20 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-200 hover:scale-105 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-      darkMode ? 'bg-slate-700 hover:bg-slate-600 ring-1 ring-white/10' : 'bg-blue-500 hover:bg-blue-600 ring-1 ring-blue-200'
+      darkMode ? 'bg-blue-600 hover:bg-blue-500 ring-1 ring-blue-400/30' : 'bg-blue-500 hover:bg-blue-600 ring-1 ring-blue-200'
     } ${
       darkMode
         ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
@@ -218,7 +220,8 @@ const getCaffeineStatus = (currentLevel, caffeineLimit, darkMode) => {
       label: 'Low',
       icon: <Check size={16} aria-hidden="true" className="text-emerald-500" />,
       pill: darkMode ? 'bg-emerald-900/40 text-emerald-200' : 'bg-emerald-100 text-emerald-700',
-      progress: 'bg-emerald-500'
+      progress: 'bg-emerald-500',
+      progressGlow: 'progress-glow-emerald'
     };
   }
   if (percentage < 80) {
@@ -226,14 +229,16 @@ const getCaffeineStatus = (currentLevel, caffeineLimit, darkMode) => {
       label: 'Moderate',
       icon: <Coffee size={16} aria-hidden="true" className="text-amber-500" />,
       pill: darkMode ? 'bg-amber-900/40 text-amber-200' : 'bg-amber-100 text-amber-700',
-      progress: 'bg-amber-500'
+      progress: 'bg-amber-500',
+      progressGlow: 'progress-glow-amber'
     };
   }
   return {
     label: 'High',
     icon: <AlertTriangle size={16} aria-hidden="true" className="text-rose-500" />,
     pill: darkMode ? 'bg-rose-900/40 text-rose-200' : 'bg-rose-100 text-rose-700',
-    progress: 'bg-rose-500'
+    progress: 'bg-rose-500',
+    progressGlow: 'progress-glow-rose'
   };
 };
 
@@ -283,8 +288,8 @@ const DesktopSummaryPanel = ({
                 Current Level
               </span>
             </div>
-            <div className="text-lg font-semibold tabular-nums">
-              {currentLevel} <span className="text-xs text-slate-400">mg</span>
+            <div className="text-xl font-bold tabular-nums">
+              {currentLevel} <span className="text-xs font-medium text-slate-400">mg</span>
             </div>
           </div>
           <div
@@ -293,7 +298,7 @@ const DesktopSummaryPanel = ({
             }`}
           >
             <div
-              className={`h-full ${status.progress} transition-[width] duration-500 ease-out`}
+              className={`h-full rounded-full ${status.progress} ${status.progressGlow} transition-[width] duration-500 ease-out`}
               style={{ width: `${progressPercentage}%` }}
             />
           </div>

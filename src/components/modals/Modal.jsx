@@ -86,7 +86,7 @@ export const Modal = ({
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
                   ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
-                  : 'focus-visible:ring-sky-500 focus-visible:ring-offset-white'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
               aria-label="Close modal"
             >

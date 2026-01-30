@@ -163,21 +163,27 @@ export const CaffeineChart = ({
       else if (percentage >= 50) status = { text: 'Moderate', color: 'text-amber-500' };
 
       return (
-        <div className={`p-3 rounded-2xl glass-surface glass-highlight max-w-xs ${
-          darkMode ? 'text-slate-100' : 'text-slate-900'
+        <div className={`p-3 rounded-2xl glass-surface glass-highlight max-w-xs border ${
+          darkMode ? 'text-slate-100 border-white/10' : 'text-slate-900 border-slate-200/50'
         }`}>
-          <p className="font-medium text-sm mb-1">{formattedTime}</p>
-          <div className="flex items-center gap-2 mb-1">
+          <p className={`font-medium text-xs mb-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{formattedTime}</p>
+          <div className="flex items-center gap-2 mb-1.5">
             <Coffee size={14} className={darkMode ? 'text-slate-300' : 'text-sky-500'} aria-hidden="true" />
-            <span className="font-bold text-lg tabular-nums">{Math.round(level)} mg</span>
-            <span className={`text-xs font-medium ${status.color}`}>({status.text})</span>
+            <span className="font-bold text-xl tabular-nums">{Math.round(level)} mg</span>
+            <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+              status.text === 'High'
+                ? darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-600'
+                : status.text === 'Moderate'
+                  ? darkMode ? 'bg-amber-900/40 text-amber-300' : 'bg-amber-100 text-amber-600'
+                  : darkMode ? 'bg-emerald-900/40 text-emerald-300' : 'bg-emerald-100 text-emerald-600'
+            }`}>{status.text}</span>
           </div>
           {isPeak && (
-            <div className={`text-xs mt-1 ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>
+            <div className={`text-xs mt-1.5 font-medium ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>
               ☕ Intake detected
             </div>
           )}
-          <div className="text-xs opacity-75">
+          <div className={`text-xs mt-1 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
             {Math.round((level / resolvedLimit) * 100)}% of daily limit
           </div>
         </div>
@@ -187,6 +193,7 @@ export const CaffeineChart = ({
     return null;
   };
 
+  // Matches Tailwind: slate-400 (dark) / sky-500 (light)
   const areaColor = darkMode ? '#94a3b8' : '#0ea5e9';
 
   // Chart component selection (fixed to AreaChart for consistent look)
@@ -261,7 +268,7 @@ export const CaffeineChart = ({
                   : 'bg-white/80 border-slate-200/80 text-slate-900'
               } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-900'
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
                   : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
               }`}
             />
@@ -287,8 +294,9 @@ export const CaffeineChart = ({
           >
             <defs>
               <linearGradient id="colorLevel" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={areaColor} stopOpacity={darkMode ? 0.3 : 0.22} />
-                <stop offset="95%" stopColor={areaColor} stopOpacity={0} />
+                <stop offset="0%" stopColor={areaColor} stopOpacity={darkMode ? 0.45 : 0.35} />
+                <stop offset="50%" stopColor={areaColor} stopOpacity={darkMode ? 0.2 : 0.15} />
+                <stop offset="100%" stopColor={areaColor} stopOpacity={0.02} />
               </linearGradient>
             </defs>
             <CartesianGrid 
@@ -356,13 +364,13 @@ export const CaffeineChart = ({
               dataKey="level"
               stroke={areaColor}
               fill="url(#colorLevel)"
-              strokeWidth={2}
+              strokeWidth={2.5}
               dot={false}
-              activeDot={{ 
-                r: 4, 
+              activeDot={{
+                r: 5,
                 fill: darkMode ? '#7dd3fc' : '#0ea5e9',
-                stroke: darkMode ? '#075985' : '#0369a1',
-                strokeWidth: 2
+                stroke: darkMode ? '#0c4a6e' : '#0369a1',
+                strokeWidth: 2.5
               }}
             />
           </ChartComponent>

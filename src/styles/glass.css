@@ -67,3 +67,26 @@ body.dark {
   -webkit-backdrop-filter: blur(12px) saturate(115%);
   overscroll-behavior: contain;
 }
+
+/* Progress bar glow effects */
+.progress-glow-emerald {
+  box-shadow: 0 0 12px -2px rgba(16, 185, 129, 0.5);
+}
+
+.progress-glow-amber {
+  box-shadow: 0 0 12px -2px rgba(245, 158, 11, 0.5);
+}
+
+.progress-glow-rose {
+  box-shadow: 0 0 12px -2px rgba(244, 63, 94, 0.5);
+}
+
+/* Subtle pulse animation for active states */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s ease-in-out infinite;
+}

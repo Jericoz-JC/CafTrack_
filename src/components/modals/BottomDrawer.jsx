@@ -54,7 +54,7 @@ export const BottomDrawer = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`absolute bottom-0 left-0 right-0 rounded-t-3xl border glass-surface-strong glass-highlight shadow-2xl overscroll-contain ${
+        className={`absolute bottom-0 left-0 right-0 rounded-t-3xl border glass-surface-strong glass-highlight shadow-2xl overscroll-contain flex flex-col ${
           darkMode
             ? 'border-white/10 text-slate-100'
             : 'border-slate-200/80 text-slate-900'
@@ -77,7 +77,7 @@ export const BottomDrawer = ({
             <X size={18} aria-hidden="true" />
           </button>
         </div>
-        <div className="h-full overflow-y-auto px-6 py-4">
+        <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4">
           {children}
         </div>
       </div>

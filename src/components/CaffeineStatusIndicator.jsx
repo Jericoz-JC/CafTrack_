@@ -12,7 +12,8 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
         icon: <Check size={20} className="text-emerald-500" aria-hidden="true" />,
         color: darkMode ? 'bg-emerald-900/40' : 'bg-emerald-100',
         textColor: darkMode ? 'text-emerald-300' : 'text-emerald-700',
-        progressColor: 'bg-emerald-500'
+        progressColor: 'bg-emerald-500',
+        progressGlow: 'progress-glow-emerald'
       };
     } else if (percentage < 80) {
       return {
@@ -20,7 +21,8 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
         icon: <Coffee size={20} className="text-amber-500" aria-hidden="true" />,
         color: darkMode ? 'bg-amber-900/40' : 'bg-amber-100',
         textColor: darkMode ? 'text-amber-300' : 'text-amber-700',
-        progressColor: 'bg-amber-500'
+        progressColor: 'bg-amber-500',
+        progressGlow: 'progress-glow-amber'
       };
     } else {
       return {
@@ -28,7 +30,8 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
         icon: <AlertTriangle size={20} className="text-rose-500" aria-hidden="true" />,
         color: darkMode ? 'bg-rose-900/40' : 'bg-rose-100',
         textColor: darkMode ? 'text-rose-300' : 'text-rose-700',
-        progressColor: 'bg-rose-500'
+        progressColor: 'bg-rose-500',
+        progressGlow: 'progress-glow-rose'
       };
     }
   };
@@ -68,8 +71,8 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
           darkMode ? 'bg-white/10' : 'bg-slate-900/5'
         }`}
       >
-        <div 
-          className={`h-full ${status.progressColor} transition-[width] duration-500 ease-out`}
+        <div
+          className={`h-full rounded-full ${status.progressColor} ${status.progressGlow} transition-[width] duration-500 ease-out`}
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
