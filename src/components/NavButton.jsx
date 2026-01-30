@@ -9,11 +9,11 @@ export const NavButton = React.memo(function NavButton({
 }) {
   const baseClass = active
     ? darkMode
-      ? 'bg-slate-800 text-blue-200'
-      : 'bg-blue-50 text-blue-700'
+      ? 'bg-sky-500/20 text-sky-200'
+      : 'bg-sky-500/10 text-sky-700'
     : darkMode
-      ? 'text-slate-400 hover:text-white hover:bg-slate-800'
-      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100';
+      ? 'text-slate-400 hover:text-white hover:bg-white/10'
+      : 'text-slate-500 hover:text-slate-700 hover:bg-white/70';
 
   return (
     <button

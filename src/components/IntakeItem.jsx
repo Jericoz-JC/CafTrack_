@@ -49,7 +49,7 @@ export const IntakeItem = React.memo(function IntakeItem({
       custom: darkMode ? 'bg-blue-900' : 'bg-blue-100'
     };
     
-    return colors[intake.category] || (darkMode ? 'bg-slate-800' : 'bg-slate-100');
+    return colors[intake.category] || (darkMode ? 'bg-white/10' : 'bg-white/70');
   };
   
   // Get text color based on category
@@ -96,7 +96,7 @@ export const IntakeItem = React.memo(function IntakeItem({
         <button 
           onClick={() => onRemove(intake.id)}
           className={`p-1 rounded-full hover:bg-opacity-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-            darkMode ? 'hover:bg-slate-400' : 'hover:bg-slate-200'
+            darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-900/5'
           } ${
             darkMode
               ? 'focus-visible:ring-blue-400 focus-visible:ring-offset-slate-900'

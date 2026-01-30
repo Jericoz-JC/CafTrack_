@@ -29,8 +29,8 @@ export const RangeSelector = React.memo(function RangeSelector({
               className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isActive
                   ? darkMode
-                    ? 'bg-slate-700 text-white ring-offset-slate-900'
-                    : 'bg-slate-900 text-white ring-offset-white'
+                    ? 'bg-white/15 text-white ring-offset-slate-950'
+                    : 'bg-slate-900/90 text-white ring-offset-white'
                   : darkMode
                     ? 'text-slate-400 hover:text-white'
                     : 'text-slate-500 hover:text-slate-900'

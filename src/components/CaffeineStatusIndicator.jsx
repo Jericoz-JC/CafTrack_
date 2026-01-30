@@ -65,7 +65,7 @@ export const CaffeineStatusIndicator = ({ currentLevel, caffeineLimit, darkMode 
       {/* Progress bar */}
       <div
         className={`h-2 w-full rounded-full overflow-hidden ${
-          darkMode ? 'bg-white/10' : 'bg-slate-200/80'
+          darkMode ? 'bg-white/10' : 'bg-slate-900/5'
         }`}
       >
         <div 

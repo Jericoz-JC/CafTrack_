@@ -459,7 +459,7 @@ const CaffeineCalculator = () => {
   
   return (
     <div 
-      className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}
+      className={`min-h-screen transition-colors duration-300 ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}
     >
       {/* Header */}
       <header className={`px-4 py-4 flex justify-between items-center sticky top-0 z-20 border-b backdrop-blur ${
