@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Modal } from './Modal';
 
-export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDarkMode }) => {
+export const SettingsModal = ({
+  settings,
+  onSave,
+  onClose,
+  darkMode,
+  onToggleDarkMode,
+  onOpenInfo
+}) => {
   const [formData, setFormData] = useState({
     metabolismRate: settings.metabolismRate,
     caffeineLimit: settings.caffeineLimit,
@@ -203,7 +210,28 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             </button>
           </div>
         </div>
-        
+
+        <div className={`p-4 rounded-2xl glass-surface glass-highlight ${
+          darkMode ? 'text-slate-100' : 'text-slate-900'
+        }`}>
+          <h3 className="font-medium mb-2">About Caffeine</h3>
+          <button
+            type="button"
+            onClick={() => onOpenInfo?.()}
+            className={`w-full rounded-xl border px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+              darkMode
+                ? 'border-white/10 text-slate-100 hover:bg-white/10'
+                : 'border-slate-200/70 text-slate-900 hover:bg-white/70'
+            } ${
+              darkMode
+                ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
+                : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+            }`}
+          >
+            Click here to learn more about caffeine
+          </button>
+        </div>
+
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
