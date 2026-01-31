@@ -1,6 +1,6 @@
 # CafTrack: Caffeine Intake Tracker
 
-A comprehensive web application that helps users track, visualize, and manage their caffeine intake. Built with a mobile-first approach, this app offers real-time caffeine level monitoring, metabolism forecasting, and sleep readiness indicators.
+A comprehensive web application that helps users track, visualize, and manage their caffeine intake. Built with a mobile-first approach, this app offers real-time caffeine level monitoring, metabolism forecasting, sleep readiness indicators, and secure cloud sync.
 
 ## Features
 
@@ -10,6 +10,8 @@ A comprehensive web application that helps users track, visualize, and manage th
 - **Personalized settings**: Customize for individual factors like metabolism rate, caffeine tolerance, and special conditions
 - **Comprehensive drink database**: Pre-configured options for coffee, tea, energy drinks and sodas
 - **Custom drink tracking**: Add your own caffeine sources with custom amounts
+- **Secure sign-in**: Clerk authentication for protected, personalized data
+- **Cloud sync across devices**: Convex-backed storage for intakes and settings
 - **Dark/light mode**: Toggle between visual themes for comfort
 - **Mobile-optimized interface**: Swipe gestures, bottom navigation, and responsive design
 
@@ -19,7 +21,21 @@ A comprehensive web application that helps users track, visualize, and manage th
 - **Tailwind CSS**: Utility-first CSS framework for styling
 - **Recharts**: Charting library for data visualization 
 - **Lucide React**: Icon library
+- **Clerk**: User authentication and session management
+- **Convex**: Real-time backend and data sync
 - **localStorage API**: For persistent data storage
+
+## Architecture Analysis Graph
+
+```mermaid
+flowchart LR
+  User[User] --> UI[React UI]
+  UI -->|Sign in| Clerk[Clerk Auth]
+  UI -->|Sync data| Convex[Convex Backend]
+  Convex --> DB[(Convex Database)]
+  UI -->|Local cache| Local[localStorage]
+  Clerk -->|JWT| Convex
+```
 
 ## Installation
 
