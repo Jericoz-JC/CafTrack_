@@ -213,12 +213,18 @@ describe('useCaffeineState', () => {
       });
     });
 
+    await waitFor(() => {
+      expect(result.current.intakes).toHaveLength(1);
+    });
+
     // Try to restore the same intake without removing it first
     act(() => {
       result.current.restoreIntake(intake, 0);
     });
 
-    expect(result.current.intakes).toHaveLength(1);
+    await waitFor(() => {
+      expect(result.current.intakes).toHaveLength(1);
+    });
   });
 
   test('updateSettings merges partial settings', async () => {

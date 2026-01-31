@@ -4,10 +4,6 @@ import { SignInButton, UserButton } from '@clerk/clerk-react';
 import { Authenticated, Unauthenticated, AuthLoading } from 'convex/react';
 
 import { AddIntakeForm } from './modals/AddIntakeForm';
-
-const SettingsModal = lazy(() => import('./modals/SettingsModal').then(m => ({ default: m.SettingsModal })));
-const AddIntakeModal = lazy(() => import('./modals/AddIntakeModal').then(m => ({ default: m.AddIntakeModal })));
-const InfoModal = lazy(() => import('./modals/InfoModal').then(m => ({ default: m.InfoModal })));
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
@@ -22,6 +18,10 @@ import { useCloudSync } from '../hooks/useCloudSync';
 import { useCaffeineState } from '../hooks/useCaffeineState';
 import { useCaffeineCalculations } from '../hooks/useCaffeineCalculations';
 import { useUndoState } from '../hooks/useUndoState';
+
+const SettingsModal = lazy(() => import('./modals/SettingsModal').then(m => ({ default: m.SettingsModal })));
+const AddIntakeModal = lazy(() => import('./modals/AddIntakeModal').then(m => ({ default: m.AddIntakeModal })));
+const InfoModal = lazy(() => import('./modals/InfoModal').then(m => ({ default: m.InfoModal })));
 const SCREEN_QUERY_KEY = 'tab';
 const cloudAuthEnabled = Boolean(
   process.env.REACT_APP_CONVEX_URL &&

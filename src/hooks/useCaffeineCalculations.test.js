@@ -3,7 +3,17 @@ import { useCaffeineCalculations } from './useCaffeineCalculations';
 import { DEFAULT_SETTINGS } from '../constants/caffeine';
 
 describe('useCaffeineCalculations', () => {
-  const baseSettings = DEFAULT_SETTINGS;
+  const baseSettings = { ...DEFAULT_SETTINGS };
+  const fixedDate = new Date('2026-01-30T12:00:00.000Z');
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(fixedDate);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   test('returns zero caffeine level with no intakes', () => {
     const { result } = renderHook(() => useCaffeineCalculations([], baseSettings));
@@ -35,7 +45,7 @@ describe('useCaffeineCalculations', () => {
   });
 
   test('applies decay to older intakes', () => {
-    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(fixedDate.getTime() - 2 * 60 * 60 * 1000);
     const intakes = [
       {
         id: '1',
@@ -93,7 +103,7 @@ describe('useCaffeineCalculations', () => {
   });
 
   test('isReadyForSleep is true when caffeine at sleep is below target', () => {
-    const tenHoursAgo = new Date(Date.now() - 10 * 60 * 60 * 1000);
+    const tenHoursAgo = new Date(fixedDate.getTime() - 10 * 60 * 60 * 1000);
     const intakes = [
       {
         id: '1',
@@ -112,7 +122,7 @@ describe('useCaffeineCalculations', () => {
   });
 
   test('metabolism rate affects decay', () => {
-    const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(fixedDate.getTime() - 2 * 60 * 60 * 1000);
     const intakes = [
       {
         id: '1',

@@ -4,7 +4,8 @@ import { DesktopPanel } from './DesktopPanel';
 import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../../utils/time';
 
 export const getCaffeineStatus = (currentLevel, caffeineLimit, darkMode) => {
-  const percentage = (currentLevel / caffeineLimit) * 100;
+  const safeLimit = Number.isFinite(caffeineLimit) && caffeineLimit > 0 ? caffeineLimit : 1;
+  const percentage = (currentLevel / safeLimit) * 100;
   if (percentage < 50) {
     return {
       label: 'Low',
@@ -41,8 +42,9 @@ export const DesktopSummaryPanel = ({
   darkMode
 }) => {
   const safeSleepTime = sleepTime || '22:00';
-  const status = getCaffeineStatus(currentLevel, caffeineLimit, darkMode);
-  const progressPercentage = Math.min(100, (currentLevel / caffeineLimit) * 100);
+  const safeLimit = Number.isFinite(caffeineLimit) && caffeineLimit > 0 ? caffeineLimit : 1;
+  const status = getCaffeineStatus(currentLevel, safeLimit, darkMode);
+  const progressPercentage = Math.min(100, Math.max(0, (currentLevel / safeLimit) * 100));
 
   const { sleepTimeDate } = parseSleepTime(safeSleepTime);
   const sleepLabel = formatTo12Hour(safeSleepTime);
