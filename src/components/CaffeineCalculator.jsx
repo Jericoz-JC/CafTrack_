@@ -35,7 +35,6 @@ import { useCaffeineState } from '../hooks/useCaffeineState';
 import { useCaffeineCalculations } from '../hooks/useCaffeineCalculations';
 import { useUndoState } from '../hooks/useUndoState';
 import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../utils/time';
-
 const SCREEN_QUERY_KEY = 'tab';
 const cloudAuthEnabled = Boolean(
   process.env.REACT_APP_CONVEX_URL &&

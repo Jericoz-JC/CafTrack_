@@ -44,7 +44,6 @@ const areIntakesEqual = (left = [], right = []) => {
   }
   return true;
 };
-
 const cloudSyncEnabled = Boolean(
   process.env.REACT_APP_CONVEX_URL &&
   process.env.REACT_APP_CLERK_PUBLISHABLE_KEY &&

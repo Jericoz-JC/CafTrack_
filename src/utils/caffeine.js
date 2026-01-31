@@ -86,7 +86,6 @@ export const normalizeIntakes = (candidate) => {
     if (!id || !timestamp || Number.isNaN(parsedTime)) continue;
 
     const updatedAt = Number.isFinite(raw.updatedAt) ? raw.updatedAt : parsedTime;
-
     const amount = normalizeNumber(raw.amount, { min: 0, max: 2000, fallback: NaN });
     if (!Number.isFinite(amount)) continue;
 
