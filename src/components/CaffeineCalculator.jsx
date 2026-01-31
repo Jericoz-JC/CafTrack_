@@ -463,7 +463,7 @@ const CaffeineCalculator = () => {
   // Calculate current caffeine level based on metabolism and intake history
   const calculateCurrentCaffeineLevel = () => {
     let currentLevel = 0;
-    const now = new Date();
+    const nowMs = Date.now();
     
     // Get base half-life in hours
     let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
@@ -479,11 +479,12 @@ const CaffeineCalculator = () => {
     
     // Calculate contribution of each intake to current level
     caffeineIntakes.forEach(intake => {
-      const intakeTime = new Date(intake.timestamp);
-      const elapsedMs = now - intakeTime;
+      const intakeTimeMs = new Date(intake.timestamp).getTime();
+      if (!Number.isFinite(intakeTimeMs)) return;
+      const elapsedMs = nowMs - intakeTimeMs;
       
       // Only count if intake was in the past
-      if (elapsedMs > 0) {
+      if (elapsedMs >= 0) {
         // Calculate remaining amount using exponential decay formula
         const remainingAmount = intake.amount * Math.exp(-decayConstant * elapsedMs);
         currentLevel += remainingAmount;
@@ -499,9 +500,16 @@ const CaffeineCalculator = () => {
     const data = [];
     
     // Sort intakes by timestamp
-    const sortedIntakes = [...caffeineIntakes].sort((a, b) => 
+    const sortedIntakes = [...caffeineIntakes].sort((a, b) =>
       new Date(a.timestamp) - new Date(b.timestamp)
     );
+
+    const intakeSeries = sortedIntakes
+      .map((intake) => ({
+        ...intake,
+        timeMs: new Date(intake.timestamp).getTime()
+      }))
+      .filter((intake) => Number.isFinite(intake.timeMs) && Number.isFinite(intake.amount));
     
     // Calculate base half-life in milliseconds
     let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
@@ -516,42 +524,64 @@ const CaffeineCalculator = () => {
     
     // Find earliest intake time or 12 hours ago, whichever is earlier
     let startTime = new Date(now.getTime() - (12 * 60 * 60 * 1000)); // 12 hours ago
-    if (sortedIntakes.length > 0) {
-      const earliestIntake = new Date(sortedIntakes[0].timestamp);
+    if (intakeSeries.length > 0) {
+      const earliestIntake = new Date(intakeSeries[0].timeMs);
       if (earliestIntake < startTime) {
         startTime = earliestIntake;
       }
     }
-    
-    // Round start time down to the nearest hour for cleaner X-axis
-    startTime.setMinutes(0, 0, 0);
-    
+
     // Create data points from start time to 24 hours in the future
     const endTime = new Date(now.getTime() + (24 * 60 * 60 * 1000));
-    
-    // Add data points for every hour from start to end
-    for (let time = new Date(startTime); time <= endTime; time = new Date(time.getTime() + 60 * 60 * 1000)) {
+
+    const getChartStepMs = (rangeMs) => {
+      const hour = 60 * 60 * 1000;
+      const day = 24 * hour;
+      if (rangeMs <= 36 * hour) return 15 * 60 * 1000;
+      if (rangeMs <= 3 * day) return 30 * 60 * 1000;
+      if (rangeMs <= 7 * day) return hour;
+      if (rangeMs <= 30 * day) return 2 * hour;
+      return 4 * hour;
+    };
+
+    const rangeMs = endTime.getTime() - startTime.getTime();
+    const stepMs = getChartStepMs(rangeMs);
+    const alignedStartMs = Math.floor(startTime.getTime() / stepMs) * stepMs;
+    const startMs = Math.min(alignedStartMs, startTime.getTime());
+    const endMs = endTime.getTime();
+
+    const timePoints = new Set();
+    for (let timeMs = startMs; timeMs <= endMs; timeMs += stepMs) {
+      timePoints.add(timeMs);
+    }
+
+    timePoints.add(now.getTime());
+    intakeSeries.forEach((intake) => {
+      if (intake.timeMs >= startMs - stepMs && intake.timeMs <= endMs + stepMs) {
+        timePoints.add(intake.timeMs);
+      }
+    });
+
+    const sortedTimes = Array.from(timePoints).sort((a, b) => a - b);
+
+    sortedTimes.forEach((timeMs) => {
       let caffeineLevel = 0;
-      
-      // Calculate contribution of each intake to this time point
-      sortedIntakes.forEach(intake => {
-        const intakeTime = new Date(intake.timestamp);
-        const elapsedMs = time - intakeTime;
-        
-        // Only count if intake was in the past relative to this time point
-        if (elapsedMs > 0) {
-          // Calculate remaining amount using exponential decay formula
+
+      intakeSeries.forEach((intake) => {
+        const elapsedMs = timeMs - intake.timeMs;
+
+        if (elapsedMs >= 0) {
           const remainingAmount = intake.amount * Math.exp(-decayConstant * elapsedMs);
           caffeineLevel += remainingAmount;
         }
       });
-      
+
       data.push({
-        time: time,
+        time: new Date(timeMs),
         level: Math.round(caffeineLevel)
       });
-    }
-    
+    });
+
     return data;
   };
   
@@ -903,6 +933,7 @@ const CaffeineCalculator = () => {
                 </div>
                 <CaffeineChart 
                   data={chartData} 
+                  intakes={caffeineIntakes}
                   caffeineLimit={settings.caffeineLimit}
                   sleepTime={settings.sleepTime}
                   targetSleepCaffeine={settings.targetSleepCaffeine}
@@ -1004,6 +1035,7 @@ const CaffeineCalculator = () => {
 
                 <CaffeineChart 
                   data={chartData} 
+                  intakes={caffeineIntakes}
                   caffeineLimit={settings.caffeineLimit}
                   sleepTime={settings.sleepTime}
                   targetSleepCaffeine={settings.targetSleepCaffeine}

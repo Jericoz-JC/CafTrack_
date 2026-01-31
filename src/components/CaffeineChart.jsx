@@ -17,6 +17,7 @@ const FALLBACK_RANGE =
 
 export const CaffeineChart = ({ 
   data, 
+  intakes = [],
   caffeineLimit, 
   sleepTime, 
   targetSleepCaffeine,
@@ -74,13 +75,34 @@ export const CaffeineChart = ({
       timestamp: new Date(point.time).getTime()
     }));
 
-    if (!activeRange?.durationMs) {
-      return baseData;
+    let rangeData = baseData;
+    let cutoffTime = null;
+
+    if (activeRange?.durationMs) {
+      cutoffTime = Date.now() - activeRange.durationMs;
+      rangeData = baseData.filter((point) => point.timestamp >= cutoffTime);
     }
 
-    const cutoffTime = Date.now() - activeRange.durationMs;
-    return baseData.filter((point) => point.timestamp >= cutoffTime);
-  }, [data, activeRange]);
+    if (!rangeData.length) return [];
+
+    const intakeTimes = intakes
+      .map((intake) => new Date(intake.timestamp).getTime())
+      .filter((timestamp) => Number.isFinite(timestamp));
+
+    const intakeTimesInRange = cutoffTime == null
+      ? intakeTimes
+      : intakeTimes.filter((timestamp) => timestamp >= cutoffTime);
+
+    if (!intakeTimesInRange.length) {
+      return rangeData;
+    }
+
+    const earliestIntake = Math.min(...intakeTimesInRange);
+    const trimBufferMs = 15 * 60 * 1000;
+    const trimStart = earliestIntake - trimBufferMs;
+
+    return rangeData.filter((point) => point.timestamp >= trimStart);
+  }, [data, activeRange, intakes]);
 
   const xDomain = useMemo(() => {
     if (!filteredData.length) {

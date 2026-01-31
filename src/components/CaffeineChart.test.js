@@ -4,7 +4,7 @@ import { CaffeineChart } from './CaffeineChart';
 jest.mock('recharts', () => ({
   ResponsiveContainer: ({ children }) => <div>{children}</div>,
   AreaChart: ({ children }) => <div>{children}</div>,
-  Area: () => <div />, 
+  Area: () => <div />,
   XAxis: () => <div />,
   YAxis: () => <div />,
   CartesianGrid: () => <div />,
