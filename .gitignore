@@ -21,14 +21,6 @@
 .env.production.local
 .vercel
 
-# local tooling
-.agent/
-.agents/
-.claude/
-.cursor/
-.gemini/
-.opencode/
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
