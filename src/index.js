@@ -89,15 +89,17 @@ const AppProviders = ({ children }) => {
               color: '#94a3b8'
             },
             socialButtonsBlockButton: {
-              backgroundColor: '#0f172a',
-              borderColor: '#38bdf8',
-              boxShadow: '0 0 0 1px rgba(56, 189, 248, 0.5)'
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
             },
             socialButtonsBlockButtonText: {
-              color: '#e2e8f0'
+              color: '#0b1120'
             },
             socialButtonsProviderIcon: {
-              filter: 'brightness(1.35) contrast(1.1)'
+              color: '#0b1120'
+            },
+            socialButtonsProviderInitialIcon: {
+              color: '#0b1120'
             }
           }
         : undefined
