@@ -845,6 +845,20 @@ const CaffeineCalculator = () => {
             <h1 className="text-xl font-bold">CafTrack</h1>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleDarkMode}
+              className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
+              } ${
+                darkMode
+                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
+                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+              }`}
+              aria-label="Toggle theme"
+            >
+              {darkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
+            </button>
             <AuthLoading>
               <div
                 aria-hidden="true"
@@ -882,20 +896,6 @@ const CaffeineCalculator = () => {
               targetLevel={settings.targetSleepCaffeine}
               isReadyForSleep={sleepTimeInfo.isReadyForSleep}
             />
-            <button
-              type="button"
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                darkMode ? 'border-white/10 hover:bg-white/10' : 'border-slate-200/70 hover:bg-white/70'
-              } ${
-                darkMode
-                  ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
-                  : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
-              }`}
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
-            </button>
             <button
               type="button"
               onClick={openSettingsModal}
