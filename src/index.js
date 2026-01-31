@@ -12,7 +12,9 @@ const hasClerkKey = Boolean(process.env.REACT_APP_CLERK_PUBLISHABLE_KEY);
 const hasConvexUrl = Boolean(process.env.REACT_APP_CONVEX_URL);
 const cloudProvidersEnabled =
   hasClerkKey && hasConvexUrl && process.env.NODE_ENV !== 'test';
-const convex = hasConvexUrl ? new ConvexReactClient(process.env.REACT_APP_CONVEX_URL) : null;
+const convex = cloudProvidersEnabled
+  ? new ConvexReactClient(process.env.REACT_APP_CONVEX_URL)
+  : null;
 
 const getInitialDarkMode = () => {
   if (typeof window === 'undefined') return false;
