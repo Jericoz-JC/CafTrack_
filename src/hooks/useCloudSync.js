@@ -168,7 +168,7 @@ const useCloudSyncEnabled = ({
   ]);
 
   useEffect(() => {
-    if (!isAuthenticated || !cloudSettings) return;
+    if (!isAuthenticated || !cloudSettings || hasMigrated) return;
     const { darkMode: cloudDarkMode, ...rest } = cloudSettings;
     setSettings((prev) => ({
       ...prev,
@@ -177,7 +177,7 @@ const useCloudSyncEnabled = ({
     if (typeof cloudDarkMode === 'boolean') {
       setDarkMode(cloudDarkMode);
     }
-  }, [isAuthenticated, cloudSettings, setSettings, setDarkMode]);
+  }, [isAuthenticated, cloudSettings, hasMigrated, setSettings, setDarkMode]);
 
   const localSettingsPayload = useMemo(
     () => buildSettingsPayload(localSettings, darkMode),
