@@ -87,6 +87,17 @@ const AppProviders = ({ children }) => {
             },
             userButtonPopoverFooter: {
               color: '#94a3b8'
+            },
+            socialButtonsBlockButton: {
+              backgroundColor: '#0f172a',
+              borderColor: '#38bdf8',
+              boxShadow: '0 0 0 1px rgba(56, 189, 248, 0.5)'
+            },
+            socialButtonsBlockButtonText: {
+              color: '#e2e8f0'
+            },
+            socialButtonsProviderIcon: {
+              filter: 'brightness(1.35) contrast(1.1)'
             }
           }
         : undefined
@@ -94,10 +105,22 @@ const AppProviders = ({ children }) => {
     [useDark]
   );
 
+  const clerkLocalization = useMemo(
+    () => ({
+      signIn: {
+        start: {
+          subtitle: 'Welcome! Please sign in to continue'
+        }
+      }
+    }),
+    []
+  );
+
   return (
     <ClerkProvider
       publishableKey={process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}
       appearance={clerkAppearance}
+      localization={clerkLocalization}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         {children}
