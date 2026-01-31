@@ -8,10 +8,12 @@ export default defineSchema({
     name: v.string(),
     amount: v.number(),
     category: v.string(),
-    timestamp: v.string()
+    timestamp: v.string(),
+    updatedAt: v.number()
   })
     .index('by_user', ['userId'])
     .index('by_user_timestamp', ['userId', 'timestamp'])
+    .index('by_user_updatedAt', ['userId', 'updatedAt'])
     .index('by_user_clientId', ['userId', 'clientId']),
   settings: defineTable({
     userId: v.string(),

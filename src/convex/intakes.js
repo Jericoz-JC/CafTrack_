@@ -47,7 +47,8 @@ export const add = mutation({
     name: v.string(),
     amount: v.number(),
     category: v.string(),
-    timestamp: v.string()
+    timestamp: v.string(),
+    updatedAt: v.optional(v.number())
   },
   handler: async (ctx, args) => {
     const userId = await requireUserId(ctx);
@@ -65,7 +66,10 @@ export const add = mutation({
 
     return ctx.db.insert('intakes', {
       userId,
-      ...args
+      ...args,
+      updatedAt: Number.isFinite(args.updatedAt)
+        ? args.updatedAt
+        : Date.now()
     });
   }
 });
@@ -98,7 +102,8 @@ export const importFromLocal = mutation({
         name: v.string(),
         amount: v.number(),
         category: v.string(),
-        timestamp: v.string()
+        timestamp: v.string(),
+        updatedAt: v.optional(v.number())
       })
     )
   },
@@ -119,8 +124,118 @@ export const importFromLocal = mutation({
 
       await ctx.db.insert('intakes', {
         userId,
-        ...intake
+        ...intake,
+        updatedAt: Number.isFinite(intake.updatedAt)
+          ? intake.updatedAt
+          : new Date(intake.timestamp).getTime()
       });
+    }
+  }
+});
+
+export const upsertIntake = mutation({
+  args: {
+    clientId: v.string(),
+    name: v.string(),
+    amount: v.number(),
+    category: v.string(),
+    timestamp: v.string(),
+    updatedAt: v.number()
+  },
+  handler: async (ctx, args) => {
+    const userId = await requireUserId(ctx);
+    const parsedUpdatedAt = new Date(args.timestamp).getTime();
+    const incomingUpdatedAt = Number.isFinite(args.updatedAt)
+      ? args.updatedAt
+      : Number.isFinite(parsedUpdatedAt)
+        ? parsedUpdatedAt
+        : Date.now();
+
+    const existing = await ctx.db
+      .query('intakes')
+      .withIndex('by_user_clientId', (q) =>
+        q.eq('userId', userId).eq('clientId', args.clientId)
+      )
+      .first();
+
+    if (!existing) {
+      return ctx.db.insert('intakes', {
+        userId,
+        ...args,
+        updatedAt: incomingUpdatedAt
+      });
+    }
+
+    const existingUpdatedAt = Number.isFinite(existing.updatedAt)
+      ? existing.updatedAt
+      : new Date(existing.timestamp).getTime();
+
+    if (incomingUpdatedAt >= existingUpdatedAt) {
+      await ctx.db.patch(existing._id, {
+        name: args.name,
+        amount: args.amount,
+        category: args.category,
+        timestamp: args.timestamp,
+        updatedAt: incomingUpdatedAt
+      });
+    }
+
+    return existing._id;
+  }
+});
+
+export const mergeFromLocal = mutation({
+  args: {
+    intakes: v.array(
+      v.object({
+        clientId: v.string(),
+        name: v.string(),
+        amount: v.number(),
+        category: v.string(),
+        timestamp: v.string(),
+        updatedAt: v.number()
+      })
+    )
+  },
+  handler: async (ctx, args) => {
+    const userId = await requireUserId(ctx);
+
+    for (const intake of args.intakes) {
+      const parsedUpdatedAt = new Date(intake.timestamp).getTime();
+      const incomingUpdatedAt = Number.isFinite(intake.updatedAt)
+        ? intake.updatedAt
+        : Number.isFinite(parsedUpdatedAt)
+          ? parsedUpdatedAt
+          : Date.now();
+      const existing = await ctx.db
+        .query('intakes')
+        .withIndex('by_user_clientId', (q) =>
+          q.eq('userId', userId).eq('clientId', intake.clientId)
+        )
+        .first();
+
+      if (!existing) {
+        await ctx.db.insert('intakes', {
+          userId,
+          ...intake,
+          updatedAt: incomingUpdatedAt
+        });
+        continue;
+      }
+
+      const existingUpdatedAt = Number.isFinite(existing.updatedAt)
+        ? existing.updatedAt
+        : new Date(existing.timestamp).getTime();
+
+      if (incomingUpdatedAt >= existingUpdatedAt) {
+        await ctx.db.patch(existing._id, {
+          name: intake.name,
+          amount: intake.amount,
+          category: intake.category,
+          timestamp: intake.timestamp,
+          updatedAt: incomingUpdatedAt
+        });
+      }
     }
   }
 });
