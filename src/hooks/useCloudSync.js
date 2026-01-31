@@ -74,6 +74,7 @@ const useCloudSyncEnabled = ({
   const lastSettingsFingerprint = useRef(null);
   const hasAppliedCloudSettings = useRef(false);
   const hasLocalEdits = useRef(false);
+  const wasAuthenticatedRef = useRef(false);
 
   const cloudIntakes = useQuery(
     api.intakes.listAll,
@@ -84,15 +85,20 @@ const useCloudSyncEnabled = ({
     isAuthenticated ? {} : 'skip'
   );
 
-  // Reset flags only on confirmed logout (when queries are also cleared)
+  // Reset flags only on real logout (auth transition from true to false)
+  // This prevents brief auth blips or query skips from clearing local edits
   useEffect(() => {
-    if (!isAuthenticated && cloudSettings === undefined) {
+    const wasAuthenticated = wasAuthenticatedRef.current;
+    wasAuthenticatedRef.current = isAuthenticated;
+
+    // Only reset on real logout: previously authenticated, now not
+    if (wasAuthenticated && !isAuthenticated) {
       setHasMigrated(false);
       lastSettingsFingerprint.current = null;
       hasAppliedCloudSettings.current = false;
       hasLocalEdits.current = false;
     }
-  }, [isAuthenticated, cloudSettings]);
+  }, [isAuthenticated]);
 
   const upsertIntake = useMutation(api.intakes.upsertIntake);
   const removeIntake = useMutation(api.intakes.remove);
