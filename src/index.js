@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Analytics } from '@vercel/analytics/react';
 import { ClerkProvider, useAuth } from '@clerk/clerk-react';
-import { dark } from '@clerk/themes';
 import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import { ConvexReactClient } from 'convex/react';
 
@@ -47,7 +46,29 @@ const AppProviders = ({ children }) => {
 
   const clerkAppearance = useMemo(
     () => ({
-      baseTheme: useDark ? dark : undefined
+      variables: useDark
+        ? {
+            colorBackground: '#05070f',
+            colorText: '#e2e8f0',
+            colorTextSecondary: '#94a3b8',
+            colorPrimary: '#38bdf8',
+            colorInputBackground: '#0f172a',
+            colorInputText: '#e2e8f0',
+            colorDanger: '#fb7185',
+            colorSuccess: '#34d399',
+            colorWarning: '#fbbf24'
+          }
+        : {
+            colorBackground: '#f8fafc',
+            colorText: '#0f172a',
+            colorTextSecondary: '#475569',
+            colorPrimary: '#2563eb',
+            colorInputBackground: '#ffffff',
+            colorInputText: '#0f172a',
+            colorDanger: '#e11d48',
+            colorSuccess: '#10b981',
+            colorWarning: '#f59e0b'
+          }
     }),
     [useDark]
   );
