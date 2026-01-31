@@ -1,15 +1,6 @@
 import React, { useMemo } from 'react';
 import { Moon, Clock, TrendingDown } from 'lucide-react';
-
-const formatTo12Hour = (time24) => {
-  if (!time24) return '';
-  const [rawHour = '00', rawMinute = '00'] = time24.split(':');
-  let hour = parseInt(rawHour, 10);
-  const minute = rawMinute.padStart(2, '0');
-  const period = hour >= 12 ? 'PM' : 'AM';
-  hour = hour % 12 || 12;
-  return `${hour}:${minute} ${period}`;
-};
+import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../utils/time';
 
 export const SleepReadinessIndicator = ({
   chartData,
@@ -20,18 +11,7 @@ export const SleepReadinessIndicator = ({
   const safeSleepTime = sleepTime || '22:00';
   const sleepTimeLabel = useMemo(() => formatTo12Hour(safeSleepTime), [safeSleepTime]);
 
-  // Parse sleep time
-  const [sleepHour, sleepMinute] = safeSleepTime.split(':').map(Number);
-
-  // Create a date object for today's sleep time
-  const today = new Date();
-  const sleepTimeDate = new Date(today);
-  sleepTimeDate.setHours(sleepHour, sleepMinute, 0, 0);
-
-  // If sleep time is in the past for today, use tomorrow's date
-  if (sleepTimeDate < today) {
-    sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
-  }
+  const { sleepTimeDate } = parseSleepTime(safeSleepTime);
 
   // Find the projected caffeine level at sleep time
   const findCaffeineAtSleepTime = () => {
@@ -54,25 +34,7 @@ export const SleepReadinessIndicator = ({
   const caffeineAtSleepTime = findCaffeineAtSleepTime();
   const isReadyForSleep = caffeineAtSleepTime <= targetLevel;
 
-  // Calculate time until sleep
-  const timeUntilSleep = () => {
-    const diffMs = sleepTimeDate - new Date();
-
-    if (diffMs <= 0) {
-      return 'Now';
-    }
-
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-    if (diffHours === 0) {
-      return `${diffMinutes} min`;
-    } else if (diffMinutes === 0) {
-      return `${diffHours} hr`;
-    } else {
-      return `${diffHours} hr ${diffMinutes} min`;
-    }
-  };
+  const timeUntilSleep = getTimeUntil(sleepTimeDate);
 
   return (
     <div
@@ -115,7 +77,7 @@ export const SleepReadinessIndicator = ({
           <div className="flex items-center justify-center mb-1">
             <Clock size={14} className={darkMode ? 'text-slate-400' : 'text-slate-500'} aria-hidden="true" />
           </div>
-          <p className="font-semibold text-sm tabular-nums">{timeUntilSleep()}</p>
+          <p className="font-semibold text-sm tabular-nums">{timeUntilSleep}</p>
           <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Until sleep</p>
         </div>
 

@@ -28,10 +28,13 @@ import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
 import { BedtimePopover } from './BedtimePopover';
 import { BottomDrawer } from './modals/BottomDrawer';
-import { DEFAULT_SETTINGS, HALF_LIFE_HOURS_BY_RATE } from '../constants/caffeine';
+import { DEFAULT_SETTINGS } from '../constants/caffeine';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useCloudSync } from '../hooks/useCloudSync';
+import { calculateCaffeineAtTime, getDecayConstant, normalizeIntakes, normalizeSettings } from '../utils/caffeine';
+import { createClientId } from '../utils/id';
+import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../utils/time';
 
 const safeJsonParse = (value) => {
   if (!value) return null;
@@ -40,23 +43,6 @@ const safeJsonParse = (value) => {
   } catch {
     return null;
   }
-};
-
-const normalizeTime = (value, fallback) => {
-  if (typeof value !== 'string') return fallback;
-  const match = value.match(/^(\d{1,2}):(\d{2})$/);
-  if (!match) return fallback;
-  const hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return fallback;
-  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return fallback;
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-};
-
-const normalizeNumber = (value, { min, max, fallback }) => {
-  const parsed = typeof value === 'number' ? value : Number(value);
-  if (!Number.isFinite(parsed)) return fallback;
-  return Math.min(max, Math.max(min, parsed));
 };
 
 const normalizeBool = (value, fallback = false) => {
@@ -68,89 +54,12 @@ const normalizeBool = (value, fallback = false) => {
   return fallback;
 };
 
-const normalizeSettings = (candidate) => {
-  const base = DEFAULT_SETTINGS;
-  if (!candidate || typeof candidate !== 'object') return base;
-
-  const metabolismRate =
-    candidate.metabolismRate === 'fast' ||
-    candidate.metabolismRate === 'average' ||
-    candidate.metabolismRate === 'slow'
-      ? candidate.metabolismRate
-      : base.metabolismRate;
-
-  return {
-    metabolismRate,
-    caffeineLimit: normalizeNumber(candidate.caffeineLimit, {
-      min: 50,
-      max: 1000,
-      fallback: base.caffeineLimit
-    }),
-    sleepTime: normalizeTime(candidate.sleepTime, base.sleepTime),
-    targetSleepCaffeine: normalizeNumber(candidate.targetSleepCaffeine, {
-      min: 0,
-      max: 200,
-      fallback: base.targetSleepCaffeine
-    }),
-    pregnancyAdjustment: normalizeBool(candidate.pregnancyAdjustment, base.pregnancyAdjustment),
-    smokerAdjustment: normalizeBool(candidate.smokerAdjustment, base.smokerAdjustment),
-    oralContraceptivesAdjustment: normalizeBool(
-      candidate.oralContraceptivesAdjustment,
-      base.oralContraceptivesAdjustment
-    )
-  };
-};
-
-const normalizeIntakes = (candidate) => {
-  if (!Array.isArray(candidate)) return [];
-  const result = [];
-  for (const raw of candidate) {
-    if (!raw || typeof raw !== 'object') continue;
-    const id =
-      typeof raw.id === 'string' && raw.id.trim()
-        ? raw.id
-        : typeof raw.id === 'number'
-          ? String(raw.id)
-          : null;
-    const clientId =
-      typeof raw.clientId === 'string' && raw.clientId.trim()
-        ? raw.clientId
-        : id;
-    const cloudId =
-      typeof raw.cloudId === 'string' && raw.cloudId.trim()
-        ? raw.cloudId
-        : null;
-    const timestamp =
-      typeof raw.timestamp === 'string' && raw.timestamp.trim()
-        ? raw.timestamp
-        : null;
-    const parsedTime = timestamp ? new Date(timestamp).getTime() : Number.NaN;
-    if (!id || !timestamp || Number.isNaN(parsedTime)) continue;
-
-    const amount = normalizeNumber(raw.amount, { min: 0, max: 2000, fallback: NaN });
-    if (!Number.isFinite(amount)) continue;
-
-    result.push({
-      id,
-      clientId,
-      cloudId,
-      timestamp,
-      amount,
-      name: typeof raw.name === 'string' ? raw.name : 'Caffeine',
-      category: typeof raw.category === 'string' ? raw.category : 'custom'
-    });
-  }
-  return result;
-};
-
-const createClientId = () => {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID();
-  }
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-};
-
 const SCREEN_QUERY_KEY = 'tab';
+const cloudAuthEnabled = Boolean(
+  process.env.REACT_APP_CONVEX_URL &&
+  process.env.REACT_APP_CLERK_PUBLISHABLE_KEY &&
+  process.env.NODE_ENV !== 'test'
+);
 
 // Client-only: This app uses Create React App (no SSR), so window is always available.
 // The typeof check is kept for defensive coding but won't trigger in practice.
@@ -213,25 +122,6 @@ const DesktopPanel = ({ title, subtitle, action, children, darkMode, className =
   );
 };
 
-const formatTo12Hour = (time24) => {
-  if (!time24) return '';
-  const [rawHour = '00', rawMinute = '00'] = time24.split(':');
-  let hour = parseInt(rawHour, 10);
-  const minute = rawMinute.padStart(2, '0');
-  const period = hour >= 12 ? 'PM' : 'AM';
-  hour = hour % 12 || 12;
-  return `${hour}:${minute} ${period}`;
-};
-
-const getTimeUntil = (sleepTimeValue) => {
-  const diffMs = sleepTimeValue - new Date();
-  if (diffMs <= 0) return 'Now';
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-  if (diffHours === 0) return `${diffMinutes} min`;
-  if (diffMinutes === 0) return `${diffHours} hr`;
-  return `${diffHours} hr ${diffMinutes} min`;
-};
 
 const getCaffeineStatus = (currentLevel, caffeineLimit, darkMode) => {
   const percentage = (currentLevel / caffeineLimit) * 100;
@@ -274,14 +164,7 @@ const DesktopSummaryPanel = ({
   const status = getCaffeineStatus(currentLevel, caffeineLimit, darkMode);
   const progressPercentage = Math.min(100, (currentLevel / caffeineLimit) * 100);
 
-  const [sleepHour, sleepMinute] = safeSleepTime.split(':').map(Number);
-  const today = new Date();
-  const sleepTimeDate = new Date(today);
-  sleepTimeDate.setHours(sleepHour, sleepMinute, 0, 0);
-  if (sleepTimeDate < today) {
-    sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
-  }
-
+  const { sleepTimeDate } = parseSleepTime(safeSleepTime);
   const sleepLabel = formatTo12Hour(safeSleepTime);
   const timeUntilSleep = getTimeUntil(sleepTimeDate);
   const caffeineAtSleep = sleepInfo?.caffeineAtSleep ?? 0;
@@ -499,35 +382,11 @@ const CaffeineCalculator = () => {
   
   // Calculate current caffeine level based on metabolism and intake history
   const calculateCurrentCaffeineLevel = () => {
-    let currentLevel = 0;
     const nowMs = Date.now();
-    
-    // Get base half-life in hours
-    let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
-    
-    // Apply adjustments for special conditions
-    if (settings.pregnancyAdjustment) halfLifeHours *= 1.5;
-    if (settings.smokerAdjustment) halfLifeHours *= 0.7;
-    if (settings.oralContraceptivesAdjustment) halfLifeHours *= 1.3;
-    
-    // Convert half-life to decay rate constant (in milliseconds)
-    const halfLifeMs = halfLifeHours * 60 * 60 * 1000;
-    const decayConstant = Math.log(2) / halfLifeMs;
-    
-    // Calculate contribution of each intake to current level
-    caffeineIntakes.forEach(intake => {
-      const intakeTimeMs = new Date(intake.timestamp).getTime();
-      if (!Number.isFinite(intakeTimeMs)) return;
-      const elapsedMs = nowMs - intakeTimeMs;
-      
-      // Only count if intake was in the past
-      if (elapsedMs >= 0) {
-        // Calculate remaining amount using exponential decay formula
-        const remainingAmount = intake.amount * Math.exp(-decayConstant * elapsedMs);
-        currentLevel += remainingAmount;
-      }
-    });
-    
+    const decayConstant = getDecayConstant(settings);
+    if (!Number.isFinite(decayConstant) || decayConstant <= 0) return 0;
+    const halfLifeMs = Math.log(2) / decayConstant;
+    const currentLevel = calculateCaffeineAtTime(caffeineIntakes, nowMs, halfLifeMs);
     return Math.round(currentLevel);
   };
   
@@ -548,16 +407,7 @@ const CaffeineCalculator = () => {
       }))
       .filter((intake) => Number.isFinite(intake.timeMs) && Number.isFinite(intake.amount));
     
-    // Calculate base half-life in milliseconds
-    let halfLifeHours = HALF_LIFE_HOURS_BY_RATE[settings.metabolismRate] ?? HALF_LIFE_HOURS_BY_RATE.average;
-    
-    // Apply adjustments
-    if (settings.pregnancyAdjustment) halfLifeHours *= 1.5;
-    if (settings.smokerAdjustment) halfLifeHours *= 0.7;
-    if (settings.oralContraceptivesAdjustment) halfLifeHours *= 1.3;
-    
-    const halfLifeMs = halfLifeHours * 60 * 60 * 1000;
-    const decayConstant = Math.log(2) / halfLifeMs;
+    const decayConstant = getDecayConstant(settings);
     
     // Find earliest intake time or 12 hours ago, whichever is earlier
     let startTime = new Date(now.getTime() - (12 * 60 * 60 * 1000)); // 12 hours ago
@@ -631,15 +481,7 @@ const CaffeineCalculator = () => {
   // Calculate caffeine at sleep time for header popover
   const sleepTimeInfo = useMemo(() => {
     const safeSleepTime = settings.sleepTime || '22:00';
-    const [sleepHour, sleepMinute] = safeSleepTime.split(':').map(Number);
-
-    const today = new Date();
-    const sleepTimeDate = new Date(today);
-    sleepTimeDate.setHours(sleepHour, sleepMinute, 0, 0);
-
-    if (sleepTimeDate < today) {
-      sleepTimeDate.setDate(sleepTimeDate.getDate() + 1);
-    }
+    const { sleepTimeDate } = parseSleepTime(safeSleepTime);
 
     // Find closest chart data point to sleep time
     let caffeineAtSleep = 0;
@@ -859,35 +701,39 @@ const CaffeineCalculator = () => {
             >
               {darkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
             </button>
-            <AuthLoading>
-              <div
-                aria-hidden="true"
-                className={`h-9 w-[72px] rounded-full border animate-pulse ${
-                  darkMode ? 'border-white/10 bg-white/10' : 'border-slate-200/70 bg-white/70'
-                }`}
-              />
-            </AuthLoading>
-            <Authenticated>
-              <UserButton afterSignOutUrl="/" />
-            </Authenticated>
-            <Unauthenticated>
-              <SignInButton mode="modal">
-                <button
-                  type="button"
-                  className={`px-3 py-1.5 rounded-full border text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                    darkMode
-                      ? 'border-white/10 text-slate-100 hover:bg-white/10'
-                      : 'border-slate-200/70 text-slate-900 hover:bg-white/70'
-                  } ${
-                    darkMode
-                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
-                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
-                  }`}
-                >
-                  Log in
-                </button>
-              </SignInButton>
-            </Unauthenticated>
+            {cloudAuthEnabled && (
+              <>
+                <AuthLoading>
+                  <div
+                    aria-hidden="true"
+                    className={`h-9 w-[72px] rounded-full border animate-pulse ${
+                      darkMode ? 'border-white/10 bg-white/10' : 'border-slate-200/70 bg-white/70'
+                    }`}
+                  />
+                </AuthLoading>
+                <Authenticated>
+                  <UserButton afterSignOutUrl="/" />
+                </Authenticated>
+                <Unauthenticated>
+                  <SignInButton mode="modal">
+                    <button
+                      type="button"
+                      className={`px-3 py-1.5 rounded-full border text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                        darkMode
+                          ? 'border-white/10 text-slate-100 hover:bg-white/10'
+                          : 'border-slate-200/70 text-slate-900 hover:bg-white/70'
+                      } ${
+                        darkMode
+                          ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
+                          : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                      }`}
+                    >
+                      Log in
+                    </button>
+                  </SignInButton>
+                </Unauthenticated>
+              </>
+            )}
             <BedtimePopover
               sleepTime={settings.sleepTime}
               onSleepTimeChange={handleSleepTimeChange}

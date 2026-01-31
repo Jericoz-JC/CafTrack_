@@ -17,13 +17,14 @@ describe('Modal', () => {
 
   test('clicking the overlay closes the modal', () => {
     const handleClose = jest.fn();
-    const { container } = render(
+    render(
       <Modal title="Overlay" onClose={handleClose}>
         <p>Body</p>
       </Modal>
     );
 
-    const overlay = container.firstChild;
+    const dialog = screen.getByRole('dialog');
+    const overlay = dialog.parentElement;
     expect(overlay).toBeTruthy();
     fireEvent.click(overlay);
 
