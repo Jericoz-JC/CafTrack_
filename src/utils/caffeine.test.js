@@ -76,6 +76,7 @@ describe('caffeine utils', () => {
       clientId: '1',
       cloudId: null,
       timestamp: validTimestamp,
+      updatedAt: new Date(validTimestamp).getTime(),
       amount: 100,
       name: 'Caffeine',
       category: 'custom'
@@ -85,6 +86,7 @@ describe('caffeine utils', () => {
       clientId: 'c3',
       cloudId: 'cloud-3',
       timestamp: otherTimestamp,
+      updatedAt: new Date(otherTimestamp).getTime(),
       amount: 50,
       name: 'Tea',
       category: 'custom'

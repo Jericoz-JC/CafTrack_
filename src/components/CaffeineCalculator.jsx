@@ -28,31 +28,13 @@ import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
 import { BedtimePopover } from './BedtimePopover';
 import { BottomDrawer } from './modals/BottomDrawer';
-import { DEFAULT_SETTINGS } from '../constants/caffeine';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useCloudSync } from '../hooks/useCloudSync';
-import { calculateCaffeineAtTime, getDecayConstant, normalizeIntakes, normalizeSettings } from '../utils/caffeine';
-import { createClientId } from '../utils/id';
+import { useCaffeineState } from '../hooks/useCaffeineState';
+import { useCaffeineCalculations } from '../hooks/useCaffeineCalculations';
+import { useUndoState } from '../hooks/useUndoState';
 import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../utils/time';
-
-const safeJsonParse = (value) => {
-  if (!value) return null;
-  try {
-    return JSON.parse(value);
-  } catch {
-    return null;
-  }
-};
-
-const normalizeBool = (value, fallback = false) => {
-  if (typeof value === 'boolean') return value;
-  if (typeof value === 'string') {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-  }
-  return fallback;
-};
 
 const SCREEN_QUERY_KEY = 'tab';
 const cloudAuthEnabled = Boolean(
@@ -259,42 +241,25 @@ const CaffeineCalculator = () => {
   const [activeScreen, setActiveScreen] = useState(getInitialScreen);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
-  const [caffeineIntakes, setCaffeineIntakes] = useState([]);
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [rangePreset, setRangePreset] = useState(DEFAULT_RANGE_PRESET);
-  const [hydrated, setHydrated] = useState(false);
-  const [undoState, setUndoState] = useState(null);
   const [showHistoryDrawer, setShowHistoryDrawer] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const addIntakeRef = useRef(null);
+
+  const {
+    intakes: caffeineIntakes,
+    settings,
+    darkMode,
+    hydrated,
+    setIntakes: setCaffeineIntakes,
+    setSettings,
+    setDarkMode,
+    addIntake,
+    removeIntake,
+    restoreIntake,
+    updateSettings
+  } = useCaffeineState();
   
-  // Load saved data from localStorage on initial render
-  useEffect(() => {
-    try {
-      const savedIntakes = localStorage.getItem('caffeineIntakes');
-      const savedSettings = localStorage.getItem('caffeineSettings');
-      const savedDarkMode = localStorage.getItem('darkMode');
-
-      const parsedIntakes = normalizeIntakes(safeJsonParse(savedIntakes));
-      const parsedSettings = normalizeSettings(safeJsonParse(savedSettings));
-
-      setCaffeineIntakes(parsedIntakes);
-      setSettings(parsedSettings);
-
-      if (savedDarkMode != null) {
-        setDarkMode(normalizeBool(savedDarkMode, false));
-      }
-    } catch {
-      // If storage is unavailable (private mode / denied), fall back to defaults.
-      setCaffeineIntakes([]);
-      setSettings(DEFAULT_SETTINGS);
-      setDarkMode(false);
-    } finally {
-      setHydrated(true);
-    }
-  }, []);
-
   const cloudSync = useCloudSync({
     localIntakes: caffeineIntakes,
     localSettings: settings,
@@ -304,51 +269,6 @@ const CaffeineCalculator = () => {
     setDarkMode,
     isLocalReady: hydrated
   });
-  
-  // Save data to localStorage when it changes
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem('caffeineIntakes', JSON.stringify(caffeineIntakes));
-    } catch {
-      // ignore storage errors
-    }
-  }, [caffeineIntakes, hydrated]);
-  
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem('caffeineSettings', JSON.stringify(settings));
-    } catch {
-      // ignore storage errors
-    }
-  }, [settings, hydrated]);
-  
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem('darkMode', darkMode.toString());
-    } catch {
-      // ignore storage errors
-    }
-    const themeColor = darkMode ? '#05070f' : '#f5f7fb';
-    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-    if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', themeColor);
-    }
-    if (darkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(
-        new CustomEvent('caftrack-theme-change', {
-          detail: darkMode
-        })
-      );
-    }
-  }, [darkMode, hydrated]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -356,16 +276,6 @@ const CaffeineCalculator = () => {
     url.searchParams.set(SCREEN_QUERY_KEY, activeScreen);
     window.history.replaceState({}, '', url);
   }, [activeScreen]);
-
-  useEffect(() => {
-    if (!undoState) return undefined;
-    const timeoutId = window.setTimeout(() => {
-      setUndoState(null);
-    }, 5000);
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [undoState]);
 
   useEffect(() => {
     if (!isDesktop) return;
@@ -380,129 +290,10 @@ const CaffeineCalculator = () => {
     }
   }, [isDesktop, showHistoryDrawer]);
   
-  // Calculate current caffeine level based on metabolism and intake history
-  const calculateCurrentCaffeineLevel = () => {
-    const nowMs = Date.now();
-    const decayConstant = getDecayConstant(settings);
-    if (!Number.isFinite(decayConstant) || decayConstant <= 0) return 0;
-    const halfLifeMs = Math.log(2) / decayConstant;
-    const currentLevel = calculateCaffeineAtTime(caffeineIntakes, nowMs, halfLifeMs);
-    return Math.round(currentLevel);
-  };
-  
-  // Generate data for caffeine chart over time
-  const generateChartData = () => {
-    const now = new Date();
-    const data = [];
-    
-    // Sort intakes by timestamp
-    const sortedIntakes = [...caffeineIntakes].sort((a, b) =>
-      new Date(a.timestamp) - new Date(b.timestamp)
-    );
-
-    const intakeSeries = sortedIntakes
-      .map((intake) => ({
-        ...intake,
-        timeMs: new Date(intake.timestamp).getTime()
-      }))
-      .filter((intake) => Number.isFinite(intake.timeMs) && Number.isFinite(intake.amount));
-    
-    const decayConstant = getDecayConstant(settings);
-    
-    // Find earliest intake time or 12 hours ago, whichever is earlier
-    let startTime = new Date(now.getTime() - (12 * 60 * 60 * 1000)); // 12 hours ago
-    if (intakeSeries.length > 0) {
-      const earliestIntake = new Date(intakeSeries[0].timeMs);
-      if (earliestIntake < startTime) {
-        startTime = earliestIntake;
-      }
-    }
-
-    // Create data points from start time to 24 hours in the future
-    const endTime = new Date(now.getTime() + (24 * 60 * 60 * 1000));
-
-    const getChartStepMs = (rangeMs) => {
-      const hour = 60 * 60 * 1000;
-      const day = 24 * hour;
-      if (rangeMs <= 36 * hour) return 15 * 60 * 1000;
-      if (rangeMs <= 3 * day) return 30 * 60 * 1000;
-      if (rangeMs <= 7 * day) return hour;
-      if (rangeMs <= 30 * day) return 2 * hour;
-      return 4 * hour;
-    };
-
-    const rangeMs = endTime.getTime() - startTime.getTime();
-    const stepMs = getChartStepMs(rangeMs);
-    const alignedStartMs = Math.floor(startTime.getTime() / stepMs) * stepMs;
-    const startMs = Math.min(alignedStartMs, startTime.getTime());
-    const endMs = endTime.getTime();
-
-    const timePoints = new Set();
-    for (let timeMs = startMs; timeMs <= endMs; timeMs += stepMs) {
-      timePoints.add(timeMs);
-    }
-
-    timePoints.add(now.getTime());
-    intakeSeries.forEach((intake) => {
-      if (intake.timeMs >= startMs - stepMs && intake.timeMs <= endMs + stepMs) {
-        timePoints.add(intake.timeMs);
-      }
-    });
-
-    const sortedTimes = Array.from(timePoints).sort((a, b) => a - b);
-
-    sortedTimes.forEach((timeMs) => {
-      let caffeineLevel = 0;
-
-      intakeSeries.forEach((intake) => {
-        const elapsedMs = timeMs - intake.timeMs;
-
-        if (elapsedMs >= 0) {
-          const remainingAmount = intake.amount * Math.exp(-decayConstant * elapsedMs);
-          caffeineLevel += remainingAmount;
-        }
-      });
-
-      data.push({
-        time: new Date(timeMs),
-        level: Math.round(caffeineLevel)
-      });
-    });
-
-    return data;
-  };
-  
-  // Memoize chart data to prevent unnecessary recalculations
-  const chartData = useMemo(generateChartData, [caffeineIntakes, settings]);
-  
-  // Current caffeine level
-  const currentCaffeineLevel = useMemo(calculateCurrentCaffeineLevel, [caffeineIntakes, settings]);
-
-  // Calculate caffeine at sleep time for header popover
-  const sleepTimeInfo = useMemo(() => {
-    const safeSleepTime = settings.sleepTime || '22:00';
-    const { sleepTimeDate } = parseSleepTime(safeSleepTime);
-
-    // Find closest chart data point to sleep time
-    let caffeineAtSleep = 0;
-    if (chartData && chartData.length > 0) {
-      let closestPoint = chartData[0];
-      let smallestDiff = Math.abs(new Date(chartData[0].time) - sleepTimeDate);
-
-      for (let i = 1; i < chartData.length; i++) {
-        const diff = Math.abs(new Date(chartData[i].time) - sleepTimeDate);
-        if (diff < smallestDiff) {
-          smallestDiff = diff;
-          closestPoint = chartData[i];
-        }
-      }
-      caffeineAtSleep = closestPoint.level;
-    }
-
-    const isReadyForSleep = caffeineAtSleep <= settings.targetSleepCaffeine;
-
-    return { caffeineAtSleep, isReadyForSleep };
-  }, [chartData, settings.sleepTime, settings.targetSleepCaffeine]);
+  const { chartData, currentCaffeineLevel, sleepTimeInfo } = useCaffeineCalculations(
+    caffeineIntakes,
+    settings
+  );
 
   const filteredIntakes = useMemo(() => {
     if (!caffeineIntakes.length) {
@@ -557,7 +348,7 @@ const CaffeineCalculator = () => {
 
   const toggleDarkMode = useCallback(() => {
     setDarkMode((prev) => !prev);
-  }, []);
+  }, [setDarkMode]);
 
   const scrollToAddIntake = useCallback(() => {
     addIntakeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -583,89 +374,58 @@ const CaffeineCalculator = () => {
   const goHistory = useCallback(() => setActiveScreen('history'), []);
   const goStats = useCallback(() => setActiveScreen('stats'), []);
 
-  const handleAddIntake = useCallback((intakeData) => {
-    const clientId = createClientId();
-    const timestamp = intakeData.timestamp || new Date().toISOString();
-    const newIntake = {
-      id: clientId,
-      clientId,
-      timestamp,
-      ...intakeData
-    };
-
-    setCaffeineIntakes((prev) => [newIntake, ...prev]);
-
-    if (cloudSync.addIntake) {
-      cloudSync.addIntake({
-        clientId,
-        name: intakeData.name,
-        amount: intakeData.amount,
-        category: intakeData.category,
-        timestamp
+  const handleUndoRestore = useCallback((payload) => {
+    if (!payload?.intake) return;
+    const restored = restoreIntake(payload.intake, payload.index);
+    if (restored && cloudSync.upsertIntake) {
+      cloudSync.upsertIntake({
+        clientId: restored.clientId || restored.id,
+        name: restored.name,
+        amount: restored.amount,
+        category: restored.category,
+        timestamp: restored.timestamp,
+        updatedAt: restored.updatedAt
       });
     }
+  }, [cloudSync, restoreIntake]);
 
+  const { undoState, setUndoState, handleUndo, dismissUndo } = useUndoState({
+    onUndo: handleUndoRestore
+  });
+
+  const handleAddIntake = useCallback((intakeData) => {
+    const newIntake = addIntake(intakeData);
+    if (newIntake && cloudSync.upsertIntake) {
+      cloudSync.upsertIntake({
+        clientId: newIntake.clientId || newIntake.id,
+        name: newIntake.name,
+        amount: newIntake.amount,
+        category: newIntake.category,
+        timestamp: newIntake.timestamp,
+        updatedAt: newIntake.updatedAt
+      });
+    }
     closeModal();
-  }, [closeModal, cloudSync]);
+  }, [addIntake, closeModal, cloudSync]);
   
   // Handle removing a caffeine intake
   const handleRemoveIntake = useCallback((id) => {
-    let removedIntake = null;
-    setCaffeineIntakes((prev) => {
-      const index = prev.findIndex((intake) => intake.id === id);
-      if (index === -1) return prev;
-      const removed = prev[index];
-      removedIntake = removed;
-      setUndoState({ intake: removed, index });
-      return prev.filter((intake) => intake.id !== id);
-    });
-    if (removedIntake?.cloudId && cloudSync.removeIntake) {
-      cloudSync.removeIntake({ id: removedIntake.cloudId });
+    const removed = removeIntake(id);
+    if (!removed?.intake) return;
+    setUndoState(removed);
+    if (removed.intake.cloudId && cloudSync.removeIntake) {
+      cloudSync.removeIntake({ id: removed.intake.cloudId });
     }
-  }, [cloudSync]);
+  }, [cloudSync, removeIntake, setUndoState]);
 
-  const dismissUndo = useCallback(() => {
-    setUndoState(null);
-  }, []);
-
-  const handleUndoRemove = useCallback(() => {
-    if (!undoState?.intake) return;
-    const { intake, index } = undoState;
-    setCaffeineIntakes((prev) => {
-      if (prev.some((existing) => existing.id === intake.id)) {
-        return prev;
-      }
-      const next = [...prev];
-      const insertAt = Math.min(Math.max(index, 0), next.length);
-      next.splice(insertAt, 0, intake);
-      return next;
-    });
-    if (cloudSync.addIntake) {
-      const clientId = intake.clientId || intake.id || createClientId();
-      cloudSync.addIntake({
-        clientId,
-        name: intake.name,
-        amount: intake.amount,
-        category: intake.category,
-        timestamp: intake.timestamp
-      });
-    }
-    setUndoState(null);
-  }, [undoState, cloudSync]);
 
   const handleSleepTimeChange = useCallback((nextSleepTime) => {
-    setSettings((prev) => ({
-      ...prev,
-      sleepTime: nextSleepTime
-    }));
-  }, []);
+    updateSettings({ sleepTime: nextSleepTime });
+  }, [updateSettings]);
 
   const handleCaffeineLimitChange = useCallback((nextLimit) => {
-    setSettings((prev) => ({
-      ...prev,
-      caffeineLimit: nextLimit
-    }));
-  }, []);
+    updateSettings({ caffeineLimit: nextLimit });
+  }, [updateSettings]);
   
   return (
     <div 
@@ -1119,7 +879,7 @@ const CaffeineCalculator = () => {
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
-                onClick={handleUndoRemove}
+                onClick={handleUndo}
                 className={`rounded-xl px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                   darkMode
                     ? 'bg-slate-700 hover:bg-slate-600 text-white focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'

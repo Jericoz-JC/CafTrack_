@@ -85,6 +85,8 @@ export const normalizeIntakes = (candidate) => {
     const parsedTime = timestamp ? new Date(timestamp).getTime() : Number.NaN;
     if (!id || !timestamp || Number.isNaN(parsedTime)) continue;
 
+    const updatedAt = Number.isFinite(raw.updatedAt) ? raw.updatedAt : parsedTime;
+
     const amount = normalizeNumber(raw.amount, { min: 0, max: 2000, fallback: NaN });
     if (!Number.isFinite(amount)) continue;
 
@@ -93,6 +95,7 @@ export const normalizeIntakes = (candidate) => {
       clientId,
       cloudId,
       timestamp,
+      updatedAt,
       amount,
       name: typeof raw.name === 'string' ? raw.name : 'Caffeine',
       category: typeof raw.category === 'string' ? raw.category : 'custom'

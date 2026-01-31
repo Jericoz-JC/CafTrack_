@@ -47,7 +47,8 @@ export const add = mutation({
     name: v.string(),
     amount: v.number(),
     category: v.string(),
-    timestamp: v.string()
+    timestamp: v.string(),
+    updatedAt: v.optional(v.number())
   },
   handler: async (ctx, args) => {
     const userId = await requireUserId(ctx);
@@ -65,7 +66,10 @@ export const add = mutation({
 
     return ctx.db.insert('intakes', {
       userId,
-      ...args
+      ...args,
+      updatedAt: Number.isFinite(args.updatedAt)
+        ? args.updatedAt
+        : Date.now()
     });
   }
 });
@@ -98,7 +102,8 @@ export const importFromLocal = mutation({
         name: v.string(),
         amount: v.number(),
         category: v.string(),
-        timestamp: v.string()
+        timestamp: v.string(),
+        updatedAt: v.optional(v.number())
       })
     )
   },
@@ -119,8 +124,104 @@ export const importFromLocal = mutation({
 
       await ctx.db.insert('intakes', {
         userId,
-        ...intake
+        ...intake,
+        updatedAt: Number.isFinite(intake.updatedAt)
+          ? intake.updatedAt
+          : new Date(intake.timestamp).getTime()
       });
+    }
+  }
+});
+
+export const upsertIntake = mutation({
+  args: {
+    clientId: v.string(),
+    name: v.string(),
+    amount: v.number(),
+    category: v.string(),
+    timestamp: v.string(),
+    updatedAt: v.number()
+  },
+  handler: async (ctx, args) => {
+    const userId = await requireUserId(ctx);
+
+    const existing = await ctx.db
+      .query('intakes')
+      .withIndex('by_user_clientId', (q) =>
+        q.eq('userId', userId).eq('clientId', args.clientId)
+      )
+      .first();
+
+    if (!existing) {
+      return ctx.db.insert('intakes', {
+        userId,
+        ...args
+      });
+    }
+
+    const existingUpdatedAt = Number.isFinite(existing.updatedAt)
+      ? existing.updatedAt
+      : new Date(existing.timestamp).getTime();
+
+    if (args.updatedAt > existingUpdatedAt) {
+      await ctx.db.patch(existing._id, {
+        name: args.name,
+        amount: args.amount,
+        category: args.category,
+        timestamp: args.timestamp,
+        updatedAt: args.updatedAt
+      });
+    }
+
+    return existing._id;
+  }
+});
+
+export const mergeFromLocal = mutation({
+  args: {
+    intakes: v.array(
+      v.object({
+        clientId: v.string(),
+        name: v.string(),
+        amount: v.number(),
+        category: v.string(),
+        timestamp: v.string(),
+        updatedAt: v.number()
+      })
+    )
+  },
+  handler: async (ctx, args) => {
+    const userId = await requireUserId(ctx);
+
+    for (const intake of args.intakes) {
+      const existing = await ctx.db
+        .query('intakes')
+        .withIndex('by_user_clientId', (q) =>
+          q.eq('userId', userId).eq('clientId', intake.clientId)
+        )
+        .first();
+
+      if (!existing) {
+        await ctx.db.insert('intakes', {
+          userId,
+          ...intake
+        });
+        continue;
+      }
+
+      const existingUpdatedAt = Number.isFinite(existing.updatedAt)
+        ? existing.updatedAt
+        : new Date(existing.timestamp).getTime();
+
+      if (intake.updatedAt > existingUpdatedAt) {
+        await ctx.db.patch(existing._id, {
+          name: intake.name,
+          amount: intake.amount,
+          category: intake.category,
+          timestamp: intake.timestamp,
+          updatedAt: intake.updatedAt
+        });
+      }
     }
   }
 });
