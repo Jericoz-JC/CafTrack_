@@ -6,7 +6,7 @@ export const HALF_LIFE_HOURS_BY_RATE = {
 
 export const DEFAULT_SETTINGS = {
   metabolismRate: 'average', // fast, average, slow
-  caffeineLimit: 400, // in mg
+  caffeineLimit: 200, // in mg
   sleepTime: '22:00', // 24-hour format
   targetSleepCaffeine: 30, // in mg
   pregnancyAdjustment: false,

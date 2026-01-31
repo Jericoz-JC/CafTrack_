@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { 
-  Coffee, 
-  Plus, 
-  Settings, 
-  Info, 
+import {
+  Coffee,
+  Plus,
+  Settings,
+  Info,
   Moon,
   X,
   BarChart2,
@@ -14,6 +14,8 @@ import {
   Clock,
   TrendingDown
 } from 'lucide-react';
+import { SignInButton, UserButton } from '@clerk/clerk-react';
+import { Authenticated, Unauthenticated, AuthLoading } from 'convex/react';
 
 import { SettingsModal } from './modals/SettingsModal';
 import { AddIntakeModal } from './modals/AddIntakeModal';
@@ -30,6 +32,7 @@ import { BottomDrawer } from './modals/BottomDrawer';
 import { DEFAULT_SETTINGS, HALF_LIFE_HOURS_BY_RATE } from '../constants/caffeine';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { useCloudSync } from '../hooks/useCloudSync';
 
 const safeJsonParse = (value) => {
   if (!value) return null;
@@ -110,6 +113,14 @@ const normalizeIntakes = (candidate) => {
         : typeof raw.id === 'number'
           ? String(raw.id)
           : null;
+    const clientId =
+      typeof raw.clientId === 'string' && raw.clientId.trim()
+        ? raw.clientId
+        : id;
+    const cloudId =
+      typeof raw.cloudId === 'string' && raw.cloudId.trim()
+        ? raw.cloudId
+        : null;
     const timestamp =
       typeof raw.timestamp === 'string' && raw.timestamp.trim()
         ? raw.timestamp
@@ -122,6 +133,8 @@ const normalizeIntakes = (candidate) => {
 
     result.push({
       id,
+      clientId,
+      cloudId,
       timestamp,
       amount,
       name: typeof raw.name === 'string' ? raw.name : 'Caffeine',
@@ -129,6 +142,13 @@ const normalizeIntakes = (candidate) => {
     });
   }
   return result;
+};
+
+const createClientId = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 };
 
 const SCREEN_QUERY_KEY = 'tab';
@@ -162,6 +182,7 @@ const FloatingActionButton = ({ onClick, darkMode }) => (
     <Plus size={24} color="white" aria-hidden="true" />
   </button>
 );
+
 
 const DesktopPanel = ({ title, subtitle, action, children, darkMode, className = '', bodyClassName }) => {
   const bodyClasses = bodyClassName ?? 'mt-4';
@@ -391,6 +412,16 @@ const CaffeineCalculator = () => {
       setHydrated(true);
     }
   }, []);
+
+  const cloudSync = useCloudSync({
+    localIntakes: caffeineIntakes,
+    localSettings: settings,
+    darkMode,
+    setIntakes: setCaffeineIntakes,
+    setSettings,
+    setDarkMode,
+    isLocalReady: hydrated
+  });
   
   // Save data to localStorage when it changes
   useEffect(() => {
@@ -427,6 +458,13 @@ const CaffeineCalculator = () => {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
+    }
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('caftrack-theme-change', {
+          detail: darkMode
+        })
+      );
     }
   }, [darkMode, hydrated]);
 
@@ -675,6 +713,7 @@ const CaffeineCalculator = () => {
     openModal('settings');
   }, [openModal]);
 
+
   const toggleDarkMode = useCallback(() => {
     setDarkMode((prev) => !prev);
   }, []);
@@ -704,26 +743,45 @@ const CaffeineCalculator = () => {
   const goStats = useCallback(() => setActiveScreen('stats'), []);
 
   const handleAddIntake = useCallback((intakeData) => {
+    const clientId = createClientId();
+    const timestamp = intakeData.timestamp || new Date().toISOString();
     const newIntake = {
-      id: Date.now().toString(),
-      timestamp: intakeData.timestamp || new Date().toISOString(), // Use provided timestamp or current time
+      id: clientId,
+      clientId,
+      timestamp,
       ...intakeData
     };
-    
-    setCaffeineIntakes(prev => [newIntake, ...prev]);
+
+    setCaffeineIntakes((prev) => [newIntake, ...prev]);
+
+    if (cloudSync.addIntake) {
+      cloudSync.addIntake({
+        clientId,
+        name: intakeData.name,
+        amount: intakeData.amount,
+        category: intakeData.category,
+        timestamp
+      });
+    }
+
     closeModal();
-  }, [closeModal]);
+  }, [closeModal, cloudSync]);
   
   // Handle removing a caffeine intake
   const handleRemoveIntake = useCallback((id) => {
+    let removedIntake = null;
     setCaffeineIntakes((prev) => {
       const index = prev.findIndex((intake) => intake.id === id);
       if (index === -1) return prev;
       const removed = prev[index];
+      removedIntake = removed;
       setUndoState({ intake: removed, index });
       return prev.filter((intake) => intake.id !== id);
     });
-  }, []);
+    if (removedIntake?.cloudId && cloudSync.removeIntake) {
+      cloudSync.removeIntake({ id: removedIntake.cloudId });
+    }
+  }, [cloudSync]);
 
   const dismissUndo = useCallback(() => {
     setUndoState(null);
@@ -741,8 +799,18 @@ const CaffeineCalculator = () => {
       next.splice(insertAt, 0, intake);
       return next;
     });
+    if (cloudSync.addIntake) {
+      const clientId = intake.clientId || intake.id || createClientId();
+      cloudSync.addIntake({
+        clientId,
+        name: intake.name,
+        amount: intake.amount,
+        category: intake.category,
+        timestamp: intake.timestamp
+      });
+    }
     setUndoState(null);
-  }, [undoState]);
+  }, [undoState, cloudSync]);
 
   const handleSleepTimeChange = useCallback((nextSleepTime) => {
     setSettings((prev) => ({
@@ -792,6 +860,35 @@ const CaffeineCalculator = () => {
             >
               {darkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
             </button>
+            <AuthLoading>
+              <div
+                aria-hidden="true"
+                className={`h-9 w-[72px] rounded-full border animate-pulse ${
+                  darkMode ? 'border-white/10 bg-white/10' : 'border-slate-200/70 bg-white/70'
+                }`}
+              />
+            </AuthLoading>
+            <Authenticated>
+              <UserButton afterSignOutUrl="/" />
+            </Authenticated>
+            <Unauthenticated>
+              <SignInButton mode="modal">
+                <button
+                  type="button"
+                  className={`px-3 py-1.5 rounded-full border text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                    darkMode
+                      ? 'border-white/10 text-slate-100 hover:bg-white/10'
+                      : 'border-slate-200/70 text-slate-900 hover:bg-white/70'
+                  } ${
+                    darkMode
+                      ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
+                      : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
+                  }`}
+                >
+                  Log in
+                </button>
+              </SignInButton>
+            </Unauthenticated>
             <BedtimePopover
               sleepTime={settings.sleepTime}
               onSleepTimeChange={handleSleepTimeChange}
@@ -1239,6 +1336,7 @@ const CaffeineCalculator = () => {
           {modalType === 'info' && (
             <InfoModal onClose={closeModal} darkMode={darkMode} />
           )}
+
         </>
       )}
     </div>

@@ -97,7 +97,7 @@ export const SettingsModal = ({ settings, onSave, onClose, darkMode, onToggleDar
             }`}
           />
           <p className={`mt-1 text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-            Recommended: 400mg for healthy adults
+            Default: 200mg
           </p>
         </div>
         

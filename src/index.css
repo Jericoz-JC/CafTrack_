@@ -14,7 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
   touch-action: pan-y;
-  height: 100%;
+  min-height: 100%;
   background: var(--app-bg);
   background-attachment: fixed;
 }
@@ -38,7 +38,7 @@ h3 {
 }
 
 #root {
-  height: 100%;
+  min-height: 100%;
 }
 
 code {
