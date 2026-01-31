@@ -107,10 +107,10 @@ export const useCaffeineCalculations = (intakes, settings) => {
     let caffeineAtSleep = 0;
     if (chartData && chartData.length > 0) {
       let closestPoint = chartData[0];
-      let smallestDiff = Math.abs(new Date(chartData[0].time) - sleepTimeDate);
+      let smallestDiff = Math.abs(chartData[0].time - sleepTimeDate);
 
       for (let i = 1; i < chartData.length; i++) {
-        const diff = Math.abs(new Date(chartData[i].time) - sleepTimeDate);
+        const diff = Math.abs(chartData[i].time - sleepTimeDate);
         if (diff < smallestDiff) {
           smallestDiff = diff;
           closestPoint = chartData[i];

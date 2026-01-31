@@ -10,10 +10,11 @@ const parseTimeString = (value) => {
 };
 
 export const formatTo12Hour = (time24) => {
-  if (!time24) return '';
-  const [rawHour = '00', rawMinute = '00'] = time24.split(':');
-  let hour = parseInt(rawHour, 10);
-  const minute = rawMinute.padStart(2, '0');
+  const parsed = parseTimeString(time24);
+  if (!parsed) return '';
+  const { hours, minutes } = parsed;
+  let hour = hours;
+  const minute = minutes.toString().padStart(2, '0');
   const period = hour >= 12 ? 'PM' : 'AM';
   hour = hour % 12 || 12;
   return `${hour}:${minute} ${period}`;

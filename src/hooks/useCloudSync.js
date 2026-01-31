@@ -101,26 +101,46 @@ const useCloudSyncEnabled = ({
   useEffect(() => {
     if (!cloudReady || hasMigrated || !isLocalReady) return;
 
-    const mappedCloud = cloudIntakes.map(mapCloudIntake);
-    const { merged, toUpsert } = mergeIntakesByClientId(localIntakes, mappedCloud);
+    let cancelled = false;
 
-    if (toUpsert.length > 0) {
-      mergeFromLocal({
-        intakes: toUpsert.map((intake) => ({
-          clientId: intake.clientId || intake.id,
-          name: intake.name,
-          amount: intake.amount,
-          category: intake.category,
-          timestamp: intake.timestamp,
-          updatedAt: Number.isFinite(intake.updatedAt)
-            ? intake.updatedAt
-            : new Date(intake.timestamp).getTime()
-        }))
-      });
-    }
+    const runMerge = async () => {
+      const mappedCloud = cloudIntakes.map(mapCloudIntake);
+      const { merged, toUpsert } = mergeIntakesByClientId(localIntakes, mappedCloud);
 
-    setIntakes(merged);
-    setHasMigrated(true);
+      setIntakes(merged);
+
+      if (toUpsert.length > 0) {
+        try {
+          await mergeFromLocal({
+            intakes: toUpsert.map((intake) => ({
+              clientId: intake.clientId || intake.id,
+              name: intake.name,
+              amount: intake.amount,
+              category: intake.category,
+              timestamp: intake.timestamp,
+              updatedAt: Number.isFinite(intake.updatedAt)
+                ? intake.updatedAt
+                : new Date(intake.timestamp).getTime()
+            }))
+          });
+        } catch (error) {
+          if (!cancelled) {
+            console.error('Cloud merge failed', error);
+          }
+          return;
+        }
+      }
+
+      if (!cancelled) {
+        setHasMigrated(true);
+      }
+    };
+
+    runMerge();
+
+    return () => {
+      cancelled = true;
+    };
   }, [
     cloudReady,
     hasMigrated,

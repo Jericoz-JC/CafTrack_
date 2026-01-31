@@ -144,6 +144,12 @@ export const upsertIntake = mutation({
   },
   handler: async (ctx, args) => {
     const userId = await requireUserId(ctx);
+    const parsedUpdatedAt = new Date(args.timestamp).getTime();
+    const incomingUpdatedAt = Number.isFinite(args.updatedAt)
+      ? args.updatedAt
+      : Number.isFinite(parsedUpdatedAt)
+        ? parsedUpdatedAt
+        : Date.now();
 
     const existing = await ctx.db
       .query('intakes')
@@ -155,7 +161,8 @@ export const upsertIntake = mutation({
     if (!existing) {
       return ctx.db.insert('intakes', {
         userId,
-        ...args
+        ...args,
+        updatedAt: incomingUpdatedAt
       });
     }
 
@@ -163,13 +170,13 @@ export const upsertIntake = mutation({
       ? existing.updatedAt
       : new Date(existing.timestamp).getTime();
 
-    if (args.updatedAt > existingUpdatedAt) {
+    if (incomingUpdatedAt >= existingUpdatedAt) {
       await ctx.db.patch(existing._id, {
         name: args.name,
         amount: args.amount,
         category: args.category,
         timestamp: args.timestamp,
-        updatedAt: args.updatedAt
+        updatedAt: incomingUpdatedAt
       });
     }
 
@@ -194,6 +201,12 @@ export const mergeFromLocal = mutation({
     const userId = await requireUserId(ctx);
 
     for (const intake of args.intakes) {
+      const parsedUpdatedAt = new Date(intake.timestamp).getTime();
+      const incomingUpdatedAt = Number.isFinite(intake.updatedAt)
+        ? intake.updatedAt
+        : Number.isFinite(parsedUpdatedAt)
+          ? parsedUpdatedAt
+          : Date.now();
       const existing = await ctx.db
         .query('intakes')
         .withIndex('by_user_clientId', (q) =>
@@ -204,7 +217,8 @@ export const mergeFromLocal = mutation({
       if (!existing) {
         await ctx.db.insert('intakes', {
           userId,
-          ...intake
+          ...intake,
+          updatedAt: incomingUpdatedAt
         });
         continue;
       }
@@ -213,13 +227,13 @@ export const mergeFromLocal = mutation({
         ? existing.updatedAt
         : new Date(existing.timestamp).getTime();
 
-      if (intake.updatedAt > existingUpdatedAt) {
+      if (incomingUpdatedAt >= existingUpdatedAt) {
         await ctx.db.patch(existing._id, {
           name: intake.name,
           amount: intake.amount,
           category: intake.category,
           timestamp: intake.timestamp,
-          updatedAt: intake.updatedAt
+          updatedAt: incomingUpdatedAt
         });
       }
     }

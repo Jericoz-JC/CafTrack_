@@ -100,11 +100,11 @@ export const useCaffeineState = () => {
     const timestamp = intakeData.timestamp || new Date().toISOString();
     const updatedAt = Date.now();
     const newIntake = {
+      ...intakeData,
       id: clientId,
       clientId,
       timestamp,
-      updatedAt,
-      ...intakeData
+      updatedAt
     };
     setIntakes((prev) => [newIntake, ...prev]);
     return newIntake;

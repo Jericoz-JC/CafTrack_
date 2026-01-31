@@ -374,6 +374,10 @@ const CaffeineCalculator = () => {
   const goHistory = useCallback(() => setActiveScreen('history'), []);
   const goStats = useCallback(() => setActiveScreen('stats'), []);
 
+  const handleCloudError = useCallback((error) => {
+    console.error('Cloud sync failed', error);
+  }, []);
+
   const handleUndoRestore = useCallback((payload) => {
     if (!payload?.intake) return;
     const restored = restoreIntake(payload.intake, payload.index);
@@ -385,9 +389,9 @@ const CaffeineCalculator = () => {
         category: restored.category,
         timestamp: restored.timestamp,
         updatedAt: restored.updatedAt
-      });
+      }).catch(handleCloudError);
     }
-  }, [cloudSync, restoreIntake]);
+  }, [cloudSync, handleCloudError, restoreIntake]);
 
   const { undoState, setUndoState, handleUndo, dismissUndo } = useUndoState({
     onUndo: handleUndoRestore
@@ -403,10 +407,10 @@ const CaffeineCalculator = () => {
         category: newIntake.category,
         timestamp: newIntake.timestamp,
         updatedAt: newIntake.updatedAt
-      });
+      }).catch(handleCloudError);
     }
     closeModal();
-  }, [addIntake, closeModal, cloudSync]);
+  }, [addIntake, closeModal, cloudSync, handleCloudError]);
   
   // Handle removing a caffeine intake
   const handleRemoveIntake = useCallback((id) => {
@@ -414,9 +418,9 @@ const CaffeineCalculator = () => {
     if (!removed?.intake) return;
     setUndoState(removed);
     if (removed.intake.cloudId && cloudSync.removeIntake) {
-      cloudSync.removeIntake({ id: removed.intake.cloudId });
+      cloudSync.removeIntake({ id: removed.intake.cloudId }).catch(handleCloudError);
     }
-  }, [cloudSync, removeIntake, setUndoState]);
+  }, [cloudSync, handleCloudError, removeIntake, setUndoState]);
 
 
   const handleSleepTimeChange = useCallback((nextSleepTime) => {
