@@ -1,40 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Coffee,
-  Plus,
-  Settings,
-  Moon,
-  X,
-  BarChart2,
-  History,
-  Sun,
-  AlertTriangle,
-  Check,
-  Clock,
-  TrendingDown
-} from 'lucide-react';
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Coffee, Settings, Moon, X, Sun } from 'lucide-react';
 import { SignInButton, UserButton } from '@clerk/clerk-react';
 import { Authenticated, Unauthenticated, AuthLoading } from 'convex/react';
 
-import { SettingsModal } from './modals/SettingsModal';
-import { AddIntakeModal } from './modals/AddIntakeModal';
 import { AddIntakeForm } from './modals/AddIntakeForm';
-import { InfoModal } from './modals/InfoModal';
-import { NavButton } from './NavButton';
-import { CaffeineStatusIndicator } from './CaffeineStatusIndicator';
-import { SleepReadinessIndicator } from './SleepReadinessIndicator';
+
+const SettingsModal = lazy(() => import('./modals/SettingsModal').then(m => ({ default: m.SettingsModal })));
+const AddIntakeModal = lazy(() => import('./modals/AddIntakeModal').then(m => ({ default: m.AddIntakeModal })));
+const InfoModal = lazy(() => import('./modals/InfoModal').then(m => ({ default: m.InfoModal })));
 import { CaffeineChart } from './CaffeineChart';
 import { IntakeItem } from './IntakeItem';
 import { RangeSelector } from './RangeSelector';
 import { BedtimePopover } from './BedtimePopover';
 import { BottomDrawer } from './modals/BottomDrawer';
+import { MobileNavigation } from './MobileNavigation';
+import { DesktopPanel, DesktopSummaryPanel } from './desktop';
+import { HomeScreen, HistoryScreen, StatsScreen } from './screens';
 import { RANGE_PRESETS, DEFAULT_RANGE_PRESET, getRangeDurationMs } from '../constants/rangePresets';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useCloudSync } from '../hooks/useCloudSync';
 import { useCaffeineState } from '../hooks/useCaffeineState';
 import { useCaffeineCalculations } from '../hooks/useCaffeineCalculations';
 import { useUndoState } from '../hooks/useUndoState';
-import { formatTo12Hour, getTimeUntil, parseSleepTime } from '../utils/time';
 const SCREEN_QUERY_KEY = 'tab';
 const cloudAuthEnabled = Boolean(
   process.env.REACT_APP_CONVEX_URL &&
@@ -54,186 +41,6 @@ const getInitialScreen = () => {
   return 'home';
 };
 
-// Add a floating action button that appears on all screens
-const FloatingActionButton = ({ onClick, darkMode }) => (
-  <button 
-    type="button"
-    onClick={onClick} 
-    className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-4 z-20 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-200 hover:scale-105 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-      darkMode ? 'bg-blue-600 hover:bg-blue-500 ring-1 ring-blue-400/30' : 'bg-blue-500 hover:bg-blue-600 ring-1 ring-blue-200'
-    } ${
-      darkMode
-        ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
-        : 'focus-visible:ring-blue-500 focus-visible:ring-offset-slate-50'
-    }`}
-    aria-label="Add caffeine intake"
-  >
-    <Plus size={24} color="white" aria-hidden="true" />
-  </button>
-);
-
-
-const DesktopPanel = ({ title, subtitle, action, children, darkMode, className = '', bodyClassName }) => {
-  const bodyClasses = bodyClassName ?? 'mt-4';
-  const contrastClass = darkMode
-    ? 'border-white/10 ring-0'
-    : 'ring-1 ring-slate-200/80';
-  const surfaceClass = darkMode ? 'glass-surface-strong' : 'glass-surface-strong glass-highlight';
-  return (
-    <section
-      className={`rounded-3xl ${surfaceClass} p-4 ${
-        darkMode ? 'text-slate-100' : 'text-slate-900'
-      } ${contrastClass} ${className}`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-              {subtitle}
-            </p>
-          )}
-        </div>
-        {action}
-      </div>
-      <div className={bodyClasses}>{children}</div>
-    </section>
-  );
-};
-
-
-const getCaffeineStatus = (currentLevel, caffeineLimit, darkMode) => {
-  const percentage = (currentLevel / caffeineLimit) * 100;
-  if (percentage < 50) {
-    return {
-      label: 'Low',
-      icon: <Check size={16} aria-hidden="true" className="text-emerald-500" />,
-      pill: darkMode ? 'bg-emerald-900/40 text-emerald-200' : 'bg-emerald-100 text-emerald-700',
-      progress: 'bg-emerald-500',
-      progressGlow: 'progress-glow-emerald'
-    };
-  }
-  if (percentage < 80) {
-    return {
-      label: 'Moderate',
-      icon: <Coffee size={16} aria-hidden="true" className="text-amber-500" />,
-      pill: darkMode ? 'bg-amber-900/40 text-amber-200' : 'bg-amber-100 text-amber-700',
-      progress: 'bg-amber-500',
-      progressGlow: 'progress-glow-amber'
-    };
-  }
-  return {
-    label: 'High',
-    icon: <AlertTriangle size={16} aria-hidden="true" className="text-rose-500" />,
-    pill: darkMode ? 'bg-rose-900/40 text-rose-200' : 'bg-rose-100 text-rose-700',
-    progress: 'bg-rose-500',
-    progressGlow: 'progress-glow-rose'
-  };
-};
-
-const DesktopSummaryPanel = ({
-  currentLevel,
-  caffeineLimit,
-  sleepTime,
-  sleepInfo,
-  targetLevel,
-  darkMode
-}) => {
-  const safeSleepTime = sleepTime || '22:00';
-  const status = getCaffeineStatus(currentLevel, caffeineLimit, darkMode);
-  const progressPercentage = Math.min(100, (currentLevel / caffeineLimit) * 100);
-
-  const { sleepTimeDate } = parseSleepTime(safeSleepTime);
-  const sleepLabel = formatTo12Hour(safeSleepTime);
-  const timeUntilSleep = getTimeUntil(sleepTimeDate);
-  const caffeineAtSleep = sleepInfo?.caffeineAtSleep ?? 0;
-  const isReadyForSleep = sleepInfo?.isReadyForSleep ?? false;
-
-  return (
-    <DesktopPanel
-      title="Summary"
-      subtitle="Today"
-      darkMode={darkMode}
-      bodyClassName="mt-3"
-      action={(
-        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${status.pill}`}>
-          {status.label}
-        </span>
-      )}
-    >
-      <div className="space-y-3">
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide">
-              {status.icon}
-              <span className={darkMode ? 'text-slate-300' : 'text-slate-600'}>
-                Current Level
-              </span>
-            </div>
-            <div className="text-xl font-bold tabular-nums">
-              {currentLevel} <span className="text-xs font-medium text-slate-400">mg</span>
-            </div>
-          </div>
-          <div
-            className={`mt-2 h-1.5 w-full rounded-full overflow-hidden ${
-              darkMode ? 'bg-white/10' : 'bg-slate-900/10'
-            }`}
-          >
-            <div
-              className={`h-full rounded-full ${status.progress} ${status.progressGlow} transition-[width] duration-500 ease-out`}
-              style={{ width: `${progressPercentage}%` }}
-            />
-          </div>
-          <div className="mt-1 flex items-center justify-between text-[11px]">
-            <span className={darkMode ? 'text-slate-500' : 'text-slate-600'}>0 mg</span>
-            <span className={`tabular-nums ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-              Daily Limit {caffeineLimit} mg
-            </span>
-          </div>
-        </div>
-
-        <div className={`border-t ${darkMode ? 'border-white/10' : 'border-slate-200/70'} pt-3`}>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-slate-400">
-                <Moon size={12} aria-hidden="true" />
-                Bedtime
-              </div>
-              <div className="text-sm font-semibold tabular-nums">{sleepLabel}</div>
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-slate-400">
-                <Clock size={12} aria-hidden="true" />
-                Time Left
-              </div>
-              <div className="text-sm font-semibold tabular-nums">{timeUntilSleep}</div>
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-slate-400">
-                <TrendingDown size={12} aria-hidden="true" />
-                At Sleep
-              </div>
-              <div
-                className={`text-sm font-semibold tabular-nums ${
-                  isReadyForSleep
-                    ? darkMode ? 'text-emerald-300' : 'text-emerald-600'
-                    : darkMode ? 'text-amber-300' : 'text-amber-600'
-                }`}
-              >
-                {caffeineAtSleep} mg
-              </div>
-            </div>
-          </div>
-          <div className={`mt-2 text-[11px] ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-            Target {targetLevel} mg or less at bedtime
-          </div>
-        </div>
-      </div>
-    </DesktopPanel>
-  );
-};
 
 const CaffeineCalculator = () => {
   // State management
@@ -369,9 +176,9 @@ const CaffeineCalculator = () => {
     openAddModal();
   }, [isDesktop, openAddModal, scrollToAddIntake]);
 
-  const goHome = useCallback(() => setActiveScreen('home'), []);
-  const goHistory = useCallback(() => setActiveScreen('history'), []);
-  const goStats = useCallback(() => setActiveScreen('stats'), []);
+  const handleNavigate = useCallback((screen) => {
+    setActiveScreen(screen);
+  }, []);
 
   const handleCloudError = useCallback((error) => {
     console.error('Cloud sync failed', error);
@@ -531,108 +338,39 @@ const CaffeineCalculator = () => {
       >
         {!isDesktop && (
           <>
-            {/* Home Screen */}
             {activeScreen === 'home' && (
-              <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-                {/* Current Status */}
-                <CaffeineStatusIndicator 
-                  currentLevel={currentCaffeineLevel} 
-                  caffeineLimit={settings.caffeineLimit}
-                  darkMode={darkMode}
-                />
-                
-                {/* Sleep Readiness */}
-                <SleepReadinessIndicator
-                  chartData={chartData}
-                  sleepTime={settings.sleepTime}
-                  targetLevel={settings.targetSleepCaffeine}
-                  darkMode={darkMode}
-                />
-              </div>
+              <HomeScreen
+                currentCaffeineLevel={currentCaffeineLevel}
+                caffeineLimit={settings.caffeineLimit}
+                chartData={chartData}
+                sleepTime={settings.sleepTime}
+                targetSleepCaffeine={settings.targetSleepCaffeine}
+                darkMode={darkMode}
+              />
             )}
-            
-            {/* History Screen */}
             {activeScreen === 'history' && (
-              <div className="space-y-4">
-                <div className="sm:sticky sm:top-24 sm:z-10">
-                  <RangeSelector
-                    title="History Range"
-                    value={rangePreset}
-                    onChange={setRangePreset}
-                    options={RANGE_PRESETS}
-                    darkMode={darkMode}
-                  />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold mb-4">Intake History</h2>
-                  {caffeineIntakes.length > 0 ? (
-                    filteredIntakes.length > 0 ? (
-                      <div className="space-y-2">
-                        {filteredIntakes.map(intake => (
-                          <IntakeItem 
-                            key={intake.id} 
-                            intake={intake} 
-                            onRemove={handleRemoveIntake}
-                            darkMode={darkMode}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className={`p-4 rounded-2xl text-center glass-surface glass-highlight ${
-                        darkMode ? 'text-slate-100' : 'text-slate-900'
-                      }`}>
-                        <p className="font-medium">No entries for this range.</p>
-                        <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                          Try selecting a broader window above to see older drinks.
-                        </p>
-                      </div>
-                    )
-                  ) : (
-                    <div className={`p-4 rounded-2xl text-center glass-surface glass-highlight ${
-                      darkMode ? 'text-slate-100' : 'text-slate-900'
-                    }`}>
-                      <p>No caffeine intake recorded yet.</p>
-                      <button 
-                        onClick={handleAddAction} 
-                        className={`mt-2 px-4 py-2 rounded-lg ${
-                          darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
-                        } text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                          darkMode
-                            ? 'focus-visible:ring-white/30 focus-visible:ring-offset-slate-950'
-                            : 'focus-visible:ring-blue-500 focus-visible:ring-offset-white'
-                        }`}
-                      >
-                        Add Your First Drink
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <HistoryScreen
+                intakes={caffeineIntakes}
+                filteredIntakes={filteredIntakes}
+                rangePreset={rangePreset}
+                onRangeChange={setRangePreset}
+                onRemoveIntake={handleRemoveIntake}
+                onAddAction={handleAddAction}
+                darkMode={darkMode}
+              />
             )}
-            
-            {/* Stats Screen */}
             {activeScreen === 'stats' && (
-              <div className="space-y-4">
-                <div className="sm:sticky sm:top-24 sm:z-10">
-                  <RangeSelector
-                    title="Metabolism Stats"
-                    value={rangePreset}
-                    onChange={setRangePreset}
-                    options={RANGE_PRESETS}
-                    darkMode={darkMode}
-                  />
-                </div>
-                <CaffeineChart 
-                  data={chartData} 
-                  intakes={caffeineIntakes}
-                  caffeineLimit={settings.caffeineLimit}
-                  sleepTime={settings.sleepTime}
-                  targetSleepCaffeine={settings.targetSleepCaffeine}
-                  rangePreset={rangePreset}
-                  darkMode={darkMode}
-                  onLimitChange={handleCaffeineLimitChange}
-                />
-              </div>
+              <StatsScreen
+                chartData={chartData}
+                intakes={caffeineIntakes}
+                caffeineLimit={settings.caffeineLimit}
+                sleepTime={settings.sleepTime}
+                targetSleepCaffeine={settings.targetSleepCaffeine}
+                rangePreset={rangePreset}
+                onRangeChange={setRangePreset}
+                onLimitChange={handleCaffeineLimitChange}
+                darkMode={darkMode}
+              />
             )}
           </>
         )}
@@ -822,43 +560,12 @@ const CaffeineCalculator = () => {
       )}
       
       {!isDesktop && (
-        <>
-          {/* Floating Action Button on mobile */}
-          <FloatingActionButton 
-            onClick={handleAddAction}
-            darkMode={darkMode}
-          />
-          
-          {/* Bottom Navigation */}
-          <nav
-            aria-label="Primary"
-            className={`fixed bottom-0 left-0 right-0 flex justify-around border-t shadow-2xl backdrop-blur pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] ${
-              darkMode ? 'bg-slate-950/80 border-white/10' : 'bg-white/80 border-slate-200/70'
-            }`}
-          >
-            <NavButton 
-              icon={<Coffee size={20} />} 
-              label="Home" 
-              active={activeScreen === 'home'} 
-              onClick={goHome}
-              darkMode={darkMode}
-            />
-            <NavButton 
-              icon={<History size={20} />} 
-              label="History" 
-              active={activeScreen === 'history'} 
-              onClick={goHistory}
-              darkMode={darkMode}
-            />
-            <NavButton 
-              icon={<BarChart2 size={20} />} 
-              label="Stats" 
-              active={activeScreen === 'stats'} 
-              onClick={goStats}
-              darkMode={darkMode}
-            />
-          </nav>
-        </>
+        <MobileNavigation
+          activeScreen={activeScreen}
+          onNavigate={handleNavigate}
+          onAddClick={handleAddAction}
+          darkMode={darkMode}
+        />
       )}
 
       {/* Undo Toast */}
@@ -910,29 +617,26 @@ const CaffeineCalculator = () => {
       
       {/* Modals */}
       {showModal && (
-        <>
+        <Suspense fallback={null}>
           {modalType === 'add' && !isDesktop && (
             <AddIntakeModal onClose={closeModal} darkMode={darkMode}>
               <AddIntakeForm onAdd={handleAddIntake} darkMode={darkMode} />
             </AddIntakeModal>
           )}
-          
           {modalType === 'settings' && (
-            <SettingsModal 
-              settings={settings} 
-              onSave={setSettings} 
+            <SettingsModal
+              settings={settings}
+              onSave={setSettings}
               onClose={closeModal}
               darkMode={darkMode}
               onToggleDarkMode={toggleDarkMode}
               onOpenInfo={openInfoModal}
             />
           )}
-          
           {modalType === 'info' && (
             <InfoModal onClose={closeModal} darkMode={darkMode} />
           )}
-
-        </>
+        </Suspense>
       )}
     </div>
   );
