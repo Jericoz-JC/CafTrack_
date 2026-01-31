@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { BedDouble, Check } from 'lucide-react';
 import { Modal } from './modals/Modal';
+import { formatTo12Hour } from '../utils/time';
 
 const BEDTIME_PRESETS = [
   { label: '9 PM', value: '21:00' },
@@ -8,16 +9,6 @@ const BEDTIME_PRESETS = [
   { label: '11 PM', value: '23:00' },
   { label: '12 AM', value: '00:00' }
 ];
-
-const formatTo12Hour = (time24) => {
-  if (!time24) return '';
-  const [rawHour = '00', rawMinute = '00'] = time24.split(':');
-  let hour = parseInt(rawHour, 10);
-  const minute = rawMinute.padStart(2, '0');
-  const period = hour >= 12 ? 'PM' : 'AM';
-  hour = hour % 12 || 12;
-  return `${hour}:${minute} ${period}`;
-};
 
 export const BedtimePopover = ({
   sleepTime,

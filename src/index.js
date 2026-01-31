@@ -8,7 +8,13 @@ import { ClerkProvider, useAuth } from '@clerk/clerk-react';
 import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import { ConvexReactClient } from 'convex/react';
 
-const convex = new ConvexReactClient(process.env.REACT_APP_CONVEX_URL);
+const hasClerkKey = Boolean(process.env.REACT_APP_CLERK_PUBLISHABLE_KEY);
+const hasConvexUrl = Boolean(process.env.REACT_APP_CONVEX_URL);
+const cloudProvidersEnabled =
+  hasClerkKey && hasConvexUrl && process.env.NODE_ENV !== 'test';
+const convex = cloudProvidersEnabled
+  ? new ConvexReactClient(process.env.REACT_APP_CONVEX_URL)
+  : null;
 
 const getInitialDarkMode = () => {
   if (typeof window === 'undefined') return false;
@@ -173,6 +179,10 @@ const AppProviders = ({ children }) => {
     }),
     []
   );
+
+  if (!cloudProvidersEnabled || !convex) {
+    return children;
+  }
 
   return (
     <ClerkProvider

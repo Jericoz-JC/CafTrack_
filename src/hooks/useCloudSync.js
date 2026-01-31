@@ -23,7 +23,23 @@ const buildSettingsPayload = (settings, darkMode) => ({
   darkMode
 });
 
-export const useCloudSync = ({
+const cloudSyncEnabled = Boolean(
+  process.env.REACT_APP_CONVEX_URL &&
+  process.env.REACT_APP_CLERK_PUBLISHABLE_KEY &&
+  process.env.NODE_ENV !== 'test'
+);
+
+const useCloudSyncDisabled = () => ({
+  isAuthenticated: false,
+  isLoading: false,
+  cloudReady: false,
+  addIntake: null,
+  removeIntake: null,
+  saveSettings: null,
+  cloudSettings: null
+});
+
+const useCloudSyncEnabled = ({
   localIntakes,
   localSettings,
   darkMode,
@@ -144,3 +160,5 @@ export const useCloudSync = ({
     cloudSettings
   };
 };
+
+export const useCloudSync = cloudSyncEnabled ? useCloudSyncEnabled : useCloudSyncDisabled;
