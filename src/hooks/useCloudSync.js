@@ -73,14 +73,8 @@ const useCloudSyncEnabled = ({
   const [hasMigrated, setHasMigrated] = useState(false);
   const lastSettingsFingerprint = useRef(null);
   const hasAppliedCloudSettings = useRef(false);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setHasMigrated(false);
-      lastSettingsFingerprint.current = null;
-      hasAppliedCloudSettings.current = false;
-    }
-  }, [isAuthenticated]);
+  const hasLocalEdits = useRef(false);
+  const wasAuthenticatedRef = useRef(false);
 
   const cloudIntakes = useQuery(
     api.intakes.listAll,
@@ -90,6 +84,21 @@ const useCloudSyncEnabled = ({
     api.settings.get,
     isAuthenticated ? {} : 'skip'
   );
+
+  // Reset flags only on real logout (auth transition from true to false)
+  // This prevents brief auth blips or query skips from clearing local edits
+  useEffect(() => {
+    const wasAuthenticated = wasAuthenticatedRef.current;
+    wasAuthenticatedRef.current = isAuthenticated;
+
+    // Only reset on real logout: previously authenticated, now not
+    if (wasAuthenticated && !isAuthenticated) {
+      setHasMigrated(false);
+      lastSettingsFingerprint.current = null;
+      hasAppliedCloudSettings.current = false;
+      hasLocalEdits.current = false;
+    }
+  }, [isAuthenticated]);
 
   const upsertIntake = useMutation(api.intakes.upsertIntake);
   const removeIntake = useMutation(api.intakes.remove);
@@ -170,7 +179,11 @@ const useCloudSyncEnabled = ({
   ]);
 
   useEffect(() => {
-    if (!isAuthenticated || !cloudSettings || hasAppliedCloudSettings.current) return;
+    // Don't apply cloud settings if:
+    // - Not authenticated or no cloud settings
+    // - Already applied cloud settings once this session
+    // - User has made local edits (their changes take priority)
+    if (!isAuthenticated || !cloudSettings || hasAppliedCloudSettings.current || hasLocalEdits.current) return;
     const { darkMode: cloudDarkMode, ...rest } = cloudSettings;
     setSettings((prev) => ({
       ...prev,
@@ -211,6 +224,8 @@ const useCloudSyncEnabled = ({
       return;
     }
 
+    // Mark that user has made local edits - prevents cloud from overwriting
+    hasLocalEdits.current = true;
     saveSettings(localSettingsPayload);
     lastSettingsFingerprint.current = localFingerprint;
   }, [
