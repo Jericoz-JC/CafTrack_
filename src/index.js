@@ -100,6 +100,32 @@ const AppProviders = ({ children }) => {
             },
             socialButtonsProviderInitialIcon: {
               color: '#0b1120'
+            },
+            ssoButtonsBlockButton: {
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
+            },
+            ssoButtonsBlockButtonText: {
+              color: '#0b1120'
+            },
+            ssoButtonsProviderIcon: {
+              color: '#0b1120'
+            },
+            ssoButtonsProviderInitialIcon: {
+              color: '#0b1120'
+            },
+            enterpriseButtonsBlockButton: {
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
+            },
+            enterpriseButtonsBlockButtonText: {
+              color: '#0b1120'
+            },
+            enterpriseButtonsProviderIcon: {
+              color: '#0b1120'
+            },
+            enterpriseButtonsProviderInitialIcon: {
+              color: '#0b1120'
             }
           }
         : undefined
