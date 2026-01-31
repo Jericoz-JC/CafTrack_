@@ -72,11 +72,13 @@ const useCloudSyncEnabled = ({
   const { isAuthenticated, isLoading } = useConvexAuth();
   const [hasMigrated, setHasMigrated] = useState(false);
   const lastSettingsFingerprint = useRef(null);
+  const hasAppliedCloudSettings = useRef(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
       setHasMigrated(false);
       lastSettingsFingerprint.current = null;
+      hasAppliedCloudSettings.current = false;
     }
   }, [isAuthenticated]);
 
@@ -168,7 +170,7 @@ const useCloudSyncEnabled = ({
   ]);
 
   useEffect(() => {
-    if (!isAuthenticated || !cloudSettings) return;
+    if (!isAuthenticated || !cloudSettings || hasAppliedCloudSettings.current) return;
     const { darkMode: cloudDarkMode, ...rest } = cloudSettings;
     setSettings((prev) => ({
       ...prev,
@@ -177,6 +179,7 @@ const useCloudSyncEnabled = ({
     if (typeof cloudDarkMode === 'boolean') {
       setDarkMode(cloudDarkMode);
     }
+    hasAppliedCloudSettings.current = true;
   }, [isAuthenticated, cloudSettings, setSettings, setDarkMode]);
 
   const localSettingsPayload = useMemo(
