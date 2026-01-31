@@ -101,6 +101,16 @@ const AppProviders = ({ children }) => {
             socialButtonsProviderInitialIcon: {
               color: '#0b1120'
             },
+            socialButtonsIconButton: {
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
+            },
+            socialButtonsIconButtonText: {
+              color: '#0b1120'
+            },
+            socialButtonsIconButtonIcon: {
+              color: '#0b1120'
+            },
             ssoButtonsBlockButton: {
               backgroundColor: '#38bdf8',
               borderColor: '#38bdf8'
@@ -114,6 +124,16 @@ const AppProviders = ({ children }) => {
             ssoButtonsProviderInitialIcon: {
               color: '#0b1120'
             },
+            ssoButtonsIconButton: {
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
+            },
+            ssoButtonsIconButtonText: {
+              color: '#0b1120'
+            },
+            ssoButtonsIconButtonIcon: {
+              color: '#0b1120'
+            },
             enterpriseButtonsBlockButton: {
               backgroundColor: '#38bdf8',
               borderColor: '#38bdf8'
@@ -125,6 +145,16 @@ const AppProviders = ({ children }) => {
               color: '#0b1120'
             },
             enterpriseButtonsProviderInitialIcon: {
+              color: '#0b1120'
+            },
+            enterpriseButtonsIconButton: {
+              backgroundColor: '#38bdf8',
+              borderColor: '#38bdf8'
+            },
+            enterpriseButtonsIconButtonText: {
+              color: '#0b1120'
+            },
+            enterpriseButtonsIconButtonIcon: {
               color: '#0b1120'
             }
           }
