@@ -68,7 +68,28 @@ const AppProviders = ({ children }) => {
             colorDanger: '#e11d48',
             colorSuccess: '#10b981',
             colorWarning: '#f59e0b'
+          },
+      elements: useDark
+        ? {
+            userButtonPopoverCard: {
+              backgroundColor: '#0b1120',
+              color: '#e2e8f0',
+              borderColor: 'rgba(255, 255, 255, 0.08)'
+            },
+            userButtonPopoverActionButton: {
+              color: '#e2e8f0'
+            },
+            userButtonPopoverActionButtonText: {
+              color: '#e2e8f0'
+            },
+            userButtonPopoverActionButtonIcon: {
+              color: '#94a3b8'
+            },
+            userButtonPopoverFooter: {
+              color: '#94a3b8'
+            }
           }
+        : undefined
     }),
     [useDark]
   );
