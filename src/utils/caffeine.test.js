@@ -41,7 +41,7 @@ describe('caffeine utils', () => {
   });
 
   test('normalizeSettings falls back to defaults on invalid input', () => {
-    expect(normalizeSettings(null)).toEqual(DEFAULT_SETTINGS);
+    expect(normalizeSettings(null)).toEqual({ ...DEFAULT_SETTINGS, updatedAt: 0 });
   });
 
   test('normalizeIntakes filters invalid records and fills defaults', () => {

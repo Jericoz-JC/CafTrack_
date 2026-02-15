@@ -24,6 +24,7 @@ export default defineSchema({
     pregnancyAdjustment: v.boolean(),
     smokerAdjustment: v.boolean(),
     oralContraceptivesAdjustment: v.boolean(),
-    darkMode: v.boolean()
+    darkMode: v.boolean(),
+    updatedAt: v.number()
   }).index('by_user', ['userId'])
 });

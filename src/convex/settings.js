@@ -36,7 +36,8 @@ export const save = mutation({
     pregnancyAdjustment: v.boolean(),
     smokerAdjustment: v.boolean(),
     oralContraceptivesAdjustment: v.boolean(),
-    darkMode: v.boolean()
+    darkMode: v.boolean(),
+    updatedAt: v.number()
   },
   handler: async (ctx, args) => {
     const userId = await requireUserId(ctx);
@@ -47,7 +48,13 @@ export const save = mutation({
       .first();
 
     if (existing) {
-      await ctx.db.patch(existing._id, args);
+      const existingUpdatedAt = existing.updatedAt ?? 0;
+      const incomingUpdatedAt = args.updatedAt ?? 0;
+
+      // LWW: only update if incoming timestamp >= existing
+      if (incomingUpdatedAt >= existingUpdatedAt) {
+        await ctx.db.patch(existing._id, args);
+      }
       return existing._id;
     }
 

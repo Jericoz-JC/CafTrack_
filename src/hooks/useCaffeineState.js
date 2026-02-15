@@ -147,7 +147,8 @@ export const useCaffeineState = () => {
   const updateSettings = useCallback((partial) => {
     setSettings((prev) => ({
       ...prev,
-      ...partial
+      ...partial,
+      updatedAt: Date.now()
     }));
   }, []);
 

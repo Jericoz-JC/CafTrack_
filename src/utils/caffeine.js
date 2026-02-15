@@ -28,7 +28,7 @@ const normalizeBool = (value, fallback = false) => {
 
 export const normalizeSettings = (candidate) => {
   const base = DEFAULT_SETTINGS;
-  if (!candidate || typeof candidate !== 'object') return base;
+  if (!candidate || typeof candidate !== 'object') return { ...base, updatedAt: 0 };
 
   const metabolismRate =
     candidate.metabolismRate === 'fast' ||
@@ -55,7 +55,8 @@ export const normalizeSettings = (candidate) => {
     oralContraceptivesAdjustment: normalizeBool(
       candidate.oralContraceptivesAdjustment,
       base.oralContraceptivesAdjustment
-    )
+    ),
+    updatedAt: Number.isFinite(candidate.updatedAt) ? candidate.updatedAt : 0
   };
 };
 

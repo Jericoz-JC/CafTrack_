@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useConvexAuth } from 'convex/react';
 import { api } from '../convex/_generated/api';
-import { mergeIntakesByClientId } from '../utils/merge';
+import { mergeIntakesByClientId, mergeSettingsLWW } from '../utils/merge';
 
 const mapCloudIntake = (doc) => ({
   id: doc._id,
@@ -24,7 +24,8 @@ const buildSettingsPayload = (settings, darkMode) => ({
   pregnancyAdjustment: settings.pregnancyAdjustment,
   smokerAdjustment: settings.smokerAdjustment,
   oralContraceptivesAdjustment: settings.oralContraceptivesAdjustment,
-  darkMode
+  darkMode,
+  updatedAt: settings.updatedAt ?? 0
 });
 
 const areIntakesEqual = (left = [], right = []) => {
@@ -71,10 +72,10 @@ const useCloudSyncEnabled = ({
 }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const [hasMigrated, setHasMigrated] = useState(false);
-  const lastSettingsFingerprint = useRef(null);
-  const hasAppliedCloudSettings = useRef(false);
-  const hasLocalEdits = useRef(false);
+  const hasInitializedSettings = useRef(false);
   const wasAuthenticatedRef = useRef(false);
+  const lastPushedSettingsTs = useRef(0);
+  const prevDarkModeRef = useRef(darkMode);
 
   const cloudIntakes = useQuery(
     api.intakes.listAll,
@@ -86,7 +87,7 @@ const useCloudSyncEnabled = ({
   );
 
   // Reset flags only on real logout (auth transition from true to false)
-  // This prevents brief auth blips or query skips from clearing local edits
+  // This prevents brief auth blips or query skips from clearing state
   useEffect(() => {
     const wasAuthenticated = wasAuthenticatedRef.current;
     wasAuthenticatedRef.current = isAuthenticated;
@@ -94,11 +95,24 @@ const useCloudSyncEnabled = ({
     // Only reset on real logout: previously authenticated, now not
     if (wasAuthenticated && !isAuthenticated) {
       setHasMigrated(false);
-      lastSettingsFingerprint.current = null;
-      hasAppliedCloudSettings.current = false;
-      hasLocalEdits.current = false;
+      hasInitializedSettings.current = false;
+      lastPushedSettingsTs.current = 0;
     }
   }, [isAuthenticated]);
+
+  // Bump settings.updatedAt when darkMode changes (since darkMode is separate state)
+  useEffect(() => {
+    if (prevDarkModeRef.current !== darkMode) {
+      prevDarkModeRef.current = darkMode;
+      // Only bump timestamp after initial sync to avoid overwriting cloud on load
+      if (hasInitializedSettings.current) {
+        setSettings((prev) => ({
+          ...prev,
+          updatedAt: Date.now()
+        }));
+      }
+    }
+  }, [darkMode, setSettings]);
 
   const upsertIntake = useMutation(api.intakes.upsertIntake);
   const removeIntake = useMutation(api.intakes.remove);
@@ -178,23 +192,7 @@ const useCloudSyncEnabled = ({
     setIntakes
   ]);
 
-  useEffect(() => {
-    // Don't apply cloud settings if:
-    // - Not authenticated or no cloud settings
-    // - Already applied cloud settings once this session
-    // - User has made local edits (their changes take priority)
-    if (!isAuthenticated || !cloudSettings || hasAppliedCloudSettings.current || hasLocalEdits.current) return;
-    const { darkMode: cloudDarkMode, ...rest } = cloudSettings;
-    setSettings((prev) => ({
-      ...prev,
-      ...rest
-    }));
-    if (typeof cloudDarkMode === 'boolean') {
-      setDarkMode(cloudDarkMode);
-    }
-    hasAppliedCloudSettings.current = true;
-  }, [isAuthenticated, cloudSettings, setSettings, setDarkMode]);
-
+  // Build payloads for comparison
   const localSettingsPayload = useMemo(
     () => buildSettingsPayload(localSettings, darkMode),
     [localSettings, darkMode]
@@ -207,27 +205,59 @@ const useCloudSyncEnabled = ({
     return buildSettingsPayload(cloudSettings, cloudDarkMode);
   }, [cloudSettings]);
 
+  // Initial settings merge: run once when cloud is ready
   useEffect(() => {
-    if (!cloudReady || !isLocalReady) return;
+    if (!cloudReady || !isLocalReady || hasInitializedSettings.current) return;
+    hasInitializedSettings.current = true;
 
-    const localFingerprint = JSON.stringify(localSettingsPayload);
-    const cloudFingerprint = cloudSettingsPayload
-      ? JSON.stringify(cloudSettingsPayload)
-      : null;
+    const { merged, shouldPushToCloud } = mergeSettingsLWW(
+      localSettingsPayload,
+      cloudSettingsPayload
+    );
 
-    if (cloudFingerprint === localFingerprint) {
-      lastSettingsFingerprint.current = localFingerprint;
-      return;
+    // If cloud wins, apply cloud settings to local state
+    if (merged === cloudSettingsPayload && cloudSettingsPayload) {
+      const { darkMode: cloudDarkMode, updatedAt, ...rest } = cloudSettingsPayload;
+      setSettings((prev) => ({
+        ...prev,
+        ...rest,
+        updatedAt
+      }));
+      if (typeof cloudDarkMode === 'boolean') {
+        setDarkMode(cloudDarkMode);
+        prevDarkModeRef.current = cloudDarkMode;
+      }
+      lastPushedSettingsTs.current = updatedAt;
+    } else if (shouldPushToCloud) {
+      // Local wins and is newer - push to cloud
+      saveSettings(localSettingsPayload);
+      lastPushedSettingsTs.current = localSettingsPayload.updatedAt;
+    } else {
+      // Timestamps equal, no action needed
+      lastPushedSettingsTs.current = localSettingsPayload.updatedAt;
     }
+  }, [
+    cloudReady,
+    isLocalReady,
+    localSettingsPayload,
+    cloudSettingsPayload,
+    setSettings,
+    setDarkMode,
+    saveSettings
+  ]);
 
-    if (lastSettingsFingerprint.current === localFingerprint) {
-      return;
+  // Ongoing sync: push local changes when local timestamp is newer
+  useEffect(() => {
+    if (!cloudReady || !isLocalReady || !hasInitializedSettings.current) return;
+
+    const localTs = localSettingsPayload.updatedAt ?? 0;
+    const cloudTs = cloudSettingsPayload?.updatedAt ?? 0;
+
+    // Only push if local is strictly newer and we haven't already pushed this version
+    if (localTs > cloudTs && localTs > lastPushedSettingsTs.current) {
+      saveSettings(localSettingsPayload);
+      lastPushedSettingsTs.current = localTs;
     }
-
-    // Mark that user has made local edits - prevents cloud from overwriting
-    hasLocalEdits.current = true;
-    saveSettings(localSettingsPayload);
-    lastSettingsFingerprint.current = localFingerprint;
   }, [
     cloudReady,
     isLocalReady,

@@ -20,7 +20,7 @@ describe('useCaffeineState', () => {
     });
 
     expect(result.current.intakes).toEqual([]);
-    expect(result.current.settings).toEqual(DEFAULT_SETTINGS);
+    expect(result.current.settings).toEqual({ ...DEFAULT_SETTINGS, updatedAt: 0 });
     expect(result.current.darkMode).toBe(false);
   });
 

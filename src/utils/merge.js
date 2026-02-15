@@ -7,6 +7,16 @@ const getUpdatedAt = (intake) => {
 
 const getClientId = (intake) => intake?.clientId || intake?.id || null;
 
+export const mergeSettingsLWW = (local, cloud) => {
+  const localTs = local?.updatedAt ?? 0;
+  const cloudTs = cloud?.updatedAt ?? 0;
+
+  if (localTs >= cloudTs) {
+    return { merged: local, shouldPushToCloud: localTs > cloudTs };
+  }
+  return { merged: cloud, shouldPushToCloud: false };
+};
+
 export const mergeIntakesByClientId = (localIntakes = [], cloudIntakes = []) => {
   const mergedMap = new Map();
   const toUpsert = [];
