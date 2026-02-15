@@ -75,6 +75,7 @@ const useCloudSyncEnabled = ({
   const hasInitializedSettings = useRef(false);
   const wasAuthenticatedRef = useRef(false);
   const lastPushedSettingsTs = useRef(0);
+  const prevDarkModeRef = useRef(darkMode);
 
   const cloudIntakes = useQuery(
     api.intakes.listAll,
@@ -98,6 +99,20 @@ const useCloudSyncEnabled = ({
       lastPushedSettingsTs.current = 0;
     }
   }, [isAuthenticated]);
+
+  // Bump settings.updatedAt when darkMode changes (since darkMode is separate state)
+  useEffect(() => {
+    if (prevDarkModeRef.current !== darkMode) {
+      prevDarkModeRef.current = darkMode;
+      // Only bump timestamp after initial sync to avoid overwriting cloud on load
+      if (hasInitializedSettings.current) {
+        setSettings((prev) => ({
+          ...prev,
+          updatedAt: Date.now()
+        }));
+      }
+    }
+  }, [darkMode, setSettings]);
 
   const upsertIntake = useMutation(api.intakes.upsertIntake);
   const removeIntake = useMutation(api.intakes.remove);
@@ -210,6 +225,7 @@ const useCloudSyncEnabled = ({
       }));
       if (typeof cloudDarkMode === 'boolean') {
         setDarkMode(cloudDarkMode);
+        prevDarkModeRef.current = cloudDarkMode;
       }
       lastPushedSettingsTs.current = updatedAt;
     } else if (shouldPushToCloud) {
