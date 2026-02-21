@@ -57,5 +57,74 @@ describe('mergeIntakesByClientId', () => {
     const upsertIds = toUpsert.map((item) => item.clientId);
     expect(upsertIds).toEqual(expect.arrayContaining(['c1', 'c2']));
     expect(upsertIds).not.toContain('c3');
+    expect(mergedC1.cloudId).toBe('cloud-1');
+  });
+
+  test('does not upsert when local and cloud timestamps are equal', () => {
+    const local = [
+      {
+        id: 'local-1',
+        clientId: 'same-1',
+        name: 'Local same',
+        amount: 120,
+        category: 'coffee',
+        timestamp: '2026-01-02T10:00:00.000Z',
+        updatedAt: 500
+      }
+    ];
+    const cloud = [
+      {
+        id: 'cloud-1',
+        cloudId: 'cloud-1',
+        clientId: 'same-1',
+        name: 'Cloud same',
+        amount: 90,
+        category: 'tea',
+        timestamp: '2026-01-02T09:00:00.000Z',
+        updatedAt: 500
+      }
+    ];
+
+    const { merged, toUpsert } = mergeIntakesByClientId(local, cloud);
+
+    expect(toUpsert).toHaveLength(0);
+    expect(merged).toHaveLength(1);
+    expect(merged[0].id).toBe('local-1');
+    expect(merged[0].clientId).toBe('same-1');
+    expect(merged[0].cloudId).toBe('cloud-1');
+    expect(merged[0].updatedAt).toBe(500);
+  });
+
+  test('preserves cloudId when local record is newer', () => {
+    const local = [
+      {
+        id: 'local-1',
+        clientId: 'same-1',
+        name: 'Local newer',
+        amount: 120,
+        category: 'coffee',
+        timestamp: '2026-01-02T10:00:00.000Z',
+        updatedAt: 700
+      }
+    ];
+    const cloud = [
+      {
+        id: 'cloud-1',
+        cloudId: 'cloud-1',
+        clientId: 'same-1',
+        name: 'Cloud older',
+        amount: 90,
+        category: 'tea',
+        timestamp: '2026-01-02T09:00:00.000Z',
+        updatedAt: 600
+      }
+    ];
+
+    const { merged, toUpsert } = mergeIntakesByClientId(local, cloud);
+
+    expect(toUpsert).toHaveLength(1);
+    expect(toUpsert[0].clientId).toBe('same-1');
+    expect(toUpsert[0].cloudId).toBe('cloud-1');
+    expect(merged[0].cloudId).toBe('cloud-1');
   });
 });

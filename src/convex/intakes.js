@@ -227,7 +227,7 @@ export const mergeFromLocal = mutation({
         ? existing.updatedAt
         : new Date(existing.timestamp).getTime();
 
-      if (incomingUpdatedAt >= existingUpdatedAt) {
+      if (incomingUpdatedAt > existingUpdatedAt) {
         await ctx.db.patch(existing._id, {
           name: intake.name,
           amount: intake.amount,

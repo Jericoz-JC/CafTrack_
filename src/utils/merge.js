@@ -35,18 +35,26 @@ export const mergeIntakesByClientId = (localIntakes = [], cloudIntakes = []) => 
     const localUpdatedAt = getUpdatedAt(local);
 
     if (!cloud) {
-      const normalizedLocal = { ...local, clientId, updatedAt: localUpdatedAt };
+      const normalizedLocal = {
+        ...local,
+        id: local.id || clientId,
+        clientId,
+        cloudId: local.cloudId || null,
+        updatedAt: localUpdatedAt
+      };
       mergedMap.set(clientId, normalizedLocal);
       toUpsert.push(normalizedLocal);
       return;
     }
 
     const cloudUpdatedAt = getUpdatedAt(cloud);
-    if (localUpdatedAt >= cloudUpdatedAt) {
+    if (localUpdatedAt > cloudUpdatedAt) {
       const merged = {
         ...cloud,
         ...local,
+        id: local.id || cloud.id || clientId,
         clientId,
+        cloudId: local.cloudId || cloud.cloudId || cloud.id || null,
         updatedAt: localUpdatedAt
       };
       mergedMap.set(clientId, merged);
@@ -55,7 +63,9 @@ export const mergeIntakesByClientId = (localIntakes = [], cloudIntakes = []) => 
       mergedMap.set(clientId, {
         ...local,
         ...cloud,
+        id: local.id || cloud.id || clientId,
         clientId,
+        cloudId: cloud.cloudId || cloud.id || local.cloudId || null,
         updatedAt: cloudUpdatedAt
       });
     }

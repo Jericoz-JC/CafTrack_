@@ -76,6 +76,9 @@ const useCloudSyncEnabled = ({
   const wasAuthenticatedRef = useRef(false);
   const lastPushedSettingsTs = useRef(0);
   const prevDarkModeRef = useRef(darkMode);
+  const localIntakesRef = useRef(localIntakes);
+  const cloudIntakesRef = useRef(null);
+  const mergeInFlightRef = useRef(false);
 
   const cloudIntakes = useQuery(
     api.intakes.listAll,
@@ -97,6 +100,7 @@ const useCloudSyncEnabled = ({
       setHasMigrated(false);
       hasInitializedSettings.current = false;
       lastPushedSettingsTs.current = 0;
+      mergeInFlightRef.current = false;
     }
   }, [isAuthenticated]);
 
@@ -123,18 +127,33 @@ const useCloudSyncEnabled = ({
     isAuthenticated && cloudIntakes !== undefined && cloudSettings !== undefined;
 
   useEffect(() => {
-    if (!cloudReady || hasMigrated || !isLocalReady) return;
+    localIntakesRef.current = localIntakes;
+  }, [localIntakes]);
+
+  useEffect(() => {
+    if (cloudIntakes !== undefined) {
+      cloudIntakesRef.current = cloudIntakes;
+    }
+  }, [cloudIntakes]);
+
+  useEffect(() => {
+    if (!cloudReady || hasMigrated || !isLocalReady || mergeInFlightRef.current) return;
+
+    const cloudSnapshot = cloudIntakesRef.current;
+    if (!Array.isArray(cloudSnapshot)) return;
 
     let cancelled = false;
+    mergeInFlightRef.current = true;
 
     const runMerge = async () => {
-      const mappedCloud = cloudIntakes.map(mapCloudIntake);
-      const { merged, toUpsert } = mergeIntakesByClientId(localIntakes, mappedCloud);
+      try {
+        const mappedCloud = cloudSnapshot.map(mapCloudIntake);
+        const { merged, toUpsert } = mergeIntakesByClientId(
+          localIntakesRef.current,
+          mappedCloud
+        );
 
-      setIntakes(merged);
-
-      if (toUpsert.length > 0) {
-        try {
+        if (toUpsert.length > 0) {
           await mergeFromLocal({
             intakes: toUpsert.map((intake) => ({
               clientId: intake.clientId || intake.id,
@@ -147,16 +166,18 @@ const useCloudSyncEnabled = ({
                 : new Date(intake.timestamp).getTime()
             }))
           });
-        } catch (error) {
-          if (!cancelled) {
-            console.error('Cloud merge failed', error);
-          }
-          return;
         }
-      }
 
-      if (!cancelled) {
-        setHasMigrated(true);
+        if (!cancelled) {
+          setIntakes(merged);
+          setHasMigrated(true);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error('Cloud merge failed', error);
+        }
+      } finally {
+        mergeInFlightRef.current = false;
       }
     };
 
@@ -164,13 +185,12 @@ const useCloudSyncEnabled = ({
 
     return () => {
       cancelled = true;
+      mergeInFlightRef.current = false;
     };
   }, [
     cloudReady,
     hasMigrated,
     isLocalReady,
-    localIntakes,
-    cloudIntakes,
     mergeFromLocal,
     setIntakes
   ]);
@@ -204,20 +224,32 @@ const useCloudSyncEnabled = ({
       typeof cloudSettings.darkMode === 'boolean' ? cloudSettings.darkMode : false;
     return buildSettingsPayload(cloudSettings, cloudDarkMode);
   }, [cloudSettings]);
+  const localSettingsPayloadRef = useRef(localSettingsPayload);
+  const cloudSettingsPayloadRef = useRef(cloudSettingsPayload);
+
+  useEffect(() => {
+    localSettingsPayloadRef.current = localSettingsPayload;
+  }, [localSettingsPayload]);
+
+  useEffect(() => {
+    cloudSettingsPayloadRef.current = cloudSettingsPayload;
+  }, [cloudSettingsPayload]);
 
   // Initial settings merge: run once when cloud is ready
   useEffect(() => {
     if (!cloudReady || !isLocalReady || hasInitializedSettings.current) return;
     hasInitializedSettings.current = true;
 
+    const localSnapshot = localSettingsPayloadRef.current;
+    const cloudSnapshot = cloudSettingsPayloadRef.current;
     const { merged, shouldPushToCloud } = mergeSettingsLWW(
-      localSettingsPayload,
-      cloudSettingsPayload
+      localSnapshot,
+      cloudSnapshot
     );
 
     // If cloud wins, apply cloud settings to local state
-    if (merged === cloudSettingsPayload && cloudSettingsPayload) {
-      const { darkMode: cloudDarkMode, updatedAt, ...rest } = cloudSettingsPayload;
+    if (merged === cloudSnapshot && cloudSnapshot) {
+      const { darkMode: cloudDarkMode, updatedAt, ...rest } = cloudSnapshot;
       setSettings((prev) => ({
         ...prev,
         ...rest,
@@ -228,19 +260,17 @@ const useCloudSyncEnabled = ({
         prevDarkModeRef.current = cloudDarkMode;
       }
       lastPushedSettingsTs.current = updatedAt;
-    } else if (shouldPushToCloud) {
+    } else if (shouldPushToCloud && localSnapshot) {
       // Local wins and is newer - push to cloud
-      saveSettings(localSettingsPayload);
-      lastPushedSettingsTs.current = localSettingsPayload.updatedAt;
+      saveSettings(localSnapshot);
+      lastPushedSettingsTs.current = localSnapshot.updatedAt ?? 0;
     } else {
       // Timestamps equal, no action needed
-      lastPushedSettingsTs.current = localSettingsPayload.updatedAt;
+      lastPushedSettingsTs.current = localSnapshot?.updatedAt ?? 0;
     }
   }, [
     cloudReady,
     isLocalReady,
-    localSettingsPayload,
-    cloudSettingsPayload,
     setSettings,
     setDarkMode,
     saveSettings
@@ -254,10 +284,9 @@ const useCloudSyncEnabled = ({
     const cloudTs = cloudSettingsPayload?.updatedAt ?? 0;
 
     // Only push if local is strictly newer and we haven't already pushed this version
-    if (localTs > cloudTs && localTs > lastPushedSettingsTs.current) {
-      saveSettings(localSettingsPayload);
-      lastPushedSettingsTs.current = localTs;
-    }
+    if (localTs <= cloudTs || localTs <= lastPushedSettingsTs.current) return;
+    saveSettings(localSettingsPayload);
+    lastPushedSettingsTs.current = localTs;
   }, [
     cloudReady,
     isLocalReady,
